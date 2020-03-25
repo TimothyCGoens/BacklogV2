@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 const Search = () => {
   const { handleSubmit, register } = useForm();
   const [game, setGame] = useState("");
+  const [search, setSearch] = useState("");
 
   const onSubmit = data => {
     console.log(data);
@@ -15,13 +16,13 @@ const Search = () => {
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios(
-        `${"https://cors-anywhere.herokuapp.com/"}https://www.giantbomb.com/api/search/?api_key=f194765e78f8558180a48f79cbb6b02fe6f9bca2&format=json&query="${game}"&resources=game`,
+        `${"https://cors-anywhere.herokuapp.com/"}https://www.giantbomb.com/api/search/?api_key=f194765e78f8558180a48f79cbb6b02fe6f9bca2&format=json&query="${search}"&resources=game`,
         { crossdomain: true }
       );
-      setData(result.data.name);
+      setData(result.data);
     };
     fetchData();
-  }, []);
+  }, [search]);
 
   function handleGameSelection(e) {
     setGame(e.target.value);
@@ -38,14 +39,16 @@ const Search = () => {
           type="text"
           name="gameTitle"
           value={game}
-          onChange={handleGameSelection}
+          onChange={event => setGame}
         />
-        <button>Search</button>
+        <button type="button" onClick={() => setSearch(game)}>
+          Search
+        </button>
       </form>
 
       <ul>
-        {data.map(item => (
-          <li>{item.data}</li>
+        {data.games.map(item => (
+          <li>{item.name}</li>
         ))}
       </ul>
     </div>
