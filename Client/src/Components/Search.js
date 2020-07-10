@@ -6,27 +6,29 @@ import { useForm } from "react-hook-form";
 const Search = () => {
   const { handleSubmit, register } = useForm();
   const [game, setGame] = useState("");
+  const [gameTitle, setGameTitle] = useState("");
   const [search, setSearch] = useState("");
 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     console.log(data);
   };
   const [data, setData] = useState({ games: [] });
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios(
-        `${"https://cors-anywhere.herokuapp.com/"}https://www.giantbomb.com/api/search/?api_key=f194765e78f8558180a48f79cbb6b02fe6f9bca2&format=json&query="${search}"&resources=game`,
-        { crossdomain: true }
-      );
-      setData(result.data);
+      const result = await axios(`https://api.rawg.io/api/games${game}`);
+      setData(result);
     };
     fetchData();
-  }, [search]);
+  }, []);
 
   function handleGameSelection(e) {
     setGame(e.target.value);
   }
+
+  const handleTextChange = (e) => {
+    setGameTitle(e.target.value);
+  };
 
   return (
     <div className="search-page">
@@ -38,19 +40,15 @@ const Search = () => {
           ref={register}
           type="text"
           name="gameTitle"
-          value={game}
-          onChange={event => setGame}
+          value={gameTitle}
+          onChange={(event) => setGame}
         />
-        <button type="button" onClick={() => setSearch(game)}>
+        <button type="button" onClick={() => handleGameSelection()}>
           Search
         </button>
       </form>
 
-      <ul>
-        {data.games.map(item => (
-          <li>{item.name}</li>
-        ))}
-      </ul>
+      <ul>Game Searched: {game}</ul>
     </div>
   );
 };

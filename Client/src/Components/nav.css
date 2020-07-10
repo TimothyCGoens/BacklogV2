@@ -1,5 +1,12 @@
 li {
   list-style: none;
+  color: #b2adc1;
+}
+li:hover {
+  color: white;
+}
+.app-header {
+  color: #b2adc1;
 }
 
 .navbar {
@@ -11,17 +18,8 @@ li {
   padding: 5px 0 5px 0;
   border-bottom: black solid 0.5px;
 }
-
-button {
-  width: 75px;
-  height: 25px;
-  border-radius: 5px;
-  border-style: none;
-  outline-color: white;
-  font-size: 15px;
-}
-
-button:hover {
-  background-color: black;
-  color: white;
+.link-style {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 20px;
 }

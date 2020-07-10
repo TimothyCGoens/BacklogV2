@@ -6,32 +6,22 @@ const Nav = () => {
   return (
     <div className="nav">
       <nav>
-        <h1>Backlog App</h1>
+        <h1 className="app-header">Backlog App</h1>
         <ul className="navbar">
-          <Link to="register">
-            <li>
-              <button>Register</button>
-            </li>
+          <Link className="link-style" to="register">
+            <li>Register</li>
           </Link>
-          <Link to="login">
-            <li>
-              <button>Log In</button>
-            </li>
+          <Link className="link-style" to="login">
+            <li>Log In</li>
           </Link>
-          <Link to="profile">
-            <li>
-              <button>Profile</button>
-            </li>
+          <Link className="link-style" to="profile">
+            <li>Profile</li>
           </Link>
-          <Link to="search">
-            <li>
-              <button>Search</button>
-            </li>
+          <Link className="link-style" to="search">
+            <li>Search</li>
           </Link>
-          <Link to="backlog">
-            <li>
-              <button>Backlog</button>
-            </li>
+          <Link className="link-style" to="backlog">
+            <li>Backlog</li>
           </Link>
         </ul>
       </nav>
