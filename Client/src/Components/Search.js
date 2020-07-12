@@ -22,14 +22,6 @@ const Search = () => {
     fetchData();
   }, []);
 
-  function handleGameSelection(e) {
-    setGame(e.target.value);
-  }
-
-  const handleTextChange = (e) => {
-    setGameTitle(e.target.value);
-  };
-
   return <div className="search-page">Hello</div>;
 };
 
