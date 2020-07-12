@@ -30,27 +30,7 @@ const Search = () => {
     setGameTitle(e.target.value);
   };
 
-  return (
-    <div className="search-page">
-      <h1>Search</h1>
-      <p>{game}</p>
-      <form onSubmit={handleSubmit(onSubmit)} className="search-form">
-        <label>Search for Games</label>
-        <input
-          ref={register}
-          type="text"
-          name="gameTitle"
-          value={gameTitle}
-          onChange={(event) => setGame}
-        />
-        <button type="button" onClick={() => handleGameSelection()}>
-          Search
-        </button>
-      </form>
-
-      <ul>Game Searched: {game}</ul>
-    </div>
-  );
+  return <div className="search-page">Hello</div>;
 };
 
 export default Search;
