@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import "./register.css";
@@ -10,6 +10,8 @@ const Register = () => {
   const [usernameChoice, setUsernameChoice] = useState();
   const [passwordChoice, setPasswordChoice] = useState();
   const [locationChoice, setLocationChoice] = useState();
+  const [usersEmail, setUsersEmail] = useState([]);
+  const [message, setMessage] = useState("");
 
   const handleFirstNameChange = (e) => {
     setFirstNameChoice(e.target.value);
@@ -30,21 +32,33 @@ const Register = () => {
     setLocationChoice(e.target.value);
   };
 
+  useEffect(() => {
+    axios.get("http://localhost:8080/api/register/users").then((response) => {
+      const emails = response.data.map((item) => item.email);
+      setUsersEmail(emails);
+    });
+  }, []);
+  console.log(usersEmail);
+
   const { register, handleSubmit, watch, errors } = useForm();
   const handleRegisterClick = async () => {
-    const user = {
-      firstName: firstNameChoice,
-      lastName: lastNameChoice,
-      email: emailChoice,
-      username: usernameChoice,
-      password: passwordChoice,
-      location: locationChoice,
-    };
-    await axios
-      .post("http://localhost:8080/register", user)
-      .then((response) => {
-        console.log(response);
-      });
+    if (usersEmail.includes(emailChoice)) {
+      setMessage("This email is already in use.");
+    } else {
+      const user = {
+        firstName: firstNameChoice,
+        lastName: lastNameChoice,
+        email: emailChoice,
+        username: usernameChoice,
+        password: passwordChoice,
+        location: locationChoice,
+      };
+      await axios
+        .post("http://localhost:8080/api/register/new", user)
+        .then((response) => {
+          console.log(response);
+        });
+    }
   };
 
   return (
@@ -81,6 +95,7 @@ const Register = () => {
           type="text"
         />
         {errors.email && <p>Required</p>}
+        <p>{message}</p>
       </div>
 
       <div className="input-section">
