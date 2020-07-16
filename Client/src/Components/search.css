@@ -27,3 +27,12 @@
   text-align: center;
   padding: 10px;
 }
+.card-display {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.back-button {
+  display: flex;
+  width: 25%;
+}

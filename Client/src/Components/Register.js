@@ -40,7 +40,7 @@ const Register = () => {
   }, []);
   console.log(usersEmail);
 
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, errors } = useForm();
   const handleRegisterClick = async () => {
     if (usersEmail.includes(emailChoice)) {
       setMessage("This email is already in use.");
