@@ -16,7 +16,7 @@ li:hover {
 
 .nav {
   padding: 5px 0 5px 0;
-  border-bottom: black solid 0.5px;
+  /* border-bottom: black solid 0.5px; */
 }
 .link-style {
   text-decoration: none;

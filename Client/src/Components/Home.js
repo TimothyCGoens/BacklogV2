@@ -1,10 +1,8 @@
 import React from "react";
-import Counter from "./Counter";
 const Home = () => {
   return (
     <div>
-      <h1>Home Page</h1>
-      <Counter />
+      <h1>Home Page Yo</h1>
     </div>
   );
 };
