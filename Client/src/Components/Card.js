@@ -13,13 +13,13 @@ const Card = (props) => {
           <img className="card-image" alt="box art" src={props.image} />
         </div>
         <div className="header-info">
-          <p className="bold">Publisher</p>
+          <p className="bold">Publisher(s)</p>
           <p className="header-styles">{props.publisher}</p>
-          <p className="bold">Developer</p>
+          <p className="bold">Developer(s)</p>
           <p className="header-styles">{props.developer}</p>
-          <p className="bold">Genre</p>
+          <p className="bold">Genre(s)</p>
           <p className="header-styles">{props.genre}</p>
-          <p className="bold">Platform</p>
+          <p className="bold">Platform(s)</p>
           <p className="platform-styles">{props.platform}</p>
         </div>
       </div>
