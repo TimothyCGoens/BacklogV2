@@ -6,24 +6,39 @@ import Register from "./Components/Register";
 import Search from "./Components/Search";
 import Backlog from "./Components/Backlog";
 import Profile from "./Components/Profile";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { createStore, compose, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import reducer from "./store/reducer";
+import { Router, Switch, Route } from "react-router-dom";
+import createBrowserHistory from "./history";
+import setAuthenticationHeader from "./utilities/authenticate";
+import requireAuth from "./Components/requireAuth";
+import thunk from "redux-thunk";
+
 import "./App.css";
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
+
+setAuthenticationHeader(localStorage.getItem("jsonwebtoken"));
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Nav />
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/register" component={Register} />
-          <Route path="/login" component={Login} />
-          <Route path="/profile" component={Profile} />
-          <Route path="/search" component={Search} />
-          <Route path="/backlog" component={Backlog} />
-        </Switch>
-      </div>
-    </Router>
+    <Provider store={store}>
+      <Router history={createBrowserHistory}>
+        <div className="App">
+          <Nav />
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/register" component={Register} />
+            <Route path="/login" component={Login} />
+            <Route path="/profile" component={Profile} />
+            <Route path="/search" component={Search} />
+            <Route path="/backlog" component={Backlog} />
+          </Switch>
+        </div>
+      </Router>
+    </Provider>
   );
 }
 

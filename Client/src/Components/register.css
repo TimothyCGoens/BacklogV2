@@ -18,7 +18,7 @@
   display: flex;
 }
 
-p {
+.validation-error {
   margin: 0px;
   color: red;
 }
@@ -28,6 +28,8 @@ p {
 .registration-input {
   background-color: #789;
   border-radius: 5px;
+  width: 300px;
+  text-align: center;
 }
 .registration-input:focus {
   background-color: white;

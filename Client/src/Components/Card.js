@@ -1,6 +1,6 @@
 import React from "react";
 import "./card.css";
-import Button from "./Button";
+// import Button from "./Button";
 
 const Card = (props) => {
   return (

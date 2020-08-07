@@ -24,9 +24,4 @@ router.post("/new", async (req, res) => {
   console.log(user);
 });
 
-router.get("/users", async (req, res) => {
-  const users = await models.Users.findAll();
-  res.json(users);
-});
-
 module.exports = router;

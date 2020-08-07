@@ -1,6 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const registerRouter = require("./routes/register");
+const usersRouter = require("./routes/users");
+const loginRouter = require("./routes/login");
 // const models = require("./models");
 const Router = express.Router;
 const router = new Router();
@@ -11,6 +13,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/api/register", registerRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/login", loginRouter);
 
 app.listen(8080, () => {
   console.log("server is up and running");

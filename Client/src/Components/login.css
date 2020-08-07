@@ -14,6 +14,7 @@
 
 .login-input {
   background-color: #789;
+  width: 300px;
 }
 .login-input:focus {
   background-color: white;
