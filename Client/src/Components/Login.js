@@ -11,7 +11,6 @@ const Login = () => {
           <input className='login-input' />
         </div>
         <div className="input-section">
-
           <label className='login-label'>username</label>
           <input className='login-input' />
         </div>

@@ -23,14 +23,17 @@ img {
   width: 104px;
 }
 .plate {
-  box-shadow: 1px 1px 3px #3e3c3c;
+  /* box-shadow: 1px 1px 3px #3e3c3c; */
   width: 300px;
   height: 150px;
   margin: 10px;
   background-color: #b5b5b5;
 }
 .plate:hover {
-  box-shadow: 2px 5px 6px #666;
+  /* box-shadow: 2px 5px 6px #666; */
   background-color: lightgrey;
   cursor: pointer;
+}
+.plate:active {
+  transform: translateY(4px);
 }

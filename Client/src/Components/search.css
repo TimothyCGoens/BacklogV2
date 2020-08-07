@@ -4,6 +4,16 @@
   flex-wrap: wrap;
   align-items: center;
 }
+.search-label {
+  color: #789;
+}
+.search-input {
+  background-color: #789;
+}
+.search-input:focus {
+  background-color: white;
+  outline: none;
+}
 
 .search-layout {
   display: flex;
@@ -35,4 +45,27 @@
 .back-button {
   display: flex;
   width: 25%;
+}
+
+.card-backlog-button {
+  background-color: white;
+  width: 66px;
+  height: 40px;
+  padding: 3px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+}
+.card-backlog-button:hover {
+  color: white;
+  background-color: #789;
+  cursor: pointer;
+  border: none;
+  outline-color: none;
+}
+.card-backlog-button:active {
+  background-color: #789;
+  transform: translateY(4px);
+  outline-color: none;
 }

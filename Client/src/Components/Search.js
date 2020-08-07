@@ -66,13 +66,19 @@ const Search = () => {
   //   );
   // });
 
+
   return (
     <div className="search">
-      <input
-        type="text"
-        value={query}
-        onChange={(event) => setQuery(event.target.value)}
-      />
+      <div className="input-section">
+        <label className='search-label'>Enter Game Title</label>
+        <input
+          className='search-input'
+          type="text"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+        />
+      </div>
+
       <button type="button" onClick={gameSearch}>
         Search
       </button>
