@@ -17,7 +17,22 @@
 .input {
   display: flex;
 }
+
 p {
   margin: 0px;
   color: red;
+}
+.register-label {
+  color: #789;
+}
+.registration-input {
+  background-color: #789;
+  border-radius: 5px;
+}
+.registration-input:focus {
+  background-color: white;
+  outline: none;
+}
+h1 {
+  color: #789;
 }

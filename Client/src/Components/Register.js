@@ -61,13 +61,16 @@ const Register = () => {
     }
   };
 
+
   return (
     <div className="registration-page">
       <h1>Register</h1>
 
       <div className="input-section">
-        <label>First Name</label>
+        <label className='register-label'>First Name</label>
         <input
+          className="registration-input"
+          autocomplete="off"
           onChange={handleFirstNameChange}
           name="firstName"
           ref={register({ required: true })}
@@ -77,8 +80,10 @@ const Register = () => {
       </div>
 
       <div className="input-section">
-        <label>Last Name</label>
+        <label className='register-label'>Last Name</label>
         <input
+          className="registration-input"
+          autocomplete="off"
           onChange={handleLastNameChange}
           name="lastName"
           ref={register({ required: true })}
@@ -87,8 +92,10 @@ const Register = () => {
         {errors.lastName && <p>Required</p>}
       </div>
       <div className="input-section">
-        <label>Email</label>
+        <label className='register-label'>Email</label>
         <input
+          className="registration-input"
+          autocomplete="off"
           onChange={handleEmailChange}
           name="email"
           ref={register({ required: true })}
@@ -99,9 +106,11 @@ const Register = () => {
       </div>
 
       <div className="input-section">
-        <label>Username</label>
+        <label className='register-label'>Username</label>
 
         <input
+          className="registration-input"
+          autocomplete="off"
           onChange={handleUsernameChange}
           name="username"
           ref={register({ required: true })}
@@ -111,8 +120,10 @@ const Register = () => {
       </div>
 
       <div className="input-section">
-        <label>Password</label>
+        <label className='register-label'>Password</label>
         <input
+          className="registration-input"
+          autocomplete="off"
           onChange={handlePasswordChange}
           name="password"
           ref={register({ required: true, minLength: 8 })}
@@ -127,8 +138,10 @@ const Register = () => {
       </div>
 
       <div className="input-section">
-        <label>Location</label>
+        <label className='register-label'>Location</label>
         <input
+          className="registration-input"
+          autocomplete="off"
           onChange={handleLocationChange}
           name="location"
           ref={register({ required: true })}
@@ -137,7 +150,7 @@ const Register = () => {
         {errors.location && <p>Required</p>}
       </div>
 
-      <button onClick={handleRegisterClick}>Register</button>
+      <button onClick={handleRegisterClick}>Submit</button>
     </div>
   );
 };
