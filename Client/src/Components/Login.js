@@ -75,6 +75,7 @@ const Login = () => {
             ref={register({ required: true })}
           />
           {errors.password && <p className="validation-error">Required</p>}
+          {errors.password && <p className="validation-error">Required</p>}
           <p className="validation-error">{passwordMessage}</p>
         </div>
         <button>Log In</button>
