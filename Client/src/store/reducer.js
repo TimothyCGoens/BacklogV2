@@ -1,10 +1,28 @@
 const initialState = {
   isAuthenticated: false,
-  userId: 0,
+  userId: null,
 };
 
-const reducer = () => {
-  return 123;
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "LOG_IN":
+      console.log(action);
+      return {
+        ...state,
+        isAuthenticated: action.token != null ? true : false,
+        userId: action.userId,
+      };
+
+    case "LOGOUT":
+      console.log(action);
+      return {
+        ...state,
+        isAuthenticated: false,
+        userId: null,
+      };
+    default:
+      return state;
+  }
 };
 
 export default reducer;

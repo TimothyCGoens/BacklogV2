@@ -1,7 +1,7 @@
 import React from "react";
 import Nav from "./Components/Nav";
 import Home from "./Components/Home";
-import Login from "./Components/Login";
+import LoginToo from "./Components/Login2";
 import Register from "./Components/Register";
 import Search from "./Components/Search";
 import Backlog from "./Components/Backlog";
@@ -31,10 +31,10 @@ function App() {
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/register" component={Register} />
-            <Route path="/login" component={Login} />
-            <Route path="/profile" component={Profile} />
+            <Route path="/login" component={LoginToo} />
+            <Route path="/profile" component={requireAuth(Profile)} />
             <Route path="/search" component={Search} />
-            <Route path="/backlog" component={Backlog} />
+            <Route path="/backlog" component={requireAuth(Backlog)} />
           </Switch>
         </div>
       </Router>
