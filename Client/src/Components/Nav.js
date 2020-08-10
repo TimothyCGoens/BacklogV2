@@ -32,7 +32,7 @@ class Nav extends React.Component {
             <Link className="link-style" to="/profile">
               <li>Profile</li>
             </Link>
-            <Link className="link-style" to="/earch">
+            <Link className="link-style" to="/search">
               <li>Search</li>
             </Link>
             {this.props.isAuthenticated ? (
