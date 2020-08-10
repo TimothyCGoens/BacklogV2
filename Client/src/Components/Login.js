@@ -1,40 +1,64 @@
-import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import React, { Component } from "react";
 import axios from "axios";
-import { connect } from "react-redux";
 import history from "../history";
+import { connect } from "react-redux";
 import { setAuthenticationHeader } from "../utilities/authenticate";
+
 import "./login.css";
 
-const Login = () => {
-  const [userNames, setUserNames] = useState();
-  const [passWords, setPassWords] = useState();
-  const [userNameMessage, setUserNameMessage] = useState("");
-  const [passwordMessage, setPasswordMessge] = useState("");
+class Login extends Component {
+  constructor() {
+    super();
 
-  useEffect(() => {
+    this.state = {
+      username: "",
+      password: "",
+      usernameArray: [],
+      passwordarray: [],
+      usernameMessage: "",
+      passwordMessage: "",
+    };
+  }
+
+  componentDidMount() {
     axios.get("http://localhost:8080/api/users/list").then((response) => {
       const usernames = response.data.map((item) => item.username);
       const passwords = response.data.map((item) => item.password);
-      setUserNames(usernames);
-      setPassWords(passwords);
+      this.setState({
+        usernameArray: usernames,
+        passwordArray: passwords,
+      });
     });
-  }, []);
+  }
+  onUsernameInputChange = (e) => {
+    this.setState({
+      username: e.target.value,
+    });
+  };
 
-  const { register, errors, handleSubmit } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
-    console.log(data.username);
-    if (!userNames.includes(data.username)) {
-      setUserNameMessage("I'm sorry, that username doesn't exist");
+  onPasswordInputChange = (e) => {
+    this.setState({
+      password: e.target.value,
+    });
+  };
+
+  onFormSubmit = (e) => {
+    e.preventDefault();
+
+    if (!this.state.usernameArray.includes(this.state.username)) {
+      this.setState({
+        usernameMessage: "Please enter a valid username",
+      });
     }
-    if (!passWords.includes(data.password)) {
-      setPasswordMessge("I'm sorry, that password is incorrect");
+    if (!this.state.passwordArray.includes(this.state.password)) {
+      this.setState({
+        passwordMessage: "Please enter a valid password",
+      });
     } else {
       axios
         .post("http://localhost:8080/api/login/user", {
-          username: data.username,
-          password: data.password,
+          username: this.state.username,
+          password: this.state.password,
         })
         .then((response) => {
           console.log(response);
@@ -43,51 +67,52 @@ const Login = () => {
           localStorage.setItem("jsonwebtoken", token);
           this.props.onAuthenticated(token, userID);
           setAuthenticationHeader(token);
-          history.push("/profile");
+          history.push(`/profile/${userID}`);
         })
         .catch((err) => console.log(err));
     }
   };
 
-  // add this in the promise after logging in
-  // setAuthenticationHeader(token)
-
-  return (
-    <div className="login-page">
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="login-form">
-        <div className="input-section">
-          <label className="login-label">User Name</label>
-          <input
-            className="login-input"
-            name="username"
-            ref={register({ required: true })}
-          />
-          {errors.username && <p className="validation-error">Required</p>}
-          <p className="validation-error">{userNameMessage}</p>
-        </div>
-        <div className="input-section">
-          <label className="login-label">Password</label>
-          <input
-            className="login-input"
-            name="password"
-            type="password"
-            ref={register({ required: true })}
-          />
-          {errors.password && <p className="validation-error">Required</p>}
-          {errors.password && <p className="validation-error">Required</p>}
-          <p className="validation-error">{passwordMessage}</p>
-        </div>
-        <button>Log In</button>
-      </form>
-    </div>
-  );
-};
+  render() {
+    return (
+      <div className="login-page">
+        <h1>Login</h1>
+        <form onSubmit={this.onFormSubmit}>
+          <div className="input-section">
+            <label className="login-label">User Name</label>
+            <input
+              value={this.state.username}
+              onChange={this.onUsernameInputChange}
+              className="login-input"
+              name="username"
+              autoComplete="off"
+              type="text"
+            />
+            <p className="validation-error">{this.state.usernameMessage}</p>
+          </div>
+          <div className="input-section">
+            <label className="login-label">Password</label>
+            <input
+              value={this.state.password}
+              onChange={this.onPasswordInputChange}
+              className="login-input"
+              name="password"
+              autoComplete="off"
+              type="password"
+            />
+            <p className="validation-error">{this.state.passwordMessage}</p>
+          </div>
+          <button>Log In</button>
+        </form>
+      </div>
+    );
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAuthenticated: (token, userID) =>
-      dispatch({ type: "ON_AUTHENTICATED", token: token, uid: userID }),
+    onAuthenticated: (token, userId) =>
+      dispatch({ type: "LOG_IN", token: token, userId: userId }),
   };
 };
 
