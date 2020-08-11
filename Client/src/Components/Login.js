@@ -61,7 +61,6 @@ class Login extends Component {
           password: this.state.password,
         })
         .then((response) => {
-          console.log(response);
           let token = response.data.token;
           let userID = response.data.id;
           localStorage.setItem("jsonwebtoken", token);

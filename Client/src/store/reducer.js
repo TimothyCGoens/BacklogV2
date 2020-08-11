@@ -6,7 +6,6 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "LOG_IN":
-      console.log(action);
       return {
         ...state,
         isAuthenticated: action.token != null ? true : false,
@@ -14,7 +13,6 @@ const reducer = (state = initialState, action) => {
       };
 
     case "LOGOUT":
-      console.log(action);
       return {
         ...state,
         isAuthenticated: false,

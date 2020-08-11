@@ -14,6 +14,12 @@
   background-color: white;
   outline: none;
 }
+.input-section {
+  align-items: center;
+}
+.login-input {
+  margin-bottom: 10px;
+}
 
 .search-layout {
   display: flex;

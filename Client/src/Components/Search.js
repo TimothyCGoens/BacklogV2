@@ -1,56 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import Plate from "./Plate";
-import axios from "axios";
+// import axios from "axios";
 import moment from "moment";
 import Card from "./Card";
 import Button from "./Button";
 import { connect } from "react-redux";
+import rawg from "../apis/rawg";
 import "./search.css";
-
-// const Search = () => {
-//   const [data, setData] = useState([]);
-//   const [query, setQuery] = useState("");
-//   // const [search, setSearch] = useState();
-//   const [selectedGame, setSelectedGame] = useState("");
-
-//   return (
-//     <div className="search">
-//       <div className="input-section">
-//         <label className='search-label'>Enter Game Title</label>
-//         <input
-//           className='search-input'
-//           type="text"
-//           value={query}
-//           onChange={(event) => setQuery(event.target.value)}
-//         />
-//       </div>
-
-//       <button type="button" onClick={gameSearch}>
-//         Search
-//       </button>
-
-// {!selectedGame ? (
-//   <div className="search-results">
-//     {data.map((game) => {
-//       return (
-//         <Plate
-//           key={game.id}
-//           name={game.name}
-//           image={game.image.medium_url}
-//           releaseDate={moment(game.original_release_date).format(
-//             "MMMM Do, YYYY"
-//           )}
-//           clicked={() => handlePlateSelection(game.guid)}
-//         />
-//       );
-//     })}
-//   </div>
-//       ) : selectedGame ? (
-
-//       ) : null}
-//     </div>
-//   );
-// };
 
 class Search extends React.Component {
   constructor() {
@@ -60,6 +16,8 @@ class Search extends React.Component {
       gameTitle: "",
       games: [],
       selectedGame: "",
+      title: "",
+      images: "",
     };
   }
 
@@ -69,8 +27,9 @@ class Search extends React.Component {
     });
   };
 
-  handleButtonClick = () => {
+  handleAddToBacklog = () => {
     console.log("clicked");
+    //don't forget the API this time asshole
   };
 
   onGameTitleInputChange = (e) => {
@@ -79,45 +38,66 @@ class Search extends React.Component {
     });
   };
 
-  onFormSubmit = (e) => {
+  onFormSubmit = async (e) => {
     e.preventDefault();
 
-    axios
-      .get(
-        `${"https://cors-anywhere.herokuapp.com/"}https://www.giantbomb.com/api/search/?api_key=f194765e78f8558180a48f79cbb6b02fe6f9bca2&format=json&query="${
-          this.state.gameTitle
-        }"&resources=game`,
-        { crossdomain: true }
-      )
-      .then((response) => {
-        this.setState({
-          games: response.data.results,
-        });
-        console.log(this.state.games);
-      });
+    const response = await rawg.get("/games", {
+      params: {
+        search: this.state.gameTitle,
+      },
+    });
+    this.setState({
+      games: response.data.results,
+    });
+    console.log(this.state.games);
+    // console.log(this.state.images);
+
+    // axios
+    //   .get(
+    //     `${"https://cors-anywhere.herokuapp.com/"}https://www.giantbomb.com/api/search/?api_key=f194765e78f8558180a48f79cbb6b02fe6f9bca2&format=json&query="${
+    //       this.state.gameTitle
+    //     }"&resources=game`,
+    //     { crossdomain: true }
+    //   )
+    //   .then((response) => {
+    //     this.setState({
+    //       games: response.data.results,
+    //     });
+    //     console.log(this.state.games);
+    //   });
   };
 
   handlePlateSelection = async (id) => {
-    await axios
-      .get(
-        `${"https://cors-anywhere.herokuapp.com/"}https://www.giantbomb.com/api/game/${id}/?api_key=f194765e78f8558180a48f79cbb6b02fe6f9bca2&format=JSON`,
-        { crossdomain: true }
-      )
-      .then((response) => {
-        this.setState({
-          selectedGame: response.data.results,
-        });
-        console.log(this.state.selectedGame);
-      });
+    console.log("clicked");
+    // await axios
+    //   .get(
+    //     `${"https://cors-anywhere.herokuapp.com/"}https://www.giantbomb.com/api/game/${id}/?api_key=f194765e78f8558180a48f79cbb6b02fe6f9bca2&format=JSON`,
+    //     { crossdomain: true }
+    //   )
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     this.setState({
+    //       selectedGame: response.data.results,
+    //     });
+    //     console.log(this.state.selectedGame);
+    //   });
   };
 
   renderPlate() {
+    // const images = this.state.games.map((game) => {
+    //   return <img src={game.short_screenshots[0].image} />;
+    // });
+
+    // const backgroundImageStyle = {
+    //   backgroundImage: images,
+    // };
+
     return this.state.games.map((game) => {
       return (
         <Plate
           key={game.id}
+          image={game.short_screenshots[0].image}
           name={game.name}
-          image={game.image.medium_url}
           releaseDate={moment(game.original_release_date).format(
             "MMMM Do, YYYY"
           )}
@@ -129,7 +109,7 @@ class Search extends React.Component {
 
   renderCard() {
     return (
-      <div className="search-results">
+      <React.Fragment>
         <div className="card-display">
           <Card
             key={this.state.selectedGame.id}
@@ -146,7 +126,7 @@ class Search extends React.Component {
           <Button
             label="Add to Backlog"
             className="card-backlog-button"
-            clicked={this.handleButtonClick}
+            clicked={this.handleAddToBacklog}
           />
           <Button
             label="Back"
@@ -154,7 +134,7 @@ class Search extends React.Component {
             clicked={this.resetGameSelection}
           />
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 
@@ -174,11 +154,13 @@ class Search extends React.Component {
               type="text"
             />
             <button>Search</button>
-            {!this.state.selectedGame
-              ? this.renderPlate()
-              : this.state.selectedGame
-              ? this.renderCard()
-              : null}
+            <div className="search-results">
+              {!this.state.selectedGame
+                ? this.renderPlate()
+                : this.state.selectedGame
+                ? this.renderCard()
+                : null}
+            </div>
           </div>
         </form>
       </div>

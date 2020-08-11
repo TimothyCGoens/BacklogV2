@@ -5,14 +5,12 @@ const Plate = (props) => {
   return (
     <div>
       <div className="plate" onClick={props.clicked}>
-        <div className="plate-layout">
-          <div className="image">
-            <img src={props.image} alt="box-art" />
-          </div>
-          <div className="plate-body">
-            <p className="title">{props.name}</p>
-            <p>{props.releaseDate}</p>
-          </div>
+        <div className="plate-top">
+          <img className="image" src={props.image} />
+        </div>
+        <div className="plate-bottom">
+          <p className="title">{props.name}</p>
+          <p>{props.releaseDate}</p>
         </div>
       </div>
     </div>
