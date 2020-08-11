@@ -9,9 +9,6 @@ const Card = (props) => {
         <p>{props.name}</p>
       </div>
       <div className="card-header">
-        <div className="image-spot">
-          <img className="card-image" alt="box art" src={props.image} />
-        </div>
         <div className="header-info">
           <p className="bold">Publisher(s)</p>
           <p className="header-styles">{props.publisher}</p>
@@ -23,7 +20,6 @@ const Card = (props) => {
           <p className="platform-styles">{props.platform}</p>
         </div>
       </div>
-
       <div className="deck">
         <p className="deck-style">{props.description}</p>
       </div>

@@ -18,6 +18,11 @@ class Search extends React.Component {
       selectedGame: "",
       title: "",
       images: "",
+      releaseDate: "",
+      platforms: [],
+      genres: [],
+      stores: [],
+      screenshots: [],
     };
   }
 
@@ -49,61 +54,55 @@ class Search extends React.Component {
     this.setState({
       games: response.data.results,
     });
-    console.log(this.state.games);
-    // console.log(this.state.images);
-
-    // axios
-    //   .get(
-    //     `${"https://cors-anywhere.herokuapp.com/"}https://www.giantbomb.com/api/search/?api_key=f194765e78f8558180a48f79cbb6b02fe6f9bca2&format=json&query="${
-    //       this.state.gameTitle
-    //     }"&resources=game`,
-    //     { crossdomain: true }
-    //   )
-    //   .then((response) => {
-    //     this.setState({
-    //       games: response.data.results,
-    //     });
-    //     console.log(this.state.games);
-    //   });
   };
 
-  handlePlateSelection = async (id) => {
-    console.log("clicked");
-    // await axios
-    //   .get(
-    //     `${"https://cors-anywhere.herokuapp.com/"}https://www.giantbomb.com/api/game/${id}/?api_key=f194765e78f8558180a48f79cbb6b02fe6f9bca2&format=JSON`,
-    //     { crossdomain: true }
-    //   )
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     this.setState({
-    //       selectedGame: response.data.results,
-    //     });
-    //     console.log(this.state.selectedGame);
-    //   });
+  handlePlateSelection = async (index) => {
+    const game = await this.state.games[index];
+    this.setState({
+      selectedGame: game,
+      releaseDate: game.released,
+      genres: game.genres,
+      platforms: game.platforms,
+      stores: game.stores,
+      screenshots: game.short_screenshots,
+    });
+    console.log(this.state.releaseDate);
+    console.log(this.state.genres);
+    console.log(this.state.platforms);
+    console.log(this.state.stores);
+    console.log(this.state.screenshots);
   };
+
+  renderGenres() {
+    this.state.genres.map((genre) => {
+      return <React.Fragment>{genre}</React.Fragment>;
+    });
+  }
 
   renderPlate() {
-    // const images = this.state.games.map((game) => {
-    //   return <img src={game.short_screenshots[0].image} />;
-    // });
-
-    // const backgroundImageStyle = {
-    //   backgroundImage: images,
-    // };
-
-    return this.state.games.map((game) => {
-      return (
-        <Plate
-          key={game.id}
-          image={game.short_screenshots[0].image}
-          name={game.name}
-          releaseDate={moment(game.original_release_date).format(
-            "MMMM Do, YYYY"
-          )}
-          clicked={() => this.handlePlateSelection(game.guid)}
-        />
-      );
+    return this.state.games.map((game, index) => {
+      if (
+        game.short_screenshots === null ||
+        game.short_screenshots.length === 0
+      ) {
+        return (
+          <Plate
+            key={game.id}
+            // image={game.short_screenshots[0].image}
+            name={game.name}
+            clicked={() => this.handlePlateSelection(game.guid)}
+          />
+        );
+      } else {
+        return (
+          <Plate
+            key={game.id}
+            image={game.short_screenshots[0].image}
+            name={game.name}
+            clicked={() => this.handlePlateSelection(index)}
+          />
+        );
+      }
     });
   }
 
@@ -114,13 +113,14 @@ class Search extends React.Component {
           <Card
             key={this.state.selectedGame.id}
             name={this.state.selectedGame.name}
-            image={this.state.selectedGame.image.medium_url}
-            developer={this.state.selectedGame.developers[0].name}
-            publisher={this.state.selectedGame.publishers[0].name}
-            platform={this.state.selectedGame.platforms[0].name}
-            genre={this.state.selectedGame.genres[0].name}
-            description={this.state.selectedGame.deck}
+            // image={this.state.selectedGame.image.medium_url}
+            // developer={this.state.selectedGame.developers[0].name}
+            // publisher={this.state.selectedGame.publishers[0].name}
+            // platform={this.state.selectedGame.platforms[0].name}
+            // genre={this.renderGenres()}
+            // description={this.state.selectedGame.deck}
           />
+          {this.renderGenres}
         </div>
         <div className="card-buttons">
           <Button
