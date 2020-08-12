@@ -19,7 +19,7 @@ class Search extends React.Component {
       games: [],
       selectedGame: "",
       title: "",
-      images: "",
+      image: "",
       releaseDate: "",
       platforms: [],
       genres: [],
@@ -89,6 +89,7 @@ class Search extends React.Component {
       genres: game.genres,
       platforms: game.platforms,
       stores: game.stores,
+      image: game.short_screenshots[0].image,
       screenshots: game.short_screenshots,
     });
     console.log(this.state.releaseDate);
@@ -127,7 +128,6 @@ class Search extends React.Component {
 
   render() {
     const genres = this.state.genres.map((genre) => {
-      console.log(genre.name);
       if (this.state.genres === null || this.state.genres.length === 0) {
         return <p>Info not Available</p>;
       } else {
@@ -136,7 +136,6 @@ class Search extends React.Component {
     });
 
     const platforms = this.state.platforms.map((platform) => {
-      console.log(platform.name);
       if (this.state.platforms === null || this.state.platforms.length === 0) {
         return <p>Info not Available</p>;
       } else {
@@ -145,64 +144,88 @@ class Search extends React.Component {
     });
 
     const stores = this.state.stores.map((store) => {
-      console.log(store.name);
       if (this.state.stores === null || this.state.stores.length === 0) {
         return <p>Info Not Available</p>;
       } else {
         return <p>{store.store.name}</p>;
       }
     });
+    const image = this.state.screenshots.map((image) => {
+      if (
+        this.state.screenshots === null ||
+        this.state.screenshots.length === 0
+      ) {
+        return <p>Info Not Available</p>;
+      } else {
+        return <p>{image.name}</p>;
+      }
+    });
+
     return (
       <div className="search">
-        <h1>Search</h1>
-        <form onSubmit={this.onFormSubmit}>
-          <div className="input-section">
-            <label className="login-label">Search by Title</label>
-            <input
-              value={this.state.gameTitle}
-              onChange={this.onGameTitleInputChange}
-              className="login-input"
-              name="gameTitle"
-              autoComplete="off"
-              type="text"
-            />
-            <button>Search</button>
-            <div className="search-results">
-              {!this.state.games ? (
-                <Spinner />
-              ) : !this.state.selectedGame ? (
-                this.renderPlate()
-              ) : this.state.selectedGame ? (
-                <React.Fragment>
-                  <div className="card-display">
-                    <div key={this.state.selectedGame.id}>
-                      <div className="card-info">Genre(s){genres}</div>
-                      <div className="card-info">Platform(s){platforms}</div>
-                      <div className="card-info">Store(s){stores}</div>
-                    </div>
-                    <div className="card-buttons">
-                      <Button
-                        label="Add to Backlog"
-                        className="card-backlog-button"
-                        clicked={this.handleAddToBacklog}
-                      />
-                      <Button
-                        label="Add to Wishlist"
-                        className="card-backlog-button"
-                        clicked={this.handleAddToWishlist}
-                      />
-                      <Button
-                        label="Back"
-                        className="card-backlog-button"
-                        clicked={this.resetGameSelection}
-                      />
-                    </div>
-                  </div>
-                </React.Fragment>
-              ) : null}
+        {!this.state.selectedGame ? (
+          <div>
+            <h1>Search</h1>
+            <form onSubmit={this.onFormSubmit}>
+              <div className="input-section">
+                <label className="login-label">Search by Title</label>
+                <input
+                  value={this.state.gameTitle}
+                  onChange={this.onGameTitleInputChange}
+                  className="search-input"
+                  name="gameTitle"
+                  autoComplete="off"
+                  type="text"
+                />
+                <button>Search</button>
+              </div>
+            </form>
+          </div>
+        ) : null}
+
+        {!this.state.games ? (
+          <Spinner />
+        ) : !this.state.selectedGame ? (
+          <div className="search-results">{this.renderPlate()}</div>
+        ) : this.state.selectedGame ? (
+          <div className="card-display" key={this.state.selectedGame.id}>
+            <div className="entire-card">
+              <img className="card-image" src={this.state.image} />
+              <div className="game-details">
+                Genre(s)
+                <div className="results">
+                  <p className="card-header"></p>
+                  {genres}
+                </div>
+              </div>
+              <div className="game-details">
+                Platform(s)
+                <div className="results">
+                  <p className="card-header"></p>
+                  {platforms}
+                </div>
+              </div>
+              <div className="game-details">
+                Store(s)
+                <div className="results">
+                  <p className="card-header"></p>
+                  {stores}
+                </div>
+              </div>
+            </div>
+            <div className="card-buttons">
+              <Button
+                label="Add to Backlog"
+                clicked={this.handleAddToBacklog}
+              />
+              <Button
+                label="Add to Wishlist"
+                clicked={this.handleAddToWishlist}
+              />
+              <Button label="Back" clicked={this.resetGameSelection} />
             </div>
           </div>
-        </form>
+        ) : null}
       </div>
     );
   }

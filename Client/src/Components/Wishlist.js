@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Plate from "./Plate";
 import axios from "axios";
+import "./search.css";
 
 class Wishlist extends React.Component {
   constructor() {
@@ -41,7 +42,7 @@ class Wishlist extends React.Component {
         />
       );
     });
-    return <div>{games}</div>;
+    return <div className="search-results">{games}</div>;
   }
 }
 
