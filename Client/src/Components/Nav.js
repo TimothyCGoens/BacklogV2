@@ -36,6 +36,11 @@ class Nav extends React.Component {
               <li>Search</li>
             </Link>
             {this.props.isAuthenticated ? (
+              <Link className="link-style" to="/backlog">
+                <li>Backlog</li>
+              </Link>
+            ) : null}
+            {this.props.isAuthenticated ? (
               <Link className="link-style" to="">
                 <li onClick={this.handleLogoutClick}>Logout</li>
               </Link>
