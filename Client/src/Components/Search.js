@@ -35,15 +35,26 @@ class Search extends React.Component {
   };
 
   handleAddToBacklog = () => {
-    console.log("clicked");
-
     const game = {
       title: this.state.selectedGame.name,
-      coverArt: this.state.selectedGame.short_screenshots[0].image,
+      image: this.state.selectedGame.short_screenshots[0].image,
       userId: this.props.userId,
     };
     axios
       .post("http://localhost:8080/api/backlog/add", game)
+      .then((response) => {
+        console.log(response);
+      });
+  };
+
+  handleAddToWishlist = () => {
+    const game = {
+      title: this.state.selectedGame.name,
+      image: this.state.selectedGame.short_screenshots[0].image,
+      userId: this.props.userId,
+    };
+    axios
+      .post("http://localhost:8080/api/wishlist/add", game)
       .then((response) => {
         console.log(response);
       });
@@ -174,6 +185,11 @@ class Search extends React.Component {
                         label="Add to Backlog"
                         className="card-backlog-button"
                         clicked={this.handleAddToBacklog}
+                      />
+                      <Button
+                        label="Add to Wishlist"
+                        className="card-backlog-button"
+                        clicked={this.handleAddToWishlist}
                       />
                       <Button
                         label="Back"

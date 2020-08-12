@@ -13,14 +13,14 @@ router.post("/add", async (req, res) => {
     title: title,
     image: image,
   };
-  await models.Backlogs.create(game);
+  await models.Wishlists.create(game);
   res.json(game);
   console.log(game);
 });
 
 router.get("/list/:userId", async (req, res) => {
   let userId = req.params.userId;
-  const gameData = await models.Backlogs.findAll({
+  const gameData = await models.Wishlists.findAll({
     where: {
       userId: userId,
     },

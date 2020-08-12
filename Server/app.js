@@ -5,7 +5,7 @@ const usersRouter = require("./routes/users");
 const loginRouter = require("./routes/login");
 const profileRouter = require("./routes/profile");
 const backlogRouter = require("./routes/backlog");
-// const models = require("./models");
+const wishlistRouter = require("./routes/wishlist");
 const Router = express.Router;
 const router = new Router();
 const app = express();
@@ -19,6 +19,7 @@ app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/backlog", backlogRouter);
+app.use("/api/wishlist", wishlistRouter);
 
 app.listen(8080, () => {
   console.log("server is up and running");

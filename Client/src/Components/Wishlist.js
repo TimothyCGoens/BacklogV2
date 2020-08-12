@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Plate from "./Plate";
 import axios from "axios";
 
-class Backlog extends React.Component {
+class Wishlist extends React.Component {
   constructor() {
     super();
 
@@ -16,7 +16,7 @@ class Backlog extends React.Component {
   }
   componentDidMount() {
     axios
-      .get(`http://localhost:8080/api/backlog/list/${this.props.userId}`)
+      .get(`http://localhost:8080/api/wishlist/list/${this.props.userId}`)
       .then((response) => {
         console.log(response.data);
         this.setState({
@@ -51,4 +51,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Backlog);
+export default connect(mapStateToProps)(Wishlist);

@@ -41,6 +41,11 @@ class Nav extends React.Component {
               </Link>
             ) : null}
             {this.props.isAuthenticated ? (
+              <Link className="link-style" to="/wishlist">
+                <li>Wishlist</li>
+              </Link>
+            ) : null}
+            {this.props.isAuthenticated ? (
               <Link className="link-style" to="">
                 <li onClick={this.handleLogoutClick}>Logout</li>
               </Link>

@@ -6,6 +6,7 @@ import Register from "./Components/Register";
 import Search from "./Components/Search";
 import Backlog from "./Components/Backlog";
 import Profile from "./Components/Profile";
+import Wishlist from "./Components/Wishlist";
 import { createStore, compose, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import reducer from "./store/reducer";
@@ -35,6 +36,7 @@ function App() {
             <Route path="/profile" component={requireAuth(Profile)} />
             <Route path="/search" component={Search} />
             <Route path="/backlog" component={requireAuth(Backlog)} />
+            <Route path="/wishlist" component={requireAuth(Wishlist)} />
           </Switch>
         </div>
       </Router>
