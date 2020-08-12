@@ -52,6 +52,9 @@
   display: flex;
   width: 25%;
 }
+.card-info {
+  color: #789;
+}
 
 .card-backlog-button {
   background-color: white;

@@ -1,12 +1,14 @@
 import React from "react";
 import Plate from "./Plate";
 // import axios from "axios";
-import moment from "moment";
-import Card from "./Card";
+// import moment from "moment";
+// import Card from "./Card";
+import Spinner from "./Spinner";
 import Button from "./Button";
 import { connect } from "react-redux";
 import rawg from "../apis/rawg";
 import "./search.css";
+import axios from "axios";
 
 class Search extends React.Component {
   constructor() {
@@ -34,6 +36,17 @@ class Search extends React.Component {
 
   handleAddToBacklog = () => {
     console.log("clicked");
+
+    const game = {
+      title: this.state.selectedGame.name,
+      coverArt: this.state.selectedGame.short_screenshots[0].image,
+      userId: this.props.userId,
+    };
+    axios
+      .post("http://localhost:8080/api/backlog/add", game)
+      .then((response) => {
+        console.log(response);
+      });
     //don't forget the API this time asshole
   };
 
@@ -54,6 +67,7 @@ class Search extends React.Component {
     this.setState({
       games: response.data.results,
     });
+    console.log(this.state.games);
   };
 
   handlePlateSelection = async (index) => {
@@ -72,12 +86,6 @@ class Search extends React.Component {
     console.log(this.state.stores);
     console.log(this.state.screenshots);
   };
-
-  renderGenres() {
-    this.state.genres.map((genre) => {
-      return <React.Fragment>{genre}</React.Fragment>;
-    });
-  }
 
   renderPlate() {
     return this.state.games.map((game, index) => {
@@ -106,39 +114,33 @@ class Search extends React.Component {
     });
   }
 
-  renderCard() {
-    return (
-      <React.Fragment>
-        <div className="card-display">
-          <Card
-            key={this.state.selectedGame.id}
-            name={this.state.selectedGame.name}
-            // image={this.state.selectedGame.image.medium_url}
-            // developer={this.state.selectedGame.developers[0].name}
-            // publisher={this.state.selectedGame.publishers[0].name}
-            // platform={this.state.selectedGame.platforms[0].name}
-            // genre={this.renderGenres()}
-            // description={this.state.selectedGame.deck}
-          />
-          {this.renderGenres}
-        </div>
-        <div className="card-buttons">
-          <Button
-            label="Add to Backlog"
-            className="card-backlog-button"
-            clicked={this.handleAddToBacklog}
-          />
-          <Button
-            label="Back"
-            className="card-backlog-button"
-            clicked={this.resetGameSelection}
-          />
-        </div>
-      </React.Fragment>
-    );
-  }
-
   render() {
+    const genres = this.state.genres.map((genre) => {
+      console.log(genre.name);
+      if (this.state.genres === null || this.state.genres.length === 0) {
+        return <p>Info not Available</p>;
+      } else {
+        return <p>{genre.name}</p>;
+      }
+    });
+
+    const platforms = this.state.platforms.map((platform) => {
+      console.log(platform.name);
+      if (this.state.platforms === null || this.state.platforms.length === 0) {
+        return <p>Info not Available</p>;
+      } else {
+        return <p>{platform.platform.name}</p>;
+      }
+    });
+
+    const stores = this.state.stores.map((store) => {
+      console.log(store.name);
+      if (this.state.stores === null || this.state.stores.length === 0) {
+        return <p>Info Not Available</p>;
+      } else {
+        return <p>{store.store.name}</p>;
+      }
+    });
     return (
       <div className="search">
         <h1>Search</h1>
@@ -155,11 +157,33 @@ class Search extends React.Component {
             />
             <button>Search</button>
             <div className="search-results">
-              {!this.state.selectedGame
-                ? this.renderPlate()
-                : this.state.selectedGame
-                ? this.renderCard()
-                : null}
+              {!this.state.games ? (
+                <Spinner />
+              ) : !this.state.selectedGame ? (
+                this.renderPlate()
+              ) : this.state.selectedGame ? (
+                <React.Fragment>
+                  <div className="card-display">
+                    <div key={this.state.selectedGame.id}>
+                      <div className="card-info">Genre(s){genres}</div>
+                      <div className="card-info">Platform(s){platforms}</div>
+                      <div className="card-info">Store(s){stores}</div>
+                    </div>
+                    <div className="card-buttons">
+                      <Button
+                        label="Add to Backlog"
+                        className="card-backlog-button"
+                        clicked={this.handleAddToBacklog}
+                      />
+                      <Button
+                        label="Back"
+                        className="card-backlog-button"
+                        clicked={this.resetGameSelection}
+                      />
+                    </div>
+                  </div>
+                </React.Fragment>
+              ) : null}
             </div>
           </div>
         </form>
