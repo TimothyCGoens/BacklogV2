@@ -191,21 +191,21 @@ class Search extends React.Component {
           <div className="card-display" key={this.state.selectedGame.id}>
             <div className="entire-card">
               <img className="card-image" src={this.state.image} />
-              <div className="game-details">
+              <div className="game-details divided list">
                 Genre(s)
                 <div className="results">
                   <p className="card-header"></p>
                   {genres}
                 </div>
               </div>
-              <div className="game-details">
+              <div className="game-details divided list">
                 Platform(s)
                 <div className="results">
                   <p className="card-header"></p>
                   {platforms}
                 </div>
               </div>
-              <div className="game-details">
+              <div className="game-details divided list">
                 Store(s)
                 <div className="results">
                   <p className="card-header"></p>

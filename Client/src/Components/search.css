@@ -3,6 +3,7 @@
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
+  height: 100%;
 }
 .search-label {
   color: #789;
@@ -53,8 +54,9 @@
 .entire-card {
   display: flex;
   flex-direction: column;
-  height: 400px;
   width: 500px;
+  background-color: #789;
+  border-radius: 7px;
 }
 .back-button {
   display: flex;
@@ -93,9 +95,9 @@
 
 .game-details {
   display: flex;
-  flex-direction: column;
-  color: #789;
-  justify-content: center;
+  /* flex-direction: column; */
+  justify-content: space-around;
+  color: #15191f;
 }
 
 .card-header {
@@ -104,6 +106,8 @@
 }
 .results {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 .info {
