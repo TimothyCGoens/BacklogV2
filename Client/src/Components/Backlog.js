@@ -9,13 +9,13 @@ class Backlog extends React.Component {
     super();
 
     this.state = {
-      id: null,
       title: "",
       image: "",
       games: [],
     };
   }
   componentDidMount() {
+    console.log(this.props.userId);
     axios
       .get(`http://localhost:8080/api/backlog/list/${this.props.userId}`)
       .then((response) => {
@@ -27,6 +27,47 @@ class Backlog extends React.Component {
       });
   }
 
+  handleCompletedClick() {
+    console.log("clicked");
+  }
+  // componentWillUpdate() {
+  //   this.handleStateUpdate();
+  // }
+  handleStateUpdate = async () => {
+    await axios
+      .get(`http://localhost:8080/api/backlog/list/${this.props.userId}`)
+      .then((response) => {
+        console.log(response.data);
+        this.setState({
+          games: response.data,
+        });
+      });
+  };
+
+  handleDeleteClick(game) {
+    console.log(game);
+    const gameId = {
+      id: game.id,
+    };
+
+    axios
+      .post("http://localhost:8080/api/backlog/delete", gameId)
+      .then((response) => {
+        console.log(response);
+      });
+    this.handleStateUpdate();
+    // .then(
+    //   axios
+    //     .get(`http://localhost:8080/api/backlog/list/${this.props.userId}`)
+    //     .then((response) => {
+    //       console.log(response.data);
+    //       this.setState({
+    //         games: response.data,
+    //       });
+    //     })
+    // );
+  }
+
   handlePlateSelection() {
     console.log("clicked");
   }
@@ -34,12 +75,16 @@ class Backlog extends React.Component {
   render() {
     const games = this.state.games.map((game) => {
       return (
-        <Plate
-          key={game.id}
-          name={game.title}
-          image={game.image}
-          clicked={() => this.handlePlateSelection()}
-        />
+        <div>
+          <Plate
+            key={game.id}
+            name={game.title}
+            image={game.image}
+            clicked={() => this.handlePlateSelection()}
+          />
+          <button onClick={this.handleCompletedClick}>Completed</button>
+          <button onClick={() => this.handleDeleteClick(game)}>Delete</button>
+        </div>
       );
     });
     return <div className="search-results">{games}</div>;

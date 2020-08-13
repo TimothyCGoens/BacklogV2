@@ -13,9 +13,11 @@ class Wishlist extends React.Component {
       title: "",
       image: "",
       games: [],
+      game: {},
     };
   }
   componentDidMount() {
+    console.log(this.state.game);
     axios
       .get(`http://localhost:8080/api/wishlist/list/${this.props.userId}`)
       .then((response) => {
@@ -26,6 +28,61 @@ class Wishlist extends React.Component {
         console.log(this.state.games);
       });
   }
+  componentWillMount() {
+    this.handleStateUpdate();
+  }
+  handleStateUpdate = async () => {
+    await axios
+      .get(`http://localhost:8080/api/wishlist/list/${this.props.userId}`)
+      .then((response) => {
+        console.log(response.data);
+        this.setState({
+          games: response.data,
+        });
+        console.log(this.state.games);
+      });
+  };
+
+  handeDeleteClick(id) {
+    console.log(id);
+
+    const game = {
+      id: id,
+    };
+
+    axios
+      .post("http://localhost:8080/api/wishlist/delete", game)
+      .then((response) => {
+        console.log(response);
+      });
+    this.handleStateUpdate();
+  }
+
+  handleMoveToBacklogClick(game) {
+    console.log(game);
+    const gameObject = {
+      userId: this.props.userId,
+      image: game.image,
+      title: game.title,
+    };
+
+    axios
+      .post("http://localhost:8080/api/backlog/add", gameObject)
+      .then((response) => {
+        console.log(response);
+      });
+
+    const gameId = {
+      id: game.id,
+    };
+
+    axios
+      .post("http://localhost:8080/api/wishlist/delete", gameId)
+      .then((response) => {
+        console.log(response);
+      });
+    this.handleStateUpdate();
+  }
 
   handlePlateSelection() {
     console.log("clicked");
@@ -34,12 +91,18 @@ class Wishlist extends React.Component {
   render() {
     const games = this.state.games.map((game) => {
       return (
-        <Plate
-          key={game.id}
-          name={game.title}
-          image={game.image}
-          clicked={() => this.handlePlateSelection()}
-        />
+        <div>
+          <Plate
+            key={game.id}
+            name={game.title}
+            image={game.image}
+            clicked={() => this.handlePlateSelection()}
+          />
+          <button onClick={() => this.handleMoveToBacklogClick(game)}>
+            Move to Backlog
+          </button>
+          <button onClick={() => this.handeDeleteClick(game)}>Delete</button>
+        </div>
       );
     });
     return <div className="search-results">{games}</div>;

@@ -18,6 +18,15 @@ router.post("/add", async (req, res) => {
   console.log(game);
 });
 
+router.post("/delete", async (req, res) => {
+  let id = req.body.id;
+  models.Wishlists.destroy({
+    where: {
+      id: id,
+    },
+  });
+});
+
 router.get("/list/:userId", async (req, res) => {
   let userId = req.params.userId;
   const gameData = await models.Wishlists.findAll({
