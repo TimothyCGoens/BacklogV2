@@ -3,7 +3,6 @@ const router = express.Router();
 const models = require("../models");
 
 router.post("/add", async (req, res) => {
-  console.log(req.body);
   let title = req.body.title;
   let image = req.body.image;
   let userId = req.body.userId;
@@ -15,7 +14,6 @@ router.post("/add", async (req, res) => {
   };
   await models.Wishlists.create(game);
   res.json(game);
-  console.log(game);
 });
 
 router.post("/delete", async (req, res) => {

@@ -28,9 +28,7 @@ class Wishlist extends React.Component {
         console.log(this.state.games);
       });
   }
-  componentWillMount() {
-    this.handleStateUpdate();
-  }
+
   handleStateUpdate = async () => {
     await axios
       .get(`http://localhost:8080/api/wishlist/list/${this.props.userId}`)
@@ -45,7 +43,6 @@ class Wishlist extends React.Component {
 
   handeDeleteClick(id) {
     console.log(id);
-
     const game = {
       id: id,
     };
@@ -54,8 +51,18 @@ class Wishlist extends React.Component {
       .post("http://localhost:8080/api/wishlist/delete", game)
       .then((response) => {
         console.log(response);
-      });
-    this.handleStateUpdate();
+      })
+      .then(
+        axios
+          .get(`http://localhost:8080/api/wishlist/list/${this.props.userId}`)
+          .then((response) => {
+            console.log(response.data);
+            this.setState({
+              games: response.data,
+            });
+            console.log(this.state.games);
+          })
+      );
   }
 
   handleMoveToBacklogClick(game) {
