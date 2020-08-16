@@ -9,7 +9,6 @@ class Wishlist extends React.Component {
     super();
 
     this.state = {
-      id: null,
       title: "",
       image: "",
       games: [],
@@ -29,43 +28,20 @@ class Wishlist extends React.Component {
       });
   }
 
-  handleStateUpdate = async () => {
+  handeDeleteClick = async (game) => {
+    console.log(game);
+    const gameId = {
+      id: game.id,
+    };
+
     await axios
-      .get(`http://localhost:8080/api/wishlist/list/${this.props.userId}`)
+      .post("http://localhost:8080/api/wishlist/delete", gameId)
       .then((response) => {
-        console.log(response.data);
-        this.setState({
-          games: response.data,
-        });
-        console.log(this.state.games);
+        console.log(response);
       });
   };
 
-  handeDeleteClick(id) {
-    console.log(id);
-    const game = {
-      id: id,
-    };
-
-    axios
-      .post("http://localhost:8080/api/wishlist/delete", game)
-      .then((response) => {
-        console.log(response);
-      })
-      .then(
-        axios
-          .get(`http://localhost:8080/api/wishlist/list/${this.props.userId}`)
-          .then((response) => {
-            console.log(response.data);
-            this.setState({
-              games: response.data,
-            });
-            console.log(this.state.games);
-          })
-      );
-  }
-
-  handleMoveToBacklogClick(game) {
+  handleMoveToBacklogClick = async (game) => {
     console.log(game);
     const gameObject = {
       userId: this.props.userId,
@@ -73,23 +49,24 @@ class Wishlist extends React.Component {
       title: game.title,
     };
 
-    axios
-      .post("http://localhost:8080/api/backlog/add", gameObject)
-      .then((response) => {
-        console.log(response);
-      });
-
     const gameId = {
       id: game.id,
     };
 
-    axios
-      .post("http://localhost:8080/api/wishlist/delete", gameId)
+    await axios
+      .post("http://localhost:8080/api/backlog/add", gameObject)
+      .then(axios.post("http://localhost:8080/api/wishlist/delete", gameId))
       .then((response) => {
         console.log(response);
       });
-    this.handleStateUpdate();
-  }
+    axios
+      .get(`http://localhost:8080/api/wishlist/list/${this.props.userId}`)
+      .then((response) => {
+        this.setState({
+          games: response.data,
+        });
+      });
+  };
 
   handlePlateSelection() {
     console.log("clicked");

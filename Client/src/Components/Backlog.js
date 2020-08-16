@@ -52,17 +52,16 @@ class Backlog extends React.Component {
       .post("http://localhost:8080/api/backlog/delete", gameId)
       .then((response) => {
         console.log(response);
-      })
-      .then(
-        axios
-          .get(`http://localhost:8080/api/backlog/list/${this.props.userId}`)
-          .then((response) => {
-            console.log(response.data);
-            this.setState({
-              games: response.data,
-            });
-          })
-      );
+      });
+
+    axios
+      .get(`http://localhost:8080/api/backlog/list/${this.props.userId}`)
+      .then((response) => {
+        console.log(response.data);
+        this.setState({
+          games: response.data,
+        });
+      });
   }
 
   handlePlateSelection() {
