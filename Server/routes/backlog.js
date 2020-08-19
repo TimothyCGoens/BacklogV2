@@ -18,8 +18,8 @@ router.post("/add", async (req, res) => {
   console.log(game);
 });
 
-router.post("/delete", async (req, res) => {
-  let id = req.body.id;
+router.post("/delete/:id", async (req, res) => {
+  let id = req.params.id;
   models.Backlogs.destroy({
     where: {
       id: id,

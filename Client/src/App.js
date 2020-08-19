@@ -9,7 +9,7 @@ import Profile from "./Components/Profile";
 import Wishlist from "./Components/Wishlist";
 import { createStore, compose, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
-import reducer from "./store/reducer";
+import reducer from "./reducers/reducer";
 import { Router, Switch, Route } from "react-router-dom";
 import createBrowserHistory from "./history";
 import setAuthenticationHeader from "./utilities/authenticate";

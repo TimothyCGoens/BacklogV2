@@ -150,16 +150,16 @@ class Search extends React.Component {
         return <p>{store.store.name}</p>;
       }
     });
-    const image = this.state.screenshots.map((image) => {
-      if (
-        this.state.screenshots === null ||
-        this.state.screenshots.length === 0
-      ) {
-        return <p>Info Not Available</p>;
-      } else {
-        return <p>{image.name}</p>;
-      }
-    });
+    // const image = this.state.screenshots.map((image) => {
+    //   if (
+    //     this.state.screenshots === null ||
+    //     this.state.screenshots.length === 0
+    //   ) {
+    //     return <p>Info Not Available</p>;
+    //   } else {
+    //     return <p>{image.name}</p>;
+    //   }
+    // });
 
     return (
       <div className="search">
@@ -190,7 +190,7 @@ class Search extends React.Component {
         ) : this.state.selectedGame ? (
           <div className="card-display" key={this.state.selectedGame.id}>
             <div className="entire-card">
-              <img className="card-image" src={this.state.image} />
+              <img className="card-image" alt="game" src={this.state.image} />
               <div className="game-details divided list">
                 Genre(s)
                 <div className="results">

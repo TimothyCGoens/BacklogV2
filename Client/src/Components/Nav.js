@@ -29,22 +29,14 @@ class Nav extends React.Component {
                 <li>Log In</li>
               </Link>
             ) : null}
-            <Link className="link-style" to="/profile">
-              <li>Profile</li>
-            </Link>
+            {this.props.isAuthenticated ? (
+              <Link className="link-style" to="/profile">
+                <li>Profile</li>
+              </Link>
+            ) : null}
             <Link className="link-style" to="/search">
               <li>Search</li>
             </Link>
-            {this.props.isAuthenticated ? (
-              <Link className="link-style" to="/backlog">
-                <li>Backlog</li>
-              </Link>
-            ) : null}
-            {this.props.isAuthenticated ? (
-              <Link className="link-style" to="/wishlist">
-                <li>Wishlist</li>
-              </Link>
-            ) : null}
             {this.props.isAuthenticated ? (
               <Link className="link-style" to="">
                 <li onClick={this.handleLogoutClick}>Logout</li>

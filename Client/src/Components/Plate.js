@@ -6,7 +6,7 @@ const Plate = (props) => {
     <div>
       <div className="plate" onClick={props.clicked}>
         <div className="plate-top">
-          <img className="image" src={props.image} />
+          <img className="image" alt="game" src={props.image} />
         </div>
         <div className="plate-bottom">
           <p className="title">{props.name}</p>
