@@ -6,6 +6,8 @@ import {
   GET_USER,
   LOG_IN,
   LOG_OUT,
+  ADD_WISHLIST_GAME,
+  MOVE_GAME_FROM_WISHLIST_TO_BACKLOG,
 } from "../actions/types";
 
 const initialState = {
@@ -50,11 +52,17 @@ export default function (state = initialState, action) {
         backlog: [action.payload, ...state.backlog],
       };
 
+    case ADD_WISHLIST_GAME:
+      return {
+        ...state,
+        wishlist: [action.payload, ...state.wishlist],
+      };
+
     case DELETE_BACKLOG_GAME:
       console.log(action.payload);
       return {
         ...state,
-        backlog: state.backlog.filter((game) => game.id !== action.payload),
+        backlog: state.backlog.filter((game) => game !== action.payload),
       };
 
     case GET_WISHLIST:
@@ -63,6 +71,15 @@ export default function (state = initialState, action) {
         wishlist: action.payload,
         loading: false,
       };
+
+    case MOVE_GAME_FROM_WISHLIST_TO_BACKLOG:
+      console.log(action.payload);
+      return {
+        ...state,
+        backlog: [action.payload, ...state.backlog],
+        wishlist: state.wishlist.filter((game) => game !== action.payload),
+      };
+
     default:
       return state;
   }

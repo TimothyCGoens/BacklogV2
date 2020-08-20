@@ -6,7 +6,9 @@ import {
   GET_BACKLOG,
   ADD_BACKLOG_GAME,
   DELETE_BACKLOG_GAME,
+  ADD_WISHLIST_GAME,
   GET_WISHLIST,
+  MOVE_GAME_FROM_WISHLIST_TO_BACKLOG,
 } from "./types";
 
 export const getUser = (userId) => (dispatch) => {
@@ -47,12 +49,19 @@ export const addBacklogGame = (game) => async (dispatch) => {
     payload: game,
   });
 };
+export const addWishlistGame = (game) => async (dispatch) => {
+  axios.post("http://localhost:8080/api/wishlist/add", game);
+  dispatch({
+    type: ADD_WISHLIST_GAME,
+    payload: game,
+  });
+};
 
-export const deleteBacklogGame = (id) => async (dispatch) => {
+export const deleteBacklogGame = (id, game) => async (dispatch) => {
   await axios.post(`http://localhost:8080/api/backlog/delete/${id}`);
   dispatch({
     type: DELETE_BACKLOG_GAME,
-    payload: id,
+    payload: game,
   });
 };
 
@@ -63,4 +72,12 @@ export const getWishlist = (userId) => (dispatch) => {
       payload: res.data,
     })
   );
+};
+
+export const moveGameFromWishlistToBacklog = (id, game) => async (dispatch) => {
+  await axios.post("http://localhost:8080/api/backlog/add", game);
+  dispatch({
+    type: MOVE_GAME_FROM_WISHLIST_TO_BACKLOG,
+    payload: game,
+  });
 };

@@ -3,7 +3,7 @@ import Plate from "./Plate";
 // import axios from "axios";
 // import moment from "moment";
 // import Card from "./Card";
-import { addBacklogGame } from "../redux/actions/actions";
+import { addBacklogGame, addWishlistGame } from "../redux/actions/actions";
 import Spinner from "./Spinner";
 import Button from "./Button";
 import { connect } from "react-redux";
@@ -50,9 +50,7 @@ class Search extends React.Component {
       image: this.state.selectedGame.short_screenshots[0].image,
       userId: this.props.userId,
     };
-    axios
-      .post("http://localhost:8080/api/wishlist/add", game)
-      .then((response) => {});
+    this.props.addWishlistGame(game);
   };
 
   onGameTitleInputChange = (e) => {
@@ -224,4 +222,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { addBacklogGame })(Search);
+export default connect(mapStateToProps, { addBacklogGame, addWishlistGame })(
+  Search
+);

@@ -48,19 +48,19 @@ class Wishlist extends React.Component {
       id: game.id,
     };
 
-    await axios
-      .post("http://localhost:8080/api/backlog/add", gameObject)
-      .then(axios.post("http://localhost:8080/api/wishlist/delete", gameId))
-      .then((response) => {
-        console.log(response);
-      });
-    axios
-      .get(`http://localhost:8080/api/wishlist/list/${this.props.userId}`)
-      .then((response) => {
-        this.setState({
-          games: response.data,
-        });
-      });
+    // await axios
+    //   .post("http://localhost:8080/api/backlog/add", gameObject)
+    //   .then(axios.post("http://localhost:8080/api/wishlist/delete", gameId))
+    //   .then((response) => {
+    //     console.log(response);
+    //   });
+    // axios
+    //   .get(`http://localhost:8080/api/wishlist/list/${this.props.userId}`)
+    //   .then((response) => {
+    //     this.setState({
+    //       games: response.data,
+    //     });
+    //   });
   };
 
   handlePlateSelection() {

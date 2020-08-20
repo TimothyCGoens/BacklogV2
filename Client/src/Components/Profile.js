@@ -6,6 +6,7 @@ import {
   getBacklog,
   getWishlist,
   deleteBacklogGame,
+  moveGameFromWishlistToBacklog,
 } from "../redux/actions/actions";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
@@ -18,24 +19,27 @@ class Profile extends React.Component {
     this.props.getWishlist(this.props.userId);
   }
 
-  handleDeleteClick = (id) => {
+  handleDeleteClick = (id, game) => {
     console.log("clicked");
     console.log(id);
 
-    this.props.deleteBacklogGame(id);
+    this.props.deleteBacklogGame(id, game);
+  };
+  handleMoveClick = (id, game) => {
+    this.props.moveGameFromWishlistToBacklog(id, game);
   };
 
   renderBacklog() {
-    return this.props.backlog.map(({ id, title, image }) => {
+    return this.props.backlog.map((game) => {
       return (
-        <div key={id}>
+        <div key={game.id}>
           <Plate
-            image={image}
-            name={title}
+            image={game.image}
+            name={game.title}
             // clicked={() => this.handlePlateSelection(game.guid)}
           />
           <button onClick={this.handleCompletedClick}>Completed</button>
-          <button onClick={this.handleDeleteClick.bind(this, id)}>
+          <button onClick={this.handleDeleteClick.bind(this, game.id, game)}>
             Delete
           </button>
         </div>
@@ -46,12 +50,18 @@ class Profile extends React.Component {
   renderWishlist() {
     return this.props.wishlist.map((game) => {
       return (
-        <Plate
-          key={game.id}
-          image={game.image}
-          name={game.title}
-          clicked={() => this.handlePlateSelection(game.guid)}
-        />
+        <div>
+          <Plate
+            key={game.id}
+            image={game.image}
+            name={game.title}
+            clicked={() => this.handlePlateSelection(game.guid)}
+          />
+          <button onClick={this.handleCompletedClick}>Completed</button>
+          <button onClick={this.handleMoveClick.bind(this, game.id, game)}>
+            Move To Backlog
+          </button>
+        </div>
       );
     });
   }
@@ -93,4 +103,5 @@ export default connect(mapStateToProps, {
   getBacklog,
   getWishlist,
   deleteBacklogGame,
+  moveGameFromWishlistToBacklog,
 })(Profile);
