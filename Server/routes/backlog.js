@@ -15,7 +15,6 @@ router.post("/add", async (req, res) => {
   };
   await models.Backlogs.create(game);
   res.json(game);
-  console.log(game);
 });
 
 router.post("/delete/:id", async (req, res) => {

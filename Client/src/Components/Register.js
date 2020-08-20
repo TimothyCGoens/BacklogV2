@@ -19,12 +19,9 @@ const Register = () => {
       setUserNames(usernames);
     });
   }, []);
-  console.log(userNames);
 
   const { register, errors, handleSubmit } = useForm();
   const onSubmit = async (data) => {
-    console.log(data);
-    console.log(data.firstName);
     if (usersEmail.includes(data.email)) {
       setEmailMessage("This email is already in use.");
     }
@@ -42,7 +39,6 @@ const Register = () => {
       await axios
         .post("http://localhost:8080/api/register/new", user)
         .then((response) => {
-          console.log(response);
           history.push("/login");
         });
     }

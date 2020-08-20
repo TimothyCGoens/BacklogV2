@@ -62,11 +62,11 @@ class Login extends Component {
         })
         .then((response) => {
           let token = response.data.token;
-          let userID = response.data.id;
+          let userId = response.data.id;
           localStorage.setItem("jsonwebtoken", token);
-          this.props.onAuthenticated(token, userID);
+          this.props.onAuthenticated(token, userId);
           setAuthenticationHeader(token);
-          history.push(`/profile/${userID}`);
+          history.push(`/profile/${userId}`);
         })
         .catch((err) => console.log(err));
     }

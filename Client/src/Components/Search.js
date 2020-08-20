@@ -3,6 +3,7 @@ import Plate from "./Plate";
 // import axios from "axios";
 // import moment from "moment";
 // import Card from "./Card";
+import { addBacklogGame } from "../redux/actions/actions";
 import Spinner from "./Spinner";
 import Button from "./Button";
 import { connect } from "react-redux";
@@ -40,11 +41,7 @@ class Search extends React.Component {
       image: this.state.selectedGame.short_screenshots[0].image,
       userId: this.props.userId,
     };
-    axios
-      .post("http://localhost:8080/api/backlog/add", game)
-      .then((response) => {
-        console.log(response);
-      });
+    this.props.addBacklogGame(game);
   };
 
   handleAddToWishlist = () => {
@@ -55,10 +52,7 @@ class Search extends React.Component {
     };
     axios
       .post("http://localhost:8080/api/wishlist/add", game)
-      .then((response) => {
-        console.log(response);
-      });
-    //don't forget the API this time asshole
+      .then((response) => {});
   };
 
   onGameTitleInputChange = (e) => {
@@ -78,7 +72,6 @@ class Search extends React.Component {
     this.setState({
       games: response.data.results,
     });
-    console.log(this.state.games);
   };
 
   handlePlateSelection = async (index) => {
@@ -92,11 +85,6 @@ class Search extends React.Component {
       image: game.short_screenshots[0].image,
       screenshots: game.short_screenshots,
     });
-    console.log(this.state.releaseDate);
-    console.log(this.state.genres);
-    console.log(this.state.platforms);
-    console.log(this.state.stores);
-    console.log(this.state.screenshots);
   };
 
   renderPlate() {
@@ -236,4 +224,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Search);
+export default connect(mapStateToProps, { addBacklogGame })(Search);

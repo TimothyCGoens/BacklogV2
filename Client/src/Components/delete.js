@@ -23,8 +23,6 @@ const Login = () => {
 
   const { register, errors, handleSubmit } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
-    console.log(data.username);
     if (!userNames.includes(data.username)) {
       setUserNameMessage("I'm sorry, that username doesn't exist");
     }
@@ -37,7 +35,6 @@ const Login = () => {
           password: data.password,
         })
         .then((response) => {
-          console.log(response);
           let token = response.data.token;
           let userID = response.data.id;
           localStorage.setItem("jsonwebtoken", token);

@@ -35,7 +35,6 @@ class Backlog extends React.Component {
     await axios
       .get(`http://localhost:8080/api/backlog/list/${this.props.userId}`)
       .then((response) => {
-        console.log(response.data);
         this.setState({
           games: response.data,
         });
