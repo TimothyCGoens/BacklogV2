@@ -28,7 +28,6 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case LOG_IN:
-      console.log(action.userId);
       return {
         ...state,
         isAuthenticated: action.token != null ? true : false,
@@ -97,13 +96,11 @@ export default function (state = initialState, action) {
         wishlist: state.wishlist.filter((game) => game !== action.payload),
       };
     case DELETE_WISHLIST_GAME_DB:
-      console.log(action.payload);
       return {
         ...state,
       };
 
     case MOVE_GAME_FROM_WISHLIST_TO_BACKLOG:
-      console.log(action.payload);
       return {
         ...state,
         backlog: [action.payload, ...state.backlog],
@@ -111,7 +108,6 @@ export default function (state = initialState, action) {
       };
 
     case MOVE_GAME_FROM_BACKLOG_TO_COMPLETED:
-      console.log(action.payload);
       return {
         ...state,
         completed: [action.payload, ...state.completed],

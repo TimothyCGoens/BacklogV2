@@ -31,7 +31,17 @@ class Search extends React.Component {
       genres: [],
       stores: [],
       screenshots: [],
+      searchMessage: "",
+      backlogTitles: [],
+      wishlistTitles: [],
+      completedTitles: [],
     };
+  }
+
+  componentDidMount() {
+    this.getBacklogTitles();
+    this.getWishlistTitles();
+    this.getCompletedTitles();
   }
 
   resetGameSelection = () => {
@@ -46,15 +56,27 @@ class Search extends React.Component {
       image: this.state.selectedGame.short_screenshots[0].image,
       userId: this.props.userId,
     };
-    this.props.addBacklogGame(game);
+    if (this.backlogTitles.includes(this.state.gameTitle)) {
+      this.setState({
+        searchMessage: "This game is already in your backlog",
+      });
+    } else {
+      this.props.addBacklogGame(game);
+    }
   };
 
   handleAddToWishlist = () => {
+    console.log(this.state.wishlistTitles);
     const game = {
       title: this.state.selectedGame.name,
       image: this.state.selectedGame.short_screenshots[0].image,
       userId: this.props.userId,
     };
+    // if (this.state.wishlistTitles.includes(this.state.gameTitle)) {
+    //   this.setState({
+    //     searchMessage: "This game is already in your wishlist",
+    //   });
+    // } else {
     this.props.addWishlistGame(game);
   };
 
@@ -64,9 +86,39 @@ class Search extends React.Component {
     });
   };
 
+  getBacklogTitles = () => {
+    this.props.backlog.map((game) =>
+      this.setState({
+        backlogTitles: this.state.backlogTitles.push(game.title),
+      })
+    );
+    console.log(this.state.backlogTitles);
+  };
+  getWishlistTitles = () => {
+    this.props.wishlist.map((game) =>
+      this.setState({
+        wishlistTitles: this.state.wishlistTitles.push(game.title),
+      })
+    );
+    console.log(this.state.wishlistTitles);
+  };
+  getCompletedTitles = () => {
+    this.props.completed.map((game) =>
+      this.setState({
+        completedTitles: this.state.completedTitles.push(game.title),
+      })
+    );
+    console.log(this.state.completedTitles);
+  };
+
   onFormSubmit = async (e) => {
     e.preventDefault();
 
+    // else if (this.props.completedTitles.includes(this.state.gameTitle)) {
+    //       this.setState({
+    //         searchMessage: "You have already completed this game!",
+    //       });
+    //     }
     const response = await rawg.get("/games", {
       params: {
         search: this.state.gameTitle,
@@ -215,6 +267,7 @@ class Search extends React.Component {
               />
               <Button label="Back" clicked={this.resetGameSelection} />
             </div>
+            <p className="validation-error">{this.state.searchMessage}</p>
           </div>
         ) : null}
       </div>

@@ -17,7 +17,7 @@ class Nav extends React.Component {
     return (
       <div className="nav">
         <nav>
-          <h1 className="app-header">Backlog App</h1>
+          <h1 className="app-header">BVCK/LOG</h1>
           <ul className="navbar">
             {!this.props.isAuthenticated ? (
               <Link className="link-style" to="/register">
@@ -30,9 +30,11 @@ class Nav extends React.Component {
                 <li>Profile</li>
               </Link>
             ) : null}
-            <Link className="link-style" to="/search">
-              <li>Search</li>
-            </Link>
+            {this.props.isAuthenticated ? (
+              <Link className="link-style" to="/search">
+                <li>Search</li>
+              </Link>
+            ) : null}
             {!this.props.isAuthenticated ? (
               <Link className="link-style" to="login">
                 <li>Log in</li>
