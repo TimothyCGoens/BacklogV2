@@ -16,8 +16,8 @@ router.post("/add", async (req, res) => {
   res.json(game);
 });
 
-router.post("/delete", async (req, res) => {
-  let id = req.body.id;
+router.post("/delete/:id", async (req, res) => {
+  let id = req.params.id;
   models.Wishlists.destroy({
     where: {
       id: id,

@@ -38,16 +38,14 @@ class Wishlist extends React.Component {
   };
 
   handleMoveToBacklogClick = async (game) => {
-    const gameObject = {
-      userId: this.props.userId,
-      image: game.image,
-      title: game.title,
-    };
-
-    const gameId = {
-      id: game.id,
-    };
-
+    // const gameObject = {
+    //   userId: this.props.userId,
+    //   image: game.image,
+    //   title: game.title,
+    // };
+    // const gameId = {
+    //   id: game.id,
+    // };
     // await axios
     //   .post("http://localhost:8080/api/backlog/add", gameObject)
     //   .then(axios.post("http://localhost:8080/api/wishlist/delete", gameId))

@@ -5,8 +5,14 @@ import {
   getUser,
   getBacklog,
   getWishlist,
-  deleteBacklogGame,
+  deleteBacklogGameState,
+  deleteBacklogGameDB,
+  getCompleted,
+  addCompletedGame,
+  deleteWishlistGameState,
+  deleteWishlistGameDB,
   moveGameFromWishlistToBacklog,
+  moveGameFromBacklogToCompleted,
 } from "../redux/actions/actions";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
@@ -20,25 +26,28 @@ class Profile extends React.Component {
   }
 
   handleDeleteClick = (id, game) => {
-    console.log("clicked");
-    console.log(id);
-
-    this.props.deleteBacklogGame(id, game);
+    this.props.deleteBacklogGameState(game);
+    this.props.deleteBacklogGameDB(id);
   };
   handleMoveClick = (id, game) => {
-    this.props.moveGameFromWishlistToBacklog(id, game);
+    this.props.moveGameFromWishlistToBacklog(game);
+    this.props.deleteWishlistGameDB(id);
+  };
+
+  handleCompletedClick = (id, game) => {
+    this.props.moveGameFromBacklogToCompleted(game);
+    this.props.deleteBacklogGameDB(id);
+    this.props.addCompletedGame(game);
   };
 
   renderBacklog() {
     return this.props.backlog.map((game) => {
       return (
         <div key={game.id}>
-          <Plate
-            image={game.image}
-            name={game.title}
-            // clicked={() => this.handlePlateSelection(game.guid)}
-          />
-          <button onClick={this.handleCompletedClick}>Completed</button>
+          <Plate image={game.image} name={game.title} />
+          <button onClick={this.handleCompletedClick.bind(this, game.id, game)}>
+            Completed
+          </button>
           <button onClick={this.handleDeleteClick.bind(this, game.id, game)}>
             Delete
           </button>
@@ -50,17 +59,20 @@ class Profile extends React.Component {
   renderWishlist() {
     return this.props.wishlist.map((game) => {
       return (
-        <div>
-          <Plate
-            key={game.id}
-            image={game.image}
-            name={game.title}
-            clicked={() => this.handlePlateSelection(game.guid)}
-          />
-          <button onClick={this.handleCompletedClick}>Completed</button>
+        <div key={game.id}>
+          <Plate image={game.image} name={game.title} />
           <button onClick={this.handleMoveClick.bind(this, game.id, game)}>
             Move To Backlog
           </button>
+        </div>
+      );
+    });
+  }
+  renderCompleted() {
+    return this.props.completed.map((game) => {
+      return (
+        <div key={game.id}>
+          <Plate image={game.image} name={game.title} />
         </div>
       );
     });
@@ -80,9 +92,7 @@ class Profile extends React.Component {
           <TabPanel></TabPanel>
           <TabPanel>{this.renderBacklog()}</TabPanel>
           <TabPanel>{this.renderWishlist()}</TabPanel>
-          <TabPanel>
-            <h2>Completed</h2>
-          </TabPanel>
+          <TabPanel>{this.renderCompleted()}</TabPanel>
         </Tabs>
       </div>
     );
@@ -95,6 +105,7 @@ const mapStateToProps = (state) => {
     user: state.user,
     backlog: state.backlog,
     wishlist: state.wishlist,
+    completed: state.completed,
   };
 };
 
@@ -102,6 +113,12 @@ export default connect(mapStateToProps, {
   getUser,
   getBacklog,
   getWishlist,
-  deleteBacklogGame,
+  getCompleted,
+  deleteBacklogGameState,
+  deleteBacklogGameDB,
+  deleteWishlistGameDB,
+  deleteWishlistGameState,
   moveGameFromWishlistToBacklog,
+  moveGameFromBacklogToCompleted,
+  addCompletedGame,
 })(Profile);

@@ -1,15 +1,16 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  const Completed = sequelize.define("Completed", {
+  const Completeds = sequelize.define("Completeds", {
     title: DataTypes.STRING,
     startDate: DataTypes.DATE,
+    image: DataTypes.STRING,
   });
-  Completed.associate = function (models) {
-    Completed.belongsTo(models.Users, {
+  Completeds.associate = function (models) {
+    Completeds.belongsTo(models.Users, {
       as: "user",
       foreignKey: "id",
       onDelete: "CASCADE",
     });
   };
-  return Completed;
+  return Completeds;
 };

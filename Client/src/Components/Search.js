@@ -3,13 +3,18 @@ import Plate from "./Plate";
 // import axios from "axios";
 // import moment from "moment";
 // import Card from "./Card";
-import { addBacklogGame, addWishlistGame } from "../redux/actions/actions";
+import {
+  addBacklogGame,
+  addWishlistGame,
+  getBacklog,
+  getWishlist,
+  getCompleted,
+} from "../redux/actions/actions";
 import Spinner from "./Spinner";
 import Button from "./Button";
 import { connect } from "react-redux";
 import rawg from "../apis/rawg";
 import "./search.css";
-import axios from "axios";
 
 class Search extends React.Component {
   constructor() {
@@ -219,9 +224,16 @@ class Search extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userId: state.userId,
+    backlog: state.backlog,
+    wishlist: state.wishlist,
+    completed: state.completed,
   };
 };
 
-export default connect(mapStateToProps, { addBacklogGame, addWishlistGame })(
-  Search
-);
+export default connect(mapStateToProps, {
+  addBacklogGame,
+  addWishlistGame,
+  getBacklog,
+  getWishlist,
+  getCompleted,
+})(Search);
