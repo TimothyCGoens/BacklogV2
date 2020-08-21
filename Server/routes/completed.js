@@ -3,13 +3,17 @@ const router = express.Router();
 const models = require("../models");
 
 router.post("/add", async (req, res) => {
+  console.log("*************");
+  console.log(req.body);
   let title = req.body.title;
   let startDate = req.body.createdAt;
   let userId = req.body.userId;
+  let image = req.body.image;
 
   let game = {
     userId: userId,
     title: title,
+    image: image,
     startDate: startDate,
   };
 

@@ -58,7 +58,6 @@ export default function (state = initialState, action) {
         completed: action.payload,
       };
     case GET_BACKLOG:
-      console.log(action.payload);
       return {
         ...state,
         backlog: action.payload,
@@ -80,7 +79,6 @@ export default function (state = initialState, action) {
     //   console.log(action.payload);
     //   return {
     //     ...state,
-    //     completed: [action.payload, ...state.completed],
     //   };
 
     case DELETE_BACKLOG_GAME_STATE:
@@ -105,6 +103,7 @@ export default function (state = initialState, action) {
       };
 
     case MOVE_GAME_FROM_WISHLIST_TO_BACKLOG:
+      console.log(action.payload);
       return {
         ...state,
         backlog: [action.payload, ...state.backlog],

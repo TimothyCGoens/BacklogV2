@@ -23,11 +23,16 @@ class Profile extends React.Component {
     this.props.getUser(this.props.userId);
     this.props.getBacklog(this.props.userId);
     this.props.getWishlist(this.props.userId);
+    this.props.getCompleted(this.props.userId);
   }
 
-  handleDeleteClick = (id, game) => {
-    this.props.deleteBacklogGameState(game);
+  handleBacklogDeleteClick = (id, game) => {
     this.props.deleteBacklogGameDB(id);
+    this.props.deleteBacklogGameState(game);
+  };
+  handleWishlistDeleteClick = (id, game) => {
+    this.props.deleteWishlistGameDB(id);
+    this.props.deleteWishlistGameState(game);
   };
   handleMoveClick = (id, game) => {
     this.props.moveGameFromWishlistToBacklog(game);
@@ -35,9 +40,9 @@ class Profile extends React.Component {
   };
 
   handleCompletedClick = (id, game) => {
-    this.props.moveGameFromBacklogToCompleted(game);
+    console.log(game);
     this.props.deleteBacklogGameDB(id);
-    this.props.addCompletedGame(game);
+    this.props.moveGameFromBacklogToCompleted(game);
   };
 
   renderBacklog() {
@@ -48,7 +53,8 @@ class Profile extends React.Component {
           <button onClick={this.handleCompletedClick.bind(this, game.id, game)}>
             Completed
           </button>
-          <button onClick={this.handleDeleteClick.bind(this, game.id, game)}>
+          <button
+            onClick={this.handleBacklogDeleteClick.bind(this, game.id, game)}>
             Delete
           </button>
         </div>
@@ -63,6 +69,10 @@ class Profile extends React.Component {
           <Plate image={game.image} name={game.title} />
           <button onClick={this.handleMoveClick.bind(this, game.id, game)}>
             Move To Backlog
+          </button>
+          <button
+            onClick={this.handleWishlistDeleteClick.bind(this, game.id, game)}>
+            Delete
           </button>
         </div>
       );
@@ -90,9 +100,29 @@ class Profile extends React.Component {
           </TabList>
 
           <TabPanel></TabPanel>
-          <TabPanel>{this.renderBacklog()}</TabPanel>
-          <TabPanel>{this.renderWishlist()}</TabPanel>
-          <TabPanel>{this.renderCompleted()}</TabPanel>
+
+          <TabPanel>
+            {this.props.backlog.length < 1 ? (
+              <h1>Please add some games to your backlog!</h1>
+            ) : (
+              this.renderBacklog()
+            )}
+          </TabPanel>
+          <TabPanel>
+            {this.props.wishlist.length < 1 ? (
+              <h1>Please add some games to your wishlist!</h1>
+            ) : (
+              this.renderWishlist()
+            )}
+          </TabPanel>
+
+          <TabPanel>
+            {this.props.completed.length > 1 ? (
+              <h1>You haven't completed any games yet!</h1>
+            ) : (
+              this.renderCompleted()
+            )}
+          </TabPanel>
         </Tabs>
       </div>
     );

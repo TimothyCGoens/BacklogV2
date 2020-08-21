@@ -24,11 +24,7 @@ class Nav extends React.Component {
                 <li>Register</li>
               </Link>
             ) : null}
-            {!this.props.isAuthenticated ? (
-              <Link className="link-style" to="/login">
-                <li>Log In</li>
-              </Link>
-            ) : null}
+
             {this.props.isAuthenticated ? (
               <Link className="link-style" to="/profile">
                 <li>Profile</li>
@@ -37,11 +33,15 @@ class Nav extends React.Component {
             <Link className="link-style" to="/search">
               <li>Search</li>
             </Link>
-            {this.props.isAuthenticated ? (
-              <Link className="link-style" to="">
-                <li onClick={this.handleLogoutClick}>Logout</li>
+            {!this.props.isAuthenticated ? (
+              <Link className="link-style" to="login">
+                <li>Log in</li>
               </Link>
-            ) : null}
+            ) : (
+              <Link className="link-style" to="/">
+                <li onClick={this.handleLogoutClick}>Log Out</li>
+              </Link>
+            )}
           </ul>
         </nav>
       </div>
@@ -56,7 +56,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLogout: () => dispatch({ type: "LOGOUT" }),
+    onLogout: () => dispatch({ type: "LOG_OUT" }),
   };
 };
 
