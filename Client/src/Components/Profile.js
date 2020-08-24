@@ -96,7 +96,7 @@ class Profile extends React.Component {
             <Tab>User Info</Tab>
             <Tab>Backlog</Tab>
             <Tab>Wish List</Tab>
-            <Tab>Completed</Tab>
+            <Tab>Completed Games</Tab>
           </TabList>
 
           <TabPanel></TabPanel>
@@ -117,7 +117,7 @@ class Profile extends React.Component {
           </TabPanel>
 
           <TabPanel>
-            {this.props.completed.length > 1 ? (
+            {this.props.completed.length < 1 ? (
               <h1>You haven't completed any games yet!</h1>
             ) : (
               this.renderCompleted()
