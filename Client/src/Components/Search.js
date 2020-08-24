@@ -1,5 +1,6 @@
 import React from "react";
 import Plate from "./Plate";
+import { v4 as uuidv4 } from "uuid";
 // import axios from "axios";
 // import moment from "moment";
 // import Card from "./Card";
@@ -39,9 +40,28 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
-    this.getBacklogTitles();
-    this.getWishlistTitles();
-    this.getCompletedTitles();
+    const backlogArray = [];
+    // this.getBacklogTitles();
+    // this.getWishlistTitles();
+    // this.getCompletedTitles();
+
+    this.props.backlog.map((game) =>
+      // this.setState({
+      //   backlogTitles: this.state.backlogTitles.push(game.title),
+      // })
+      backlogArray.push(game.title)
+    );
+    console.log(backlogArray);
+    this.setState({
+      backlogTitles: backlogArray,
+    });
+
+    this.props.wishlist.map((game) =>
+      this.setState({
+        wishlistTitles: this.state.wishlistTitles.push(game.title),
+      })
+    );
+    console.log(this.state.wishlistTitles);
   }
 
   resetGameSelection = () => {
@@ -51,12 +71,14 @@ class Search extends React.Component {
   };
 
   handleAddToBacklog = () => {
+    console.log(this.state.backlogTitles);
     const game = {
       title: this.state.selectedGame.name,
       image: this.state.selectedGame.short_screenshots[0].image,
       userId: this.props.userId,
     };
-    if (this.backlogTitles.includes(this.state.gameTitle)) {
+    console.log(this.state.gameTitle);
+    if (this.state.backlogTitles.includes(this.state.gameTitle)) {
       this.setState({
         searchMessage: "This game is already in your backlog",
       });
@@ -72,12 +94,13 @@ class Search extends React.Component {
       image: this.state.selectedGame.short_screenshots[0].image,
       userId: this.props.userId,
     };
-    // if (this.state.wishlistTitles.includes(this.state.gameTitle)) {
-    //   this.setState({
-    //     searchMessage: "This game is already in your wishlist",
-    //   });
-    // } else {
-    this.props.addWishlistGame(game);
+    if (this.state.wishlistTitles.includes(this.state.gameTitle)) {
+      this.setState({
+        searchMessage: "This game is already in your wishlist",
+      });
+    } else {
+      this.props.addWishlistGame(game);
+    }
   };
 
   onGameTitleInputChange = (e) => {
@@ -86,22 +109,15 @@ class Search extends React.Component {
     });
   };
 
-  getBacklogTitles = () => {
-    this.props.backlog.map((game) =>
-      this.setState({
-        backlogTitles: this.state.backlogTitles.push(game.title),
-      })
-    );
-    console.log(this.state.backlogTitles);
-  };
-  getWishlistTitles = () => {
-    this.props.wishlist.map((game) =>
-      this.setState({
-        wishlistTitles: this.state.wishlistTitles.push(game.title),
-      })
-    );
-    console.log(this.state.wishlistTitles);
-  };
+  // getBacklogTitles = () => {
+  //   this.props.backlog.map((game) =>
+  //     this.setState({
+  //       backlogTitles: this.state.backlogTitles.push(game.title),
+  //     })
+  //   );
+  //   console.log(this.state.backlogTitles);
+  // };
+
   getCompletedTitles = () => {
     this.props.completed.map((game) =>
       this.setState({
@@ -170,11 +186,11 @@ class Search extends React.Component {
   }
 
   render() {
-    const genres = this.state.genres.map((genre) => {
+    const genres = this.state.genres.map((genre, index) => {
       if (this.state.genres === null || this.state.genres.length === 0) {
         return <p>Info not Available</p>;
       } else {
-        return <p>{genre.name}</p>;
+        return <p key={uuidv4()}>{genre.name}</p>;
       }
     });
 
@@ -182,7 +198,7 @@ class Search extends React.Component {
       if (this.state.platforms === null || this.state.platforms.length === 0) {
         return <p>Info not Available</p>;
       } else {
-        return <p>{platform.platform.name}</p>;
+        return <p key={uuidv4()}>{platform.platform.name}</p>;
       }
     });
 
@@ -190,7 +206,7 @@ class Search extends React.Component {
       if (this.state.stores === null || this.state.stores.length === 0) {
         return <p>Info Not Available</p>;
       } else {
-        return <p>{store.store.name}</p>;
+        return <p key={uuidv4()}>{store.store.name}</p>;
       }
     });
     // const image = this.state.screenshots.map((image) => {
