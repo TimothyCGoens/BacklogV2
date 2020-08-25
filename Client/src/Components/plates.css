@@ -7,7 +7,8 @@
   width: 100%;
 }
 .title {
-  font-size: 20px;
+  font-size: 25px;
+  font-weight: bold;
 }
 .image {
   object-fit: cover;
@@ -21,21 +22,23 @@
 .plate {
   /* box-shadow: 1px 1px 3px #3e3c3c; */
   width: 400px;
-  height: 400px;
-  background-color: #789;
-  border: 3px solid #789;
+  height: 350px;
+  background-color: #15191f;
+  border: 2px solid #789;
   border-radius: 7px;
   margin: 10px;
+  color: #789;
 }
 .plate-top {
   height: 300px;
 }
 .plate-bottom {
-  height: 100px;
+  height: 0px;
+  border-radius: 7px;
 }
 
 .plate:hover {
-  border: rgb(32, 199, 32) 3px solid;
+  border: rgb(32, 199, 32) 2px solid;
   cursor: pointer;
 }
 .plate:active {

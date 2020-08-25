@@ -128,6 +128,7 @@ class Search extends React.Component {
         search: this.state.gameTitle,
       },
     });
+    console.log(response);
     this.setState({
       games: response.data.results,
       loading: false,
@@ -175,6 +176,12 @@ class Search extends React.Component {
       }
     });
   }
+
+  // renderCard() {
+  //   return this.state.games.map((game) => {
+  //     if (game.)
+  //   })
+  // }
 
   render() {
     const genres = this.state.genres.map((genre, index) => {
