@@ -9,12 +9,14 @@ router.post("/add", async (req, res) => {
   let startDate = req.body.createdAt;
   let userId = req.body.userId;
   let image = req.body.image;
+  let gameId = req.body.gameId;
 
   let game = {
     userId: userId,
     title: title,
     image: image,
     startDate: startDate,
+    gameId: gameId,
   };
 
   await models.Completeds.create(game);

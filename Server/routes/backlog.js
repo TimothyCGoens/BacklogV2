@@ -7,11 +7,13 @@ router.post("/add", async (req, res) => {
   let title = req.body.title;
   let image = req.body.image;
   let userId = req.body.userId;
+  let gameId = req.body.gameId;
 
   let game = {
     userId: userId,
     title: title,
     image: image,
+    gameId: gameId,
   };
   await models.Backlogs.create(game);
   res.json(game);

@@ -48,7 +48,7 @@ class Profile extends React.Component {
   renderBacklog() {
     return this.props.backlog.map((game) => {
       return (
-        <div key={game.id}>
+        <div key={game.gameId}>
           <Plate image={game.image} name={game.title} />
           <button onClick={this.handleCompletedClick.bind(this, game.id, game)}>
             Completed
@@ -65,7 +65,7 @@ class Profile extends React.Component {
   renderWishlist() {
     return this.props.wishlist.map((game) => {
       return (
-        <div key={game.id}>
+        <div key={game.gameId}>
           <Plate image={game.image} name={game.title} />
           <button onClick={this.handleMoveClick.bind(this, game.id, game)}>
             Move To Backlog
@@ -81,7 +81,7 @@ class Profile extends React.Component {
   renderCompleted() {
     return this.props.completed.map((game) => {
       return (
-        <div key={game.id}>
+        <div key={game.gameId}>
           <Plate image={game.image} name={game.title} />
         </div>
       );

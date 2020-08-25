@@ -30,11 +30,9 @@ class Nav extends React.Component {
                 <li>Profile</li>
               </Link>
             ) : null}
-            {this.props.isAuthenticated ? (
-              <Link className="link-style" to="/search">
-                <li>Search</li>
-              </Link>
-            ) : null}
+            <Link className="link-style" to="/search">
+              <li>Search</li>
+            </Link>
             {!this.props.isAuthenticated ? (
               <Link className="link-style" to="login">
                 <li>Log in</li>

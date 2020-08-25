@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     startDate: DataTypes.DATE,
     image: DataTypes.STRING,
     userId: DataTypes.INTEGER,
+    gameId: DataTypes.INTEGER,
   });
   Completeds.associate = function (models) {
     Completeds.belongsTo(models.Users, {

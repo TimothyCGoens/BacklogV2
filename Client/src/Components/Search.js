@@ -1,7 +1,8 @@
 import React from "react";
 import Plate from "./Plate";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 // import moment from "moment";
 // import Card from "./Card";
 import {
@@ -11,7 +12,6 @@ import {
   getWishlist,
   getCompleted,
 } from "../redux/actions/actions";
-import Spinner from "./Spinner";
 import Button from "./Button";
 import { connect } from "react-redux";
 import rawg from "../apis/rawg";
@@ -28,6 +28,7 @@ class Search extends React.Component {
 
     this.state = {
       gameTitle: "",
+      gameId: null,
       games: [],
       selectedGame: "",
       title: "",
@@ -36,6 +37,7 @@ class Search extends React.Component {
       platforms: [],
       genres: [],
       stores: [],
+      loading: false,
       screenshots: [],
       searchMessage: "",
       backlogTitles: [],
@@ -45,43 +47,40 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
-    this.props.backlog.map((game) => backlogArray.push(game));
-    this.props.wishlist.map((game) => wishlistArray.push(game));
-    this.props.completed.map((game) => completedArray.push(game));
-
-    console.log(backlogArray);
-    console.log(wishlistArray);
-    console.log(completedArray);
-
-    this.setState({
-      backlogTitles: backlogArray,
-    });
+    this.props.backlog.map((game) => backlogArray.push(game.gameId));
+    this.props.wishlist.map((game) => wishlistArray.push(game.gameId));
+    this.props.completed.map((game) => completedArray.push(game.gameId));
   }
+
+  setLoading = () => {
+    this.setState({
+      loading: true,
+    });
+  };
 
   resetGameSelection = () => {
     this.setState({
       selectedGame: "",
+      searchMessage: "",
     });
   };
 
   handleAddToBacklog = () => {
-    console.log(this.state.backlogTitles);
-    console.log(backlogArray);
     const game = {
       title: this.state.selectedGame.name,
       image: this.state.selectedGame.short_screenshots[0].image,
       userId: this.props.userId,
+      gameId: this.state.gameId,
     };
-    console.log(this.state.gameTitle);
-    if (backlogArray.includes(this.state.gameTitle)) {
+    if (backlogArray.includes(game.gameId)) {
       this.setState({
         searchMessage: "This game is already in your backlog",
       });
-    } else if (wishlistArray.includes(this.state.gameTitle)) {
+    } else if (wishlistArray.includes(game.gameId)) {
       this.setState({
-        searchMessage: "This game is already in your wishlist",
+        seachMessage: "This game is already on your wishlist",
       });
-    } else if (completedArray.includes(this.state.gameTitle)) {
+    } else if (completedArray.includes(game.gameId)) {
       this.setState({
         searchMessage: "You have already completed this game",
       });
@@ -96,10 +95,19 @@ class Search extends React.Component {
       title: this.state.selectedGame.name,
       image: this.state.selectedGame.short_screenshots[0].image,
       userId: this.props.userId,
+      gameId: this.state.gameId,
     };
-    if (this.state.wishlistTitles.includes(this.state.gameTitle)) {
+    if (backlogArray.includes(game.gameId)) {
       this.setState({
-        searchMessage: "This game is already in your wishlist",
+        searchMessage: "This game is already in your backlog",
+      });
+    } else if (wishlistArray.includes(game.gameId)) {
+      this.setState({
+        seachMessage: "This game is already on your wishlist",
+      });
+    } else if (completedArray.includes(game.gameId)) {
+      this.setState({
+        searchMessage: "You have already completed this game",
       });
     } else {
       this.props.addWishlistGame(game);
@@ -112,24 +120,6 @@ class Search extends React.Component {
     });
   };
 
-  // getBacklogTitles = () => {
-  //   this.props.backlog.map((game) =>
-  //     this.setState({
-  //       backlogTitles: this.state.backlogTitles.push(game.title),
-  //     })
-  //   );
-  //   console.log(this.state.backlogTitles);
-  // };
-
-  getCompletedTitles = () => {
-    this.props.completed.map((game) =>
-      this.setState({
-        completedTitles: this.state.completedTitles.push(game.title),
-      })
-    );
-    console.log(this.state.completedTitles);
-  };
-
   onFormSubmit = async (e) => {
     e.preventDefault();
 
@@ -140,6 +130,7 @@ class Search extends React.Component {
     });
     this.setState({
       games: response.data.results,
+      loading: false,
     });
     console.log(this.state.games);
   };
@@ -154,6 +145,7 @@ class Search extends React.Component {
       stores: game.stores,
       image: game.short_screenshots[0].image,
       screenshots: game.short_screenshots,
+      gameId: game.id,
     });
   };
 
@@ -202,7 +194,7 @@ class Search extends React.Component {
     });
 
     const stores = this.state.stores.map((store) => {
-      if (this.state.stores === null || this.state.stores.length === 0) {
+      if (this.state.store === null || this.state.stores.length === 0) {
         return <p>Info Not Available</p>;
       } else {
         return <p key={uuidv4()}>{store.store.name}</p>;
@@ -235,14 +227,20 @@ class Search extends React.Component {
                   autoComplete="off"
                   type="text"
                 />
-                <button>Search</button>
+                <button onClick={this.setLoading}>Search</button>
               </div>
             </form>
           </div>
         ) : null}
 
-        {!this.state.games ? (
-          <Spinner />
+        {this.state.loading === true ? (
+          <Loader
+            type="ThreeDots"
+            color="#789"
+            height={100}
+            width={100}
+            // timeout={3000} //3 secs
+          />
         ) : !this.state.selectedGame ? (
           <div className="search-results">{this.renderPlate()}</div>
         ) : this.state.selectedGame ? (
