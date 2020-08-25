@@ -8,11 +8,20 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      userId: {
+        type: Sequelize.INTEGER,
+      },
+      gameId: {
+        type: Sequelize.INTEGER,
+      },
       title: {
         type: Sequelize.STRING,
       },
       startDate: {
         type: Sequelize.DATE,
+      },
+      image: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

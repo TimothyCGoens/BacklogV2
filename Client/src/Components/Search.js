@@ -1,7 +1,7 @@
 import React from "react";
 import Plate from "./Plate";
 import { v4 as uuidv4 } from "uuid";
-// import axios from "axios";
+import axios from "axios";
 // import moment from "moment";
 // import Card from "./Card";
 import {
@@ -16,6 +16,11 @@ import Button from "./Button";
 import { connect } from "react-redux";
 import rawg from "../apis/rawg";
 import "./search.css";
+
+// const API_KEY = "cd0734796a214467cf5c613de3bfc971";
+const backlogArray = [];
+const wishlistArray = [];
+const completedArray = [];
 
 class Search extends React.Component {
   constructor() {
@@ -40,28 +45,17 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
-    const backlogArray = [];
-    // this.getBacklogTitles();
-    // this.getWishlistTitles();
-    // this.getCompletedTitles();
+    this.props.backlog.map((game) => backlogArray.push(game));
+    this.props.wishlist.map((game) => wishlistArray.push(game));
+    this.props.completed.map((game) => completedArray.push(game));
 
-    this.props.backlog.map((game) =>
-      // this.setState({
-      //   backlogTitles: this.state.backlogTitles.push(game.title),
-      // })
-      backlogArray.push(game.title)
-    );
     console.log(backlogArray);
+    console.log(wishlistArray);
+    console.log(completedArray);
+
     this.setState({
       backlogTitles: backlogArray,
     });
-
-    this.props.wishlist.map((game) =>
-      this.setState({
-        wishlistTitles: this.state.wishlistTitles.push(game.title),
-      })
-    );
-    console.log(this.state.wishlistTitles);
   }
 
   resetGameSelection = () => {
@@ -72,15 +66,24 @@ class Search extends React.Component {
 
   handleAddToBacklog = () => {
     console.log(this.state.backlogTitles);
+    console.log(backlogArray);
     const game = {
       title: this.state.selectedGame.name,
       image: this.state.selectedGame.short_screenshots[0].image,
       userId: this.props.userId,
     };
     console.log(this.state.gameTitle);
-    if (this.state.backlogTitles.includes(this.state.gameTitle)) {
+    if (backlogArray.includes(this.state.gameTitle)) {
       this.setState({
         searchMessage: "This game is already in your backlog",
+      });
+    } else if (wishlistArray.includes(this.state.gameTitle)) {
+      this.setState({
+        searchMessage: "This game is already in your wishlist",
+      });
+    } else if (completedArray.includes(this.state.gameTitle)) {
+      this.setState({
+        searchMessage: "You have already completed this game",
       });
     } else {
       this.props.addBacklogGame(game);
@@ -130,11 +133,6 @@ class Search extends React.Component {
   onFormSubmit = async (e) => {
     e.preventDefault();
 
-    // else if (this.props.completedTitles.includes(this.state.gameTitle)) {
-    //       this.setState({
-    //         searchMessage: "You have already completed this game!",
-    //       });
-    //     }
     const response = await rawg.get("/games", {
       params: {
         search: this.state.gameTitle,
@@ -143,6 +141,7 @@ class Search extends React.Component {
     this.setState({
       games: response.data.results,
     });
+    console.log(this.state.games);
   };
 
   handlePlateSelection = async (index) => {
