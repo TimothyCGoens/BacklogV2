@@ -1,11 +1,7 @@
 import React from "react";
 
-const Button = (props) => {
-  return (
-    <button className="card-backlog-button" onClick={props.clicked}>
-      {props.label}
-    </button>
-  );
+const Button = ({ onClick, title }) => {
+  return <button onClick={onClick}>{title}</button>;
 };
 
 export default Button;

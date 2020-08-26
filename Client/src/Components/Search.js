@@ -59,6 +59,7 @@ class Search extends React.Component {
   };
 
   resetGameSelection = () => {
+    console.log("clicked");
     this.setState({
       selectedGame: "",
       searchMessage: "",
@@ -239,14 +240,27 @@ class Search extends React.Component {
         ) : !this.state.selectedGame ? (
           <div className="search-results">{this.renderPlate()}</div>
         ) : this.state.selectedGame ? (
-          <Card
-            name={this.state.selectedGame.name}
-            platform={platforms}
-            genre={genres}
-            score={this.state.selectedGame.metacritic}
-            image={this.state.selectedGame.short_screenshots[0].image}
-            backlogClicked={this.resetGameSelection()}
-          />
+          <React.Fragment>
+            <Card
+              name={this.state.selectedGame.name}
+              platform={platforms}
+              genre={genres}
+              score={this.state.selectedGame.metacritic}
+              image={this.state.selectedGame.short_screenshots[0].image}></Card>
+            <div className="buttons">
+              <Button
+                onClick={this.handleAddToBacklog}
+                title="Backlog"></Button>
+              <Button
+                onClick={this.handleAddToWishlist}
+                title="Wishlist"></Button>
+              <Button
+                onClick={this.resetGameSelection}
+                title="Collection"></Button>
+              <Button onClick={this.resetGameSelection} title="Back"></Button>
+              <p className="validation-error">{this.state.searchMessage}</p>
+            </div>
+          </React.Fragment>
         ) : // <div className="card-display" key={this.state.selectedGame.id}>
         //   <div className="entire-card">
         //     <img className="card-image" alt="game" src={this.state.image} />

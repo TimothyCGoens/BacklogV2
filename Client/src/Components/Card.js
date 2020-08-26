@@ -25,12 +25,6 @@ const Card = (props) => {
           <p className="platform-styles">{props.platform}</p>
         </div>
       </div>
-      <div className="buttons">
-        <button onClick={props.backlogClicked}>Backlog</button>
-        <button onClick={props.wishlistClicked}>Wishlist</button>
-        <button onClick={props.collectionClicked}>Collection</button>
-        <button onClick={props.backClicked}>Back</button>
-      </div>
     </div>
   );
 };
