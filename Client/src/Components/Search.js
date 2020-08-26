@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 // import moment from "moment";
-// import Card from "./Card";
+import Card from "./Card";
 import {
   addBacklogGame,
   addWishlistGame,
@@ -178,9 +178,15 @@ class Search extends React.Component {
   }
 
   // renderCard() {
-  //   return this.state.games.map((game) => {
-  //     if (game.)
-  //   })
+  //   console.log(this.state.selectedGame);
+
+  //   return (
+  //     <Card
+  //       name={this.state.selectedGame.name}
+  //       platform={platforms}
+  //       image={game.image}
+  //     />
+  //   );
   // }
 
   render() {
@@ -199,24 +205,6 @@ class Search extends React.Component {
         return <p key={uuidv4()}>{platform.platform.name}</p>;
       }
     });
-
-    const stores = this.state.stores.map((store) => {
-      if (this.state.store === null || this.state.stores.length === 0) {
-        return <p>Info Not Available</p>;
-      } else {
-        return <p key={uuidv4()}>{store.store.name}</p>;
-      }
-    });
-    // const image = this.state.screenshots.map((image) => {
-    //   if (
-    //     this.state.screenshots === null ||
-    //     this.state.screenshots.length === 0
-    //   ) {
-    //     return <p>Info Not Available</p>;
-    //   } else {
-    //     return <p>{image.name}</p>;
-    //   }
-    // });
 
     return (
       <div className="search">
@@ -251,45 +239,53 @@ class Search extends React.Component {
         ) : !this.state.selectedGame ? (
           <div className="search-results">{this.renderPlate()}</div>
         ) : this.state.selectedGame ? (
-          <div className="card-display" key={this.state.selectedGame.id}>
-            <div className="entire-card">
-              <img className="card-image" alt="game" src={this.state.image} />
-              <div className="game-details divided list">
-                Genre(s)
-                <div className="results">
-                  <p className="card-header"></p>
-                  {genres}
-                </div>
-              </div>
-              <div className="game-details divided list">
-                Platform(s)
-                <div className="results">
-                  <p className="card-header"></p>
-                  {platforms}
-                </div>
-              </div>
-              <div className="game-details divided list">
-                Store(s)
-                <div className="results">
-                  <p className="card-header"></p>
-                  {stores}
-                </div>
-              </div>
-            </div>
-            <div className="card-buttons">
-              <Button
-                label="Add to Backlog"
-                clicked={this.handleAddToBacklog}
-              />
-              <Button
-                label="Add to Wishlist"
-                clicked={this.handleAddToWishlist}
-              />
-              <Button label="Back" clicked={this.resetGameSelection} />
-            </div>
-            <p className="validation-error">{this.state.searchMessage}</p>
-          </div>
-        ) : null}
+          <Card
+            name={this.state.selectedGame.name}
+            platform={platforms}
+            genre={genres}
+            score={this.state.selectedGame.metacritic}
+            image={this.state.selectedGame.short_screenshots[0].image}
+            backlogClicked={this.resetGameSelection()}
+          />
+        ) : // <div className="card-display" key={this.state.selectedGame.id}>
+        //   <div className="entire-card">
+        //     <img className="card-image" alt="game" src={this.state.image} />
+        //     <div className="game-details divided list">
+        //       Genre(s)
+        //       <div className="results">
+        //         <p className="card-header"></p>
+        //         {genres}
+        //       </div>
+        //     </div>
+        //     <div className="game-details divided list">
+        //       Platform(s)
+        //       <div className="results">
+        //         <p className="card-header"></p>
+        //         {platforms}
+        //       </div>
+        //     </div>
+        //     <div className="game-details divided list">
+        //       Store(s)
+        //       <div className="results">
+        //         <p className="card-header"></p>
+        //         {stores}
+        //       </div>
+        //     </div>
+        //   </div>
+        //   <div className="card-buttons">
+        //     <Button
+        //       label="Add to Backlog"
+        //       clicked={this.handleAddToBacklog}
+        //     />
+        //     <Button
+        //       label="Add to Wishlist"
+        //       clicked={this.handleAddToWishlist}
+        //     />
+        //     <Button label="Back" clicked={this.resetGameSelection} />
+        //   </div>
+        //   <p className="validation-error">{this.state.searchMessage}</p>
+        // </div>
+        null}
       </div>
     );
   }
