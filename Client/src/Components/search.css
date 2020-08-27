@@ -6,10 +6,10 @@
   height: 100%;
 }
 .search-label {
-  color: #789;
+  color: #607d8b;
 }
 .search-input {
-  background-color: #789;
+  background-color: #191925c7;
 }
 .search-input:focus {
   background-color: white;
@@ -20,6 +20,11 @@
 }
 .search-input {
   margin-bottom: 10px;
+}
+.dropdown-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
 }
 
 .search-layout {
@@ -63,7 +68,19 @@
   width: 25%;
 }
 .card-info {
-  color: #789;
+  color: #191925c7;
+}
+.ui.card {
+  width: 350px;
+}
+.description-style {
+  display: flex;
+}
+.ui.horizontal.list {
+  display: flex;
+}
+.image {
+  height: 100%;
 }
 
 .card-backlog-button {
@@ -82,13 +99,13 @@
 }
 .card-backlog-button:hover {
   color: white;
-  background-color: #789;
+  background-color: #191925c7;
   cursor: pointer;
   border: none;
   outline-color: none;
 }
 .card-backlog-button:active {
-  background-color: #789;
+  background-color: #191925c7;
   transform: translateY(4px);
   outline-color: none;
 }
@@ -97,7 +114,7 @@
   display: flex;
   /* flex-direction: column; */
   justify-content: space-around;
-  color: #15191f;
+  color: #191925c7;
 }
 
 .card-header {
@@ -114,7 +131,7 @@
   color: blue;
 }
 
-.card-image {
+/* .card-image {
   object-fit: cover;
   position: relative;
   width: 100%;
@@ -122,4 +139,4 @@
   top: 0;
   left: 0;
   border-radius: 7px;
-}
+} */

@@ -17,6 +17,7 @@ import {
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import "./profile.css";
+import ProfileList from "./ProfileList";
 
 class Profile extends React.Component {
   componentDidMount() {
@@ -88,6 +89,12 @@ class Profile extends React.Component {
     });
   }
 
+  renderBacklogList() {
+    return this.props.backlog.map((game) => {
+      return <ProfileList title={game.title} />;
+    });
+  }
+
   render() {
     return (
       <div>
@@ -105,7 +112,7 @@ class Profile extends React.Component {
             {this.props.backlog.length < 1 ? (
               <h1>Please add some games to your backlog!</h1>
             ) : (
-              this.renderBacklog()
+              <div className="entire-list">{this.renderBacklogList()}</div>
             )}
           </TabPanel>
           <TabPanel>

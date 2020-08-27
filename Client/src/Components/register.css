@@ -23,10 +23,10 @@
   color: red;
 }
 .register-label {
-  color: #789;
+  color: #191925c7;
 }
 .registration-input {
-  background-color: #789;
+  background-color: #191925c7;
   border-radius: 5px;
   width: 300px;
   text-align: center;
@@ -36,5 +36,5 @@
   outline: none;
 }
 h1 {
-  color: #789;
+  color: #191925c7;
 }

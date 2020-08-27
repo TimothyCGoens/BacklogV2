@@ -20,10 +20,10 @@ const Card = (props) => {
           <p className="bold">Genre(s)</p>
           <p className="header-styles">{props.genre}</p>
         </div>
-        <div className="categories">
-          <p className="bold">Platform(s)</p>
-          <p className="platform-styles">{props.platform}</p>
-        </div>
+      </div>
+      <div className="platform-categories">
+        <p className="bold">Platform(s)</p>
+        <div className="platform-styles">{props.platform}</div>
       </div>
     </div>
   );

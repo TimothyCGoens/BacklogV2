@@ -6,3 +6,9 @@
   background: #789;
   color: #15191f;
 }
+
+.entire-list {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}

@@ -16,6 +16,17 @@
   flex-direction: column;
   align-items: center;
 }
+.platform-categories {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.platform-styles {
+  display: flex;
+  flex-wrap: wrap;
+  width: 80%;
+  justify-content: space-evenly;
+}
 .header-info {
   display: flex;
   flex-direction: column;
@@ -102,6 +113,10 @@ button {
 }
 .buttons {
   margin: 5px;
+}
+
+p {
+  margin: 1px;
 }
 
 /* button {

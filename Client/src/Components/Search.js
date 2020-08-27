@@ -3,8 +3,10 @@ import Plate from "./Plate";
 import { v4 as uuidv4 } from "uuid";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { Dropdown, Card, Image, List, Button } from "semantic-ui-react";
 // import moment from "moment";
-import Card from "./Card";
+import "semantic-ui-css/semantic.min.css";
+// import Card from "./Card";
 import {
   addBacklogGame,
   addWishlistGame,
@@ -12,12 +14,10 @@ import {
   getWishlist,
   getCompleted,
 } from "../redux/actions/actions";
-import Button from "./Button";
 import { connect } from "react-redux";
 import rawg from "../apis/rawg";
 import "./search.css";
 
-// const API_KEY = "cd0734796a214467cf5c613de3bfc971";
 const backlogArray = [];
 const wishlistArray = [];
 const completedArray = [];
@@ -34,12 +34,15 @@ class Search extends React.Component {
       title: "",
       image: "",
       releaseDate: "",
+      platform: "",
       platforms: [],
+      platformSelected: false,
       genres: [],
       stores: [],
       loading: false,
       screenshots: [],
       searchMessage: "",
+      successMessage: "",
       backlogTitles: [],
       wishlistTitles: [],
       completedTitles: [],
@@ -50,6 +53,7 @@ class Search extends React.Component {
     this.props.backlog.map((game) => backlogArray.push(game.gameId));
     this.props.wishlist.map((game) => wishlistArray.push(game.gameId));
     this.props.completed.map((game) => completedArray.push(game.gameId));
+    console.log(this.props.userId);
   }
 
   setLoading = () => {
@@ -72,8 +76,17 @@ class Search extends React.Component {
       image: this.state.selectedGame.short_screenshots[0].image,
       userId: this.props.userId,
       gameId: this.state.gameId,
+      platform: this.state.platform,
     };
-    if (backlogArray.includes(game.gameId)) {
+    if (this.props.userId === null) {
+      this.setState({
+        searchMessage: "Please log in to add game to your wishlist",
+      });
+    } else if (this.state.platformSelected === false) {
+      this.setState({
+        searchMessage: "Please select a platform",
+      });
+    } else if (backlogArray.includes(game.gameId)) {
       this.setState({
         searchMessage: "This game is already in your backlog",
       });
@@ -87,18 +100,29 @@ class Search extends React.Component {
       });
     } else {
       this.props.addBacklogGame(game);
+      this.setState({
+        searchMessage: "Game added!",
+      });
     }
   };
 
   handleAddToWishlist = () => {
-    console.log(this.state.wishlistTitles);
     const game = {
       title: this.state.selectedGame.name,
       image: this.state.selectedGame.short_screenshots[0].image,
       userId: this.props.userId,
       gameId: this.state.gameId,
+      platform: this.state.platform,
     };
-    if (backlogArray.includes(game.gameId)) {
+    if (this.props.userId === null) {
+      this.setState({
+        searchMessage: "Please log in to add game to your wishlist",
+      });
+    } else if (this.state.platformSelected === false) {
+      this.setState({
+        searchMessage: "Please select a platform",
+      });
+    } else if (backlogArray.includes(game.gameId)) {
       this.setState({
         searchMessage: "This game is already in your backlog",
       });
@@ -112,6 +136,9 @@ class Search extends React.Component {
       });
     } else {
       this.props.addWishlistGame(game);
+      this.setState({
+        searchMessage: "Game added!",
+      });
     }
   };
 
@@ -129,12 +156,11 @@ class Search extends React.Component {
         search: this.state.gameTitle,
       },
     });
-    console.log(response);
+    console.log(response.data.results);
     this.setState({
       games: response.data.results,
       loading: false,
     });
-    console.log(this.state.games);
   };
 
   handlePlateSelection = async (index) => {
@@ -148,6 +174,14 @@ class Search extends React.Component {
       image: game.short_screenshots[0].image,
       screenshots: game.short_screenshots,
       gameId: game.id,
+    });
+  };
+
+  handlePlatformSelection = ({ value }) => {
+    this.setState({
+      platform: value,
+      platformSelected: true,
+      searchMessage: "",
     });
   };
 
@@ -177,6 +211,26 @@ class Search extends React.Component {
       }
     });
   }
+
+  renderDropdown() {
+    const platformOptions = this.state.platforms.map((platform) => {
+      return {
+        key: platform.platform.name,
+        text: platform.platform.name,
+        value: platform.platform.name,
+      };
+    });
+    return (
+      <Dropdown
+        className="ui search selection dropdown"
+        placeholder="Platform"
+        onChange={this.handlePlatformSelection}
+        options={platformOptions}
+      />
+    );
+  }
+
+  renderCardList() {}
 
   // renderCard() {
   //   console.log(this.state.selectedGame);
@@ -241,65 +295,54 @@ class Search extends React.Component {
           <div className="search-results">{this.renderPlate()}</div>
         ) : this.state.selectedGame ? (
           <React.Fragment>
-            <Card
-              name={this.state.selectedGame.name}
-              platform={platforms}
-              genre={genres}
-              score={this.state.selectedGame.metacritic}
-              image={this.state.selectedGame.short_screenshots[0].image}></Card>
-            <div className="buttons">
-              <Button
-                onClick={this.handleAddToBacklog}
-                title="Backlog"></Button>
-              <Button
-                onClick={this.handleAddToWishlist}
-                title="Wishlist"></Button>
-              <Button
-                onClick={this.resetGameSelection}
-                title="Collection"></Button>
-              <Button onClick={this.resetGameSelection} title="Back"></Button>
-              <p className="validation-error">{this.state.searchMessage}</p>
-            </div>
+            <Card className="ui card">
+              <Image
+                className="image"
+                src={this.state.selectedGame.short_screenshots[0].image}
+                wrapped
+                ui={false}
+              />
+              <Card.Content>
+                <Card.Header>{this.state.selectedGame.name}</Card.Header>
+                <Card.Meta>{this.state.releaseDate}</Card.Meta>
+                <Card.Description className="description-style">
+                  <List horizontal>
+                    <List.Item>
+                      <Image
+                        avatar
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Metacritic.svg/1200px-Metacritic.svg.png"
+                      />
+                      <List.Content>
+                        <List.Header>Score</List.Header>
+                        {this.state.selectedGame.metacritic}
+                      </List.Content>
+                    </List.Item>
+                    <List.Item>
+                      <List.Content>
+                        <List.Header>Genres</List.Header>
+                        {genres}
+                      </List.Content>
+                    </List.Item>
+                  </List>
+                </Card.Description>
+              </Card.Content>
+              <Card.Content extra>
+                <div className="dropdown-section">{this.renderDropdown()}</div>
+                <div className="ui three buttons">
+                  <Button basic color="green">
+                    Approve
+                  </Button>
+                  <Button basic color="red">
+                    Decline
+                  </Button>
+                  <Button onClick={this.resetGameSelection} basic color="blue">
+                    Back
+                  </Button>
+                </div>
+              </Card.Content>
+            </Card>
           </React.Fragment>
-        ) : // <div className="card-display" key={this.state.selectedGame.id}>
-        //   <div className="entire-card">
-        //     <img className="card-image" alt="game" src={this.state.image} />
-        //     <div className="game-details divided list">
-        //       Genre(s)
-        //       <div className="results">
-        //         <p className="card-header"></p>
-        //         {genres}
-        //       </div>
-        //     </div>
-        //     <div className="game-details divided list">
-        //       Platform(s)
-        //       <div className="results">
-        //         <p className="card-header"></p>
-        //         {platforms}
-        //       </div>
-        //     </div>
-        //     <div className="game-details divided list">
-        //       Store(s)
-        //       <div className="results">
-        //         <p className="card-header"></p>
-        //         {stores}
-        //       </div>
-        //     </div>
-        //   </div>
-        //   <div className="card-buttons">
-        //     <Button
-        //       label="Add to Backlog"
-        //       clicked={this.handleAddToBacklog}
-        //     />
-        //     <Button
-        //       label="Add to Wishlist"
-        //       clicked={this.handleAddToWishlist}
-        //     />
-        //     <Button label="Back" clicked={this.resetGameSelection} />
-        //   </div>
-        //   <p className="validation-error">{this.state.searchMessage}</p>
-        // </div>
-        null}
+        ) : null}
       </div>
     );
   }
@@ -320,3 +363,23 @@ export default connect(mapStateToProps, {
   getWishlist,
   getCompleted,
 })(Search);
+
+// <Card
+// name={this.state.selectedGame.name}
+// platform={platforms}
+// genre={genres}
+// score={this.state.selectedGame.metacritic}
+// image={this.state.selectedGame.short_screenshots[0].image}></Card>
+// <div className="buttons">
+// <Button
+//   onClick={this.handleAddToBacklog}
+//   content="Backlog"></Button>
+// <Button
+//   onClick={this.handleAddToWishlist}
+//   content="Wishlist"></Button>
+// <Button
+//   onClick={this.resetGameSelection}
+//   content="Collection"></Button>
+// <Button onClick={this.resetGameSelection} content="Back"></Button>
+// <p className="validation-error">{this.state.searchMessage}</p>
+// </div>

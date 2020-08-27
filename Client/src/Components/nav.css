@@ -1,12 +1,12 @@
 li {
   list-style: none;
-  color: #789;
+  color: #191925c7;
 }
 li:hover {
   color: white;
 }
 .app-header {
-  color: #789;
+  color: #191925c7;
 }
 
 .navbar {
