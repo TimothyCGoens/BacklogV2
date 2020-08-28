@@ -1,20 +1,15 @@
 import React from "react";
-import Plate from "./Plate";
 import { v4 as uuidv4 } from "uuid";
 // import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import {
   Dropdown,
-  Container,
   Card,
   Image,
   List,
   Button,
   Dimmer,
   Loader,
-  Segment,
-  Accordion,
-  Icon,
 } from "semantic-ui-react";
 import ReadMoreReact from "read-more-react";
 import moment from "moment";
@@ -417,22 +412,6 @@ class Search extends React.Component {
   }
 
   render() {
-    const genres = this.state.genres.map((genre, index) => {
-      if (this.state.genres === null || this.state.genres.length === 0) {
-        return <p>Info not Available</p>;
-      } else {
-        return <p key={uuidv4()}>{genre.name}</p>;
-      }
-    });
-
-    const platforms = this.state.platforms.map((platform) => {
-      if (this.state.platforms === null || this.state.platforms.length === 0) {
-        return <p>Info not Available</p>;
-      } else {
-        return <p key={uuidv4()}>{platform.platform.name}</p>;
-      }
-    });
-
     return (
       <div className="search">
         {!this.state.selectedGame ? (

@@ -3,6 +3,7 @@ import axios from "axios";
 import history from "../history";
 import { connect } from "react-redux";
 import { setAuthenticationHeader } from "../utilities/authenticate";
+import { Button, Form, Container } from "semantic-ui-react";
 
 import "./login.css";
 
@@ -74,12 +75,12 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="login-page">
-        <h1>Login</h1>
-        <form onSubmit={this.onFormSubmit}>
-          <div className="input-section">
-            <label className="login-label">User Name</label>
+      <Container>
+        <Form onSubmit={this.onFormSubmit}>
+          <Form.Field>
+            <label>User Name</label>
             <input
+              placeholder="User Name"
               value={this.state.username}
               onChange={this.onUsernameInputChange}
               className="login-input"
@@ -87,10 +88,9 @@ class Login extends Component {
               autoComplete="off"
               type="text"
             />
-            <p className="validation-error">{this.state.usernameMessage}</p>
-          </div>
-          <div className="input-section">
-            <label className="login-label">Password</label>
+          </Form.Field>
+          <Form.Field>
+            <label>Password</label>
             <input
               value={this.state.password}
               onChange={this.onPasswordInputChange}
@@ -98,12 +98,44 @@ class Login extends Component {
               name="password"
               autoComplete="off"
               type="password"
+              placeholder="Password"
             />
-            <p className="validation-error">{this.state.passwordMessage}</p>
-          </div>
-          <button>Log In</button>
-        </form>
-      </div>
+          </Form.Field>
+
+          <Button type="submit">Submit</Button>
+        </Form>
+        <p className="validation-error">{this.state.passwordMessage}</p>
+      </Container>
+      // <div className="login-page">
+      //   <h1>Login</h1>
+      //   <form onSubmit={this.onFormSubmit}>
+      //     <div className="input-section">
+      //       <label className="login-label">User Name</label>
+      //       <input
+      //         value={this.state.username}
+      //         onChange={this.onUsernameInputChange}
+      //         className="login-input"
+      //         name="username"
+      //         autoComplete="off"
+      //         type="text"
+      //       />
+      //       <p className="validation-error">{this.state.usernameMessage}</p>
+      //     </div>
+      //     <div className="input-section">
+      //       <label className="login-label">Password</label>
+      //       <input
+      //         value={this.state.password}
+      //         onChange={this.onPasswordInputChange}
+      //         className="login-input"
+      //         name="password"
+      //         autoComplete="off"
+      //         type="password"
+      //       />
+      //       <p className="validation-error">{this.state.passwordMessage}</p>
+      //     </div>
+      //     <button>Log In</button>
+      //   </form>
+      // </div>
     );
   }
 }

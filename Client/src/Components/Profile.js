@@ -17,7 +17,6 @@ import {
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import "./profile.css";
-import ProfileList from "./ProfileList";
 
 class Profile extends React.Component {
   componentDidMount() {
