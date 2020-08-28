@@ -89,11 +89,11 @@ class Profile extends React.Component {
     });
   }
 
-  renderBacklogList() {
-    return this.props.backlog.map((game) => {
-      return <ProfileList title={game.title} />;
-    });
-  }
+  // renderBacklogList() {
+  //   return this.props.backlog.map((game) => {
+  //     return <ProfileList title={game.title} />;
+  //   });
+  // }
 
   render() {
     return (
@@ -112,7 +112,7 @@ class Profile extends React.Component {
             {this.props.backlog.length < 1 ? (
               <h1>Please add some games to your backlog!</h1>
             ) : (
-              <div className="entire-list">{this.renderBacklogList()}</div>
+              this.renderBacklog()
             )}
           </TabPanel>
           <TabPanel>

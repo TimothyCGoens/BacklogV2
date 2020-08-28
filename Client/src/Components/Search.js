@@ -1,10 +1,20 @@
 import React from "react";
 import Plate from "./Plate";
 import { v4 as uuidv4 } from "uuid";
-import Loader from "react-loader-spinner";
+// import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import { Dropdown, Card, Image, List, Button } from "semantic-ui-react";
-// import moment from "moment";
+import {
+  Dropdown,
+  Container,
+  Card,
+  Image,
+  List,
+  Button,
+  Dimmer,
+  Loader,
+  Segment,
+} from "semantic-ui-react";
+import moment from "moment";
 import "semantic-ui-css/semantic.min.css";
 // import Card from "./Card";
 import {
@@ -27,25 +37,26 @@ class Search extends React.Component {
     super();
 
     this.state = {
+      backlogTitles: [],
+      completedTitles: [],
+      description: "",
       gameTitle: "",
       gameId: null,
       games: [],
-      selectedGame: "",
-      title: "",
+      genres: [],
       image: "",
+      loading: false,
       releaseDate: "",
       platform: "",
       platforms: [],
       platformSelected: false,
-      genres: [],
-      stores: [],
-      loading: false,
       screenshots: [],
       searchMessage: "",
+      selectedGame: "",
+      stores: [],
       successMessage: "",
-      backlogTitles: [],
+      title: "",
       wishlistTitles: [],
-      completedTitles: [],
     };
   }
 
@@ -53,15 +64,15 @@ class Search extends React.Component {
     this.props.backlog.map((game) => backlogArray.push(game.gameId));
     this.props.wishlist.map((game) => wishlistArray.push(game.gameId));
     this.props.completed.map((game) => completedArray.push(game.gameId));
-    console.log(this.props.userId);
   }
-
+  //sets the state to loading on click of search button
   setLoading = () => {
     this.setState({
       loading: true,
     });
   };
 
+  //when you click the BACK button, it resets state for selectedGame and searchMessage
   resetGameSelection = () => {
     console.log("clicked");
     this.setState({
@@ -70,6 +81,7 @@ class Search extends React.Component {
     });
   };
 
+  //runs the gameId through a series of checks to see if the user is logged in, if a platform is selected, and then if that game already exists in their table somewhere, if it passes all those checks it will get added to the appropriate table
   handleAddToBacklog = () => {
     const game = {
       title: this.state.selectedGame.name,
@@ -105,7 +117,7 @@ class Search extends React.Component {
       });
     }
   };
-
+  //runs the gameId through a series of checks to see if the user is logged in, if a platform is selected, and then if that game already exists in their table somewhere, if it passes all those checks it will get added to the appropriate table
   handleAddToWishlist = () => {
     const game = {
       title: this.state.selectedGame.name,
@@ -142,18 +154,20 @@ class Search extends React.Component {
     }
   };
 
+  //gets the value of the search input
   onGameTitleInputChange = (e) => {
     this.setState({
       gameTitle: e.target.value,
     });
   };
 
+  //first call based on the title they are searching for
   onFormSubmit = async (e) => {
     e.preventDefault();
-
     const response = await rawg.get("/games", {
       params: {
         search: this.state.gameTitle,
+        game_pk: this.state.gameTitle,
       },
     });
     console.log(response.data.results);
@@ -162,12 +176,13 @@ class Search extends React.Component {
       loading: false,
     });
   };
-
+  //user clicks on the plate and another call is made so that we can get more details about the game
   handlePlateSelection = async (index) => {
     const game = await this.state.games[index];
     this.setState({
+      loading: true,
       selectedGame: game,
-      releaseDate: game.released,
+      // releaseDate: game.released,
       genres: game.genres,
       platforms: game.platforms,
       stores: game.stores,
@@ -175,8 +190,16 @@ class Search extends React.Component {
       screenshots: game.short_screenshots,
       gameId: game.id,
     });
+    rawg
+      .get(`https://api.rawg.io/api/games/${this.state.gameId}`)
+      .then((response) => {
+        this.setState({
+          description: response.data.description_raw,
+          loading: false,
+        });
+      });
   };
-
+  //dropdown that selects the platform, until it is changed, the user cannot add the game
   handlePlatformSelection = ({ value }) => {
     this.setState({
       platform: value,
@@ -185,33 +208,78 @@ class Search extends React.Component {
     });
   };
 
-  renderPlate() {
+  renderCardGroup() {
+    console.log(this.state.games);
     return this.state.games.map((game, index) => {
       if (
         game.short_screenshots === null ||
         game.short_screenshots.length === 0
       ) {
         return (
-          <Plate
-            key={game.id}
-            // image={game.short_screenshots[0].image}
-            name={game.name}
-            clicked={() => this.handlePlateSelection(game.guid)}
-          />
+          <Card onClick={() => this.handlePlateSelection(index)}>
+            <Card.Content>
+              <Card.Header>{game.name}</Card.Header>
+              <Card.Meta>
+                {moment(game.released).format("MMMM Do YYYY")}
+              </Card.Meta>
+              <Card.Description>
+                <List horizontal>
+                  <List.Item>
+                    <Image
+                      avatar
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Metacritic.svg/1200px-Metacritic.svg.png"
+                    />
+                    <List.Content>
+                      <List.Header>Score</List.Header>
+                      {game.metacritic}
+                    </List.Content>
+                  </List.Item>
+                </List>
+              </Card.Description>
+            </Card.Content>
+          </Card>
         );
       } else {
         return (
-          <Plate
-            key={game.id}
-            image={game.short_screenshots[0].image}
-            name={game.name}
-            clicked={() => this.handlePlateSelection(index)}
-          />
+          <Card onClick={() => this.handlePlateSelection(index)}>
+            <Card.Content>
+              <Image
+                floated="right"
+                size="tiny"
+                src={game.short_screenshots[0].image}
+              />
+              <Card.Header>{game.name}</Card.Header>
+              <Card.Meta>
+                {moment(game.released).format("MMMM Do YYYY")}
+              </Card.Meta>
+              <Card.Description>
+                <List horizontal>
+                  <List.Item>
+                    <Image
+                      avatar
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Metacritic.svg/1200px-Metacritic.svg.png"
+                    />
+                    <List.Content>
+                      <List.Header>Score</List.Header>
+                      {game.metacritic}
+                    </List.Content>
+                  </List.Item>
+                </List>
+              </Card.Description>
+            </Card.Content>
+          </Card>
+          // <Plate
+          //   key={game.id}
+          //   image={game.short_screenshots[0].image}
+          //   name={game.name}
+          //   clicked={() => this.handlePlateSelection(index)}
+          // />
         );
       }
     });
   }
 
+  //helper to render the drop down
   renderDropdown() {
     const platformOptions = this.state.platforms.map((platform) => {
       return {
@@ -230,19 +298,67 @@ class Search extends React.Component {
     );
   }
 
-  renderCardList() {}
+  renderCard() {
+    const genres = this.state.genres.map((genre, index) => {
+      if (this.state.genres === null || this.state.genres.length === 0) {
+        return <p>Info not Available</p>;
+      } else {
+        return <p key={uuidv4()}>{genre.name}</p>;
+      }
+    });
 
-  // renderCard() {
-  //   console.log(this.state.selectedGame);
+    return (
+      <Card className="ui card">
+        <Image
+          className="image"
+          src={this.state.selectedGame.short_screenshots[0].image}
+          wrapped
+          ui={false}
+        />
+        <Card.Content>
+          <Card.Header>{this.state.selectedGame.name}</Card.Header>
+          <Card.Meta>{this.state.releaseDate}</Card.Meta>
+          <Card.Description className="description-style">
+            {this.state.description}
+          </Card.Description>
+        </Card.Content>
+        <Card.Content extra>
+          <div className="dropdown-section">{this.renderDropdown()}</div>
+          <p className="validation-error">{this.state.searchMessage}</p>
+          <div className="ui three buttons">
+            <Button onClick={this.handleAddToBacklog} basic color="green">
+              Backlog
+            </Button>
+            <Button onClick={this.handleAddToWishlist} basic color="blue">
+              Wishlist
+            </Button>
+            <Button onClick={this.resetGameSelection} basic color="red">
+              Back
+            </Button>
+          </div>
+        </Card.Content>
+      </Card>
+    );
+  }
 
-  //   return (
-  //     <Card
-  //       name={this.state.selectedGame.name}
-  //       platform={platforms}
-  //       image={game.image}
-  //     />
-  //   );
-  // }
+  renderForm() {
+    return (
+      <form onSubmit={this.onFormSubmit}>
+        <div className="input-section">
+          <label className="login-label">Search by Title</label>
+          <input
+            value={this.state.gameTitle}
+            onChange={this.onGameTitleInputChange}
+            className="search-input"
+            name="gameTitle"
+            autoComplete="off"
+            type="text"
+          />
+          <button onClick={this.setLoading}>Search</button>
+        </div>
+      </form>
+    );
+  }
 
   render() {
     const genres = this.state.genres.map((genre, index) => {
@@ -266,87 +382,26 @@ class Search extends React.Component {
         {!this.state.selectedGame ? (
           <div>
             <h1>Search</h1>
-            <form onSubmit={this.onFormSubmit}>
-              <div className="input-section">
-                <label className="login-label">Search by Title</label>
-                <input
-                  value={this.state.gameTitle}
-                  onChange={this.onGameTitleInputChange}
-                  className="search-input"
-                  name="gameTitle"
-                  autoComplete="off"
-                  type="text"
-                />
-                <button onClick={this.setLoading}>Search</button>
-              </div>
-            </form>
+            {this.renderForm()}
           </div>
         ) : null}
-
         {this.state.loading === true ? (
-          <Loader
-            type="ThreeDots"
-            color="#789"
-            height={100}
-            width={100}
-            // timeout={3000} //3 secs
-          />
-        ) : !this.state.selectedGame ? (
-          <div className="search-results">{this.renderPlate()}</div>
-        ) : this.state.selectedGame ? (
           <React.Fragment>
-            <Card className="ui card">
-              <Image
-                className="image"
-                src={this.state.selectedGame.short_screenshots[0].image}
-                wrapped
-                ui={false}
-              />
-              <Card.Content>
-                <Card.Header>{this.state.selectedGame.name}</Card.Header>
-                <Card.Meta>{this.state.releaseDate}</Card.Meta>
-                <Card.Description className="description-style">
-                  <List horizontal>
-                    <List.Item>
-                      <Image
-                        avatar
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Metacritic.svg/1200px-Metacritic.svg.png"
-                      />
-                      <List.Content>
-                        <List.Header>Score</List.Header>
-                        {this.state.selectedGame.metacritic}
-                      </List.Content>
-                    </List.Item>
-                    <List.Item>
-                      <List.Content>
-                        <List.Header>Genres</List.Header>
-                        {genres}
-                      </List.Content>
-                    </List.Item>
-                  </List>
-                </Card.Description>
-              </Card.Content>
-              <Card.Content extra>
-                <div className="dropdown-section">{this.renderDropdown()}</div>
-                <div className="ui three buttons">
-                  <Button basic color="green">
-                    Approve
-                  </Button>
-                  <Button basic color="red">
-                    Decline
-                  </Button>
-                  <Button onClick={this.resetGameSelection} basic color="blue">
-                    Back
-                  </Button>
-                </div>
-              </Card.Content>
-            </Card>
+            <Dimmer active inverted>
+              <Loader inverted>Loading</Loader>
+            </Dimmer>
+            <Image src="/images/wireframe/short-paragraph.png" />
           </React.Fragment>
+        ) : !this.state.selectedGame && this.state.loading === false ? (
+          <Card.Group class="ui cards">{this.renderCardGroup()}</Card.Group>
+        ) : this.state.selectedGame ? (
+          <React.Fragment>{this.renderCard()}</React.Fragment>
         ) : null}
       </div>
     );
   }
 }
+
 const mapStateToProps = (state) => {
   return {
     userId: state.userId,

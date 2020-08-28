@@ -70,8 +70,12 @@
 .card-info {
   color: #191925c7;
 }
+.ui.cards {
+  margin-top: 10px;
+  justify-content: center;
+}
 .ui.card {
-  width: 350px;
+  width: 750px;
 }
 .description-style {
   display: flex;
