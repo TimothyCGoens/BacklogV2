@@ -13,7 +13,10 @@ import {
   Dimmer,
   Loader,
   Segment,
+  Accordion,
+  Icon,
 } from "semantic-ui-react";
+import ReadMoreReact from "read-more-react";
 import moment from "moment";
 import "semantic-ui-css/semantic.min.css";
 // import Card from "./Card";
@@ -40,6 +43,7 @@ class Search extends React.Component {
       backlogTitles: [],
       completedTitles: [],
       description: "",
+      developers: [],
       gameTitle: "",
       gameId: null,
       games: [],
@@ -50,10 +54,10 @@ class Search extends React.Component {
       platform: "",
       platforms: [],
       platformSelected: false,
+      publishers: [],
       screenshots: [],
       searchMessage: "",
       selectedGame: "",
-      stores: [],
       successMessage: "",
       title: "",
       wishlistTitles: [],
@@ -182,10 +186,10 @@ class Search extends React.Component {
     this.setState({
       loading: true,
       selectedGame: game,
-      // releaseDate: game.released,
+      releaseDate: game.released,
+      metacritic: game.metacritic,
       genres: game.genres,
       platforms: game.platforms,
-      stores: game.stores,
       image: game.short_screenshots[0].image,
       screenshots: game.short_screenshots,
       gameId: game.id,
@@ -193,9 +197,12 @@ class Search extends React.Component {
     rawg
       .get(`https://api.rawg.io/api/games/${this.state.gameId}`)
       .then((response) => {
+        console.log(response.data);
         this.setState({
           description: response.data.description_raw,
           loading: false,
+          developers: response.data.developers,
+          publishers: response.data.publishers,
         });
       });
   };
@@ -253,18 +260,7 @@ class Search extends React.Component {
                 {moment(game.released).format("MMMM Do YYYY")}
               </Card.Meta>
               <Card.Description>
-                <List horizontal>
-                  <List.Item>
-                    <Image
-                      avatar
-                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Metacritic.svg/1200px-Metacritic.svg.png"
-                    />
-                    <List.Content>
-                      <List.Header>Score</List.Header>
-                      {game.metacritic}
-                    </List.Content>
-                  </List.Item>
-                </List>
+                <List horizontal></List>
               </Card.Description>
             </Card.Content>
           </Card>
@@ -306,6 +302,26 @@ class Search extends React.Component {
         return <p key={uuidv4()}>{genre.name}</p>;
       }
     });
+    const developers = this.state.developers.map((developer, index) => {
+      if (
+        this.state.developers === null ||
+        this.state.developers.length === 0
+      ) {
+        return <p>Info not Available</p>;
+      } else {
+        return <p key={uuidv4()}>{developer.name}</p>;
+      }
+    });
+    const publishers = this.state.publishers.map((publisher, index) => {
+      if (
+        this.state.publishers === null ||
+        this.state.publishers.length === 0
+      ) {
+        return <p>Info not Available</p>;
+      } else {
+        return <p key={uuidv4()}>{publisher.name}</p>;
+      }
+    });
 
     return (
       <Card className="ui card">
@@ -317,10 +333,50 @@ class Search extends React.Component {
         />
         <Card.Content>
           <Card.Header>{this.state.selectedGame.name}</Card.Header>
-          <Card.Meta>{this.state.releaseDate}</Card.Meta>
+          <Card.Meta>
+            {moment(this.state.releaseDate).format("MMMM Do YYYY")}
+          </Card.Meta>
           <Card.Description className="description-style">
-            {this.state.description}
+            <ReadMoreReact
+              min={200}
+              ideal={400}
+              max={600}
+              readMoreText="Read More"
+              text={this.state.description}
+            />
           </Card.Description>
+        </Card.Content>
+        <Card.Content extra>
+          <List horizontal>
+            <List.Item>
+              <Image
+                avatar
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Metacritic.svg/1200px-Metacritic.svg.png"
+              />
+              <List.Content>
+                <List.Header>Score</List.Header>
+                {this.state.metacritic}
+              </List.Content>
+            </List.Item>
+            <List.Item>
+              <List.Content>
+                <List.Header>Genres </List.Header>
+                {genres}
+              </List.Content>
+            </List.Item>
+            <List.Item>
+              <List.Content>
+                <List.Header>Developers </List.Header>
+                {developers}
+              </List.Content>
+            </List.Item>
+            <List.Item>
+              <List.Content>
+                <List.Header>Publishers </List.Header>
+                {publishers}
+              </List.Content>
+            </List.Item>
+          </List>
         </Card.Content>
         <Card.Content extra>
           <div className="dropdown-section">{this.renderDropdown()}</div>

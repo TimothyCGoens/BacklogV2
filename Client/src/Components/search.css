@@ -82,6 +82,7 @@
 }
 .ui.horizontal.list {
   display: flex;
+  justify-content: space-evenly;
 }
 .image {
   height: 100%;
