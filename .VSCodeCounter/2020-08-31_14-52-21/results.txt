@@ -1,0 +1,49 @@
+Date : 2020-08-31 14:52:21
+Directory : /Users/timgoens/Desktop/backlog2.0/Server
+Total : 20 files,  1283 codes, 0 comments, 57 blanks, all 1340 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JSON       |          3 |        768 |          0 |          2 |        770 |
+| JavaScript |         17 |        515 |          0 |         55 |        570 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                    | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                       |         20 |      1,283 |          0 |         57 |      1,340 |
+| config                                                                                  |          1 |         23 |          0 |          0 |         23 |
+| migrations                                                                              |          4 |        174 |          0 |          4 |        178 |
+| models                                                                                  |          5 |        118 |          0 |         11 |        129 |
+| routes                                                                                  |          7 |        197 |          0 |         35 |        232 |
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                | language   | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| /Users/timgoens/Desktop/backlog2.0/Server/app.js                                        | JavaScript |         26 |          0 |          5 |         31 |
+| /Users/timgoens/Desktop/backlog2.0/Server/config/config.json                            | JSON       |         23 |          0 |          0 |         23 |
+| /Users/timgoens/Desktop/backlog2.0/Server/migrations/20200710180544-create-user.js      | JavaScript |         45 |          0 |          1 |         46 |
+| /Users/timgoens/Desktop/backlog2.0/Server/migrations/20200812163101-create-backlog.js   | JavaScript |         42 |          0 |          1 |         43 |
+| /Users/timgoens/Desktop/backlog2.0/Server/migrations/20200812163119-create-wishlist.js  | JavaScript |         42 |          0 |          1 |         43 |
+| /Users/timgoens/Desktop/backlog2.0/Server/migrations/20200814124310-create-completed.js | JavaScript |         45 |          0 |          1 |         46 |
+| /Users/timgoens/Desktop/backlog2.0/Server/models/backlog.js                             | JavaScript |         18 |          0 |          1 |         19 |
+| /Users/timgoens/Desktop/backlog2.0/Server/models/completed.js                           | JavaScript |         20 |          0 |          1 |         21 |
+| /Users/timgoens/Desktop/backlog2.0/Server/models/index.js                               | JavaScript |         31 |          0 |          7 |         38 |
+| /Users/timgoens/Desktop/backlog2.0/Server/models/users.js                               | JavaScript |         31 |          0 |          1 |         32 |
+| /Users/timgoens/Desktop/backlog2.0/Server/models/wishlist.js                            | JavaScript |         18 |          0 |          1 |         19 |
+| /Users/timgoens/Desktop/backlog2.0/Server/package-lock.json                             | JSON       |        724 |          0 |          1 |        725 |
+| /Users/timgoens/Desktop/backlog2.0/Server/package.json                                  | JSON       |         21 |          0 |          1 |         22 |
+| /Users/timgoens/Desktop/backlog2.0/Server/routes/backlog.js                             | JavaScript |         40 |          0 |          6 |         46 |
+| /Users/timgoens/Desktop/backlog2.0/Server/routes/completed.js                           | JavaScript |         35 |          0 |          6 |         41 |
+| /Users/timgoens/Desktop/backlog2.0/Server/routes/login.js                               | JavaScript |         41 |          0 |          6 |         47 |
+| /Users/timgoens/Desktop/backlog2.0/Server/routes/profile.js                             | JavaScript |         11 |          0 |          3 |         14 |
+| /Users/timgoens/Desktop/backlog2.0/Server/routes/register.js                            | JavaScript |         23 |          0 |          5 |         28 |
+| /Users/timgoens/Desktop/backlog2.0/Server/routes/users.js                               | JavaScript |          8 |          0 |          3 |         11 |
+| /Users/timgoens/Desktop/backlog2.0/Server/routes/wishlist.js                            | JavaScript |         39 |          0 |          6 |         45 |
+| Total                                                                                   |            |      1,283 |          0 |         57 |      1,340 |
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

@@ -1,6 +1,5 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
-
 import { connect } from "react-redux";
 import {
   getUser,
@@ -16,8 +15,8 @@ import {
   moveGameFromBacklogToCompleted,
 } from "../redux/actions/actions";
 import moment from "moment";
-// import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { Tab, Container, Label, Image, Card, Button } from "semantic-ui-react";
+import UserDetails from "./UserDetails";
 import "react-tabs/style/react-tabs.css";
 import "./profile.css";
 
@@ -202,7 +201,14 @@ class Profile extends React.Component {
           icon: "users",
           content: this.props.user.username,
         },
-        render: () => <Tab.Pane>Stats</Tab.Pane>,
+        render: () => (
+          <Tab.Pane>
+            <UserDetails
+              name={this.props.user.username}
+              location={this.props.user.location}
+            />
+          </Tab.Pane>
+        ),
       },
       {
         menuItem: {
