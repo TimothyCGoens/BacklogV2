@@ -11,12 +11,6 @@ const Register = () => {
   const [userNames, setUserNames] = useState();
   const [emailMessage, setEmailMessage] = useState("");
   const [userNameMessage, setUserNameMessage] = useState("");
-  const [email, setEmail] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [location, setLocation] = useState("");
 
   useEffect(() => {
     axios.get("http://localhost:8080/api/users/list").then((response) => {
@@ -28,20 +22,20 @@ const Register = () => {
   }, []);
 
   const { register, errors, handleSubmit } = useForm();
-  const onSubmit = async () => {
-    if (usersEmail.includes(email)) {
+  const onSubmit = async (data) => {
+    if (usersEmail.includes(data.email)) {
       setEmailMessage("That email address has already been used to register");
     }
-    if (userNames.includes(username)) {
+    if (userNames.includes(data.username)) {
       setUserNameMessage("That username is already in use");
     } else {
       const user = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        username: username,
-        password: password,
-        location: location,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        username: data.username,
+        password: data.password,
+        location: data.location,
       };
       await axios
         .post("http://localhost:8080/api/register/new", user)
@@ -49,25 +43,6 @@ const Register = () => {
           history.push("/login");
         });
     }
-  };
-
-  const handleFirstNameChange = (e) => {
-    setFirstName(e.target.value);
-  };
-  const handleLastNameChange = (e) => {
-    setLastName(e.target.value);
-  };
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-  const handleUserNameChange = (e) => {
-    setUsername(e.target.value);
-  };
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-  const handleLocationChange = (e) => {
-    setLocation(e.target.value);
   };
 
   return (

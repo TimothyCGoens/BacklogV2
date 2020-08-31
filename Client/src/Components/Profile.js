@@ -14,7 +14,8 @@ import {
   moveGameFromWishlistToBacklog,
   moveGameFromBacklogToCompleted,
 } from "../redux/actions/actions";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+// import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import { Tab, Container, Label, Menu } from "semantic-ui-react";
 import "react-tabs/style/react-tabs.css";
 import "./profile.css";
 
@@ -88,49 +89,61 @@ class Profile extends React.Component {
     });
   }
 
-  // renderBacklogList() {
-  //   return this.props.backlog.map((game) => {
-  //     return <ProfileList title={game.title} />;
-  //   });
-  // }
-
   render() {
+    const panes = [
+      {
+        menuItem: { key: "users", icon: "users", content: "Users" },
+        render: () => <Tab.Pane>Tab 1 Content</Tab.Pane>,
+      },
+      {
+        menuItem: (
+          <Menu.Item key="messages">
+            Backlog<Label>{this.props.backlog.length}</Label>
+          </Menu.Item>
+        ),
+        render: () => <Tab.Pane>{this.renderBacklog()}</Tab.Pane>,
+      },
+    ];
+
     return (
-      <div>
-        <Tabs>
-          <TabList>
-            <Tab>User Info</Tab>
-            <Tab>Backlog</Tab>
-            <Tab>Wish List</Tab>
-            <Tab>Completed Games</Tab>
-          </TabList>
+      <Container>
+        <Tab panes={panes} />
+      </Container>
+      // <div>
+      //   <Tabs>
+      //     <TabList>
+      //       <Tab>User Info</Tab>
+      //       <Tab>Backlog</Tab>
+      //       <Tab>Wish List</Tab>
+      //       <Tab>Completed Games</Tab>
+      //     </TabList>
 
-          <TabPanel></TabPanel>
+      //     <TabPanel></TabPanel>
 
-          <TabPanel>
-            {this.props.backlog.length < 1 ? (
-              <h1>Please add some games to your backlog!</h1>
-            ) : (
-              this.renderBacklog()
-            )}
-          </TabPanel>
-          <TabPanel>
-            {this.props.wishlist.length < 1 ? (
-              <h1>Please add some games to your wishlist!</h1>
-            ) : (
-              this.renderWishlist()
-            )}
-          </TabPanel>
+      //     <TabPanel>
+      //       {this.props.backlog.length < 1 ? (
+      //         <h1>Please add some games to your backlog!</h1>
+      //       ) : (
+      //         this.renderBacklog()
+      //       )}
+      //     </TabPanel>
+      //     <TabPanel>
+      //       {this.props.wishlist.length < 1 ? (
+      //         <h1>Please add some games to your wishlist!</h1>
+      //       ) : (
+      //         this.renderWishlist()
+      //       )}
+      //     </TabPanel>
 
-          <TabPanel>
-            {this.props.completed.length < 1 ? (
-              <h1>You haven't completed any games yet!</h1>
-            ) : (
-              this.renderCompleted()
-            )}
-          </TabPanel>
-        </Tabs>
-      </div>
+      //     <TabPanel>
+      //       {this.props.completed.length < 1 ? (
+      //         <h1>You haven't completed any games yet!</h1>
+      //       ) : (
+      //         this.renderCompleted()
+      //       )}
+      //     </TabPanel>
+      //   </Tabs>
+      // </div>
     );
   }
 }
