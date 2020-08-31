@@ -3,7 +3,7 @@ import axios from "axios";
 import history from "../history";
 import { connect } from "react-redux";
 import { setAuthenticationHeader } from "../utilities/authenticate";
-import { Button, Form, Container } from "semantic-ui-react";
+import { Button, Container } from "semantic-ui-react";
 
 import "./login.css";
 
@@ -102,7 +102,7 @@ class Login extends Component {
             />
             <p className="validation-error">{this.state.passwordMessage}</p>
           </div>
-          <button>Log In</button>
+          <Button>Log In</Button>
         </form>
       </Container>
     );

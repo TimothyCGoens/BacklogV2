@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import history from "../history";
-import { Form, Button, Container } from "semantic-ui-react";
+import { Button, Container } from "semantic-ui-react";
 
 import "./register.css";
 
@@ -118,7 +118,7 @@ const Register = () => {
           />
           {errors.Password && <p className="validation-error">Required</p>}
         </div>
-        <button>Submit</button>
+        <Button>Submit</Button>
       </form>
     </Container>
 

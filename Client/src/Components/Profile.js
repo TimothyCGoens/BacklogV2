@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import Plate from "./Plate";
 import {
   getUser,
   getBacklog,
@@ -14,6 +13,7 @@ import {
   moveGameFromWishlistToBacklog,
   moveGameFromBacklogToCompleted,
 } from "../redux/actions/actions";
+import moment from "moment";
 // import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { Tab, Container, Label, Image, Card, Button } from "semantic-ui-react";
 import "react-tabs/style/react-tabs.css";
@@ -25,7 +25,6 @@ class Profile extends React.Component {
     this.props.getBacklog(this.props.userId);
     this.props.getWishlist(this.props.userId);
     this.props.getCompleted(this.props.userId);
-    console.log(this.props.user);
   }
 
   handleBacklogDeleteClick = (id, game) => {
@@ -47,17 +46,53 @@ class Profile extends React.Component {
     this.props.moveGameFromBacklogToCompleted(game);
   };
 
+  // platformConfig = {
+  //   PS4: {
+  //     color: "blue",
+  //   },
+  //   NS: {
+  //     color: "red",
+  //   },
+  //   XB: {
+  //     color: "green",
+  //   },
+  //   PC: {
+  //     color: "black",
+  //   },
+  // };
+
+  // getPlatforms = () => {
+  //   this.props.backlog.map((game) => {
+
+  //   });
+  // };
+
   renderBacklog() {
     if (this.props.backlog.length < 1) {
       return <h1>Please add some games to your backlog!</h1>;
     } else {
       return this.props.backlog.map((game) => {
         return (
-          <Card.Group class="ui cards">
-            <Card key={game.gameId}>
+          <Card.Group className="ui cards">
+            <Card
+              color={
+                `${game.platform}` === "Playstation 4"
+                  ? "blue"
+                  : `${game.platform}` === "Nintendo Switch"
+                  ? "red"
+                  : `${game.platform}` === "Xbox One"
+                  ? "green"
+                  : `${game.platform}` === "PC"
+                  ? "black"
+                  : null
+              }
+              key={game.gameId}>
               <Card.Content>
                 <Image floated="right" size="tiny" src={game.image} />
                 <Card.Header>{game.title}</Card.Header>
+                <Card.Meta>
+                  {moment(game.released).format("MMMM Do YYYY")}
+                </Card.Meta>
               </Card.Content>
               <Card.Content extra>
                 <div className="ui two buttons">
@@ -101,6 +136,9 @@ class Profile extends React.Component {
               <Card.Content>
                 <Image floated="right" size="tiny" src={game.image} />
                 <Card.Header>{game.title}</Card.Header>
+                <Card.Meta>
+                  {moment(game.released).format("MMMM Do YYYY")}
+                </Card.Meta>
               </Card.Content>
               <Card.Content extra>
                 <div className="ui two buttons">
@@ -160,6 +198,7 @@ class Profile extends React.Component {
       },
       {
         menuItem: {
+          key: "backlog",
           icon: "gamepad",
           content: (
             <React.Fragment>
@@ -171,6 +210,7 @@ class Profile extends React.Component {
       },
       {
         menuItem: {
+          key: "wishlist",
           icon: "gift",
           content: (
             <React.Fragment>
@@ -182,6 +222,7 @@ class Profile extends React.Component {
       },
       {
         menuItem: {
+          key: "completed",
           icon: "check",
           content: (
             <React.Fragment>

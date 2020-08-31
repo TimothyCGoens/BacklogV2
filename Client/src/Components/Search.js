@@ -88,6 +88,7 @@ class Search extends React.Component {
       userId: this.props.userId,
       gameId: this.state.gameId,
       platform: this.state.platform,
+      releaseDate: this.state.releaseDate,
     };
     if (this.props.userId === null) {
       this.setState({
@@ -124,7 +125,9 @@ class Search extends React.Component {
       userId: this.props.userId,
       gameId: this.state.gameId,
       platform: this.state.platform,
+      releaseDate: this.state.releaseDate,
     };
+    console.log(game);
     if (this.props.userId === null) {
       this.setState({
         searchMessage: "Please log in to add game to your wishlist",
@@ -169,7 +172,6 @@ class Search extends React.Component {
         game_pk: this.state.gameTitle,
       },
     });
-    console.log(response.data.results);
     this.setState({
       games: response.data.results,
       loading: false,
@@ -192,7 +194,6 @@ class Search extends React.Component {
     rawg
       .get(`https://api.rawg.io/api/games/${this.state.gameId}`)
       .then((response) => {
-        console.log(response.data);
         this.setState({
           description: response.data.description_raw,
           loading: false,
@@ -202,23 +203,23 @@ class Search extends React.Component {
       });
   };
   //dropdown that selects the platform, until it is changed, the user cannot add the game
-  handlePlatformSelection = ({ value }) => {
+  handlePlatformSelection = (e, data) => {
     this.setState({
-      platform: value,
+      platform: data.value,
       platformSelected: true,
       searchMessage: "",
     });
+    console.log(this.state.platform);
   };
 
   renderCardGroup() {
-    console.log(this.state.games);
     return this.state.games.map((game, index) => {
       if (
         game.short_screenshots === null ||
         game.short_screenshots.length === 0
       ) {
         return (
-          <Card onClick={() => this.handlePlateSelection(index)}>
+          <Card key={uuidv4()} onClick={() => this.handlePlateSelection(index)}>
             <Card.Content>
               <Image floated="right" size="tiny" icon="image" />
               <Card.Header>{game.name}</Card.Header>
@@ -233,7 +234,7 @@ class Search extends React.Component {
         );
       } else {
         return (
-          <Card onClick={() => this.handlePlateSelection(index)}>
+          <Card key={uuidv4()} onClick={() => this.handlePlateSelection(index)}>
             <Card.Content>
               <Image
                 floated="right"
@@ -412,7 +413,7 @@ class Search extends React.Component {
             <Image src="/images/wireframe/short-paragraph.png" />
           </React.Fragment>
         ) : !this.state.selectedGame && this.state.loading === false ? (
-          <Card.Group class="ui cards">{this.renderCardGroup()}</Card.Group>
+          <Card.Group className="ui cards">{this.renderCardGroup()}</Card.Group>
         ) : this.state.selectedGame ? (
           <React.Fragment>{this.renderCard()}</React.Fragment>
         ) : null}

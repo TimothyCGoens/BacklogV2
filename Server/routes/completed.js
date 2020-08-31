@@ -10,6 +10,8 @@ router.post("/add", async (req, res) => {
   let userId = req.body.userId;
   let image = req.body.image;
   let gameId = req.body.gameId;
+  let platform = req.body.platform;
+  let releaseDate = req.body.releaseDate;
 
   let game = {
     userId: userId,
@@ -17,6 +19,8 @@ router.post("/add", async (req, res) => {
     image: image,
     startDate: startDate,
     gameId: gameId,
+    platform: platform,
+    releaseDate: releaseDate,
   };
 
   await models.Completeds.create(game);

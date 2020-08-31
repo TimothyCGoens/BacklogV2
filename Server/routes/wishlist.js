@@ -7,12 +7,16 @@ router.post("/add", async (req, res) => {
   let image = req.body.image;
   let userId = req.body.userId;
   let gameId = req.body.gameId;
+  let platform = req.body.platform;
+  let releaseDate = req.body.releaseDate;
 
   let game = {
     userId: userId,
     title: title,
     image: image,
     gameId: gameId,
+    platform: platform,
+    releaseDate: releaseDate,
   };
   await models.Wishlists.create(game);
   res.json(game);
