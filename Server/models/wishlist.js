@@ -1,9 +1,11 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
   const Wishlists = sequelize.define("Wishlists", {
+    gameId: DataTypes.INTEGER,
     title: DataTypes.STRING,
     image: DataTypes.STRING,
-    gameId: DataTypes.INTEGER,
+    platform: DataTypes.STRING,
+    releaseDate: DataTypes.DATE,
   });
   Wishlists.associate = function (models) {
     Wishlists.belongsTo(models.Users, {

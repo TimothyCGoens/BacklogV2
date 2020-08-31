@@ -23,6 +23,12 @@ module.exports = {
       image: {
         type: Sequelize.STRING,
       },
+      platform: {
+        type: Sequelize.STRING,
+      },
+      releaseDate: {
+        type: Sequelize.DATE,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

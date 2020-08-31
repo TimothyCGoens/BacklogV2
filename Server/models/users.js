@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       username: DataTypes.STRING,
       password: DataTypes.STRING,
       location: DataTypes.STRING,
+      platforms: DataTypes.ARRAY(DataTypes.STRING),
     },
     {}
   );
@@ -19,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
     });
     Users.hasMany(models.Wishlists, {
       as: "wishlists",
+      foreignKey: "userId",
+    });
+    Users.hasMany(models.Completeds, {
+      as: "completeds",
       foreignKey: "userId",
     });
   };

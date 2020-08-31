@@ -15,7 +15,7 @@ import {
   moveGameFromBacklogToCompleted,
 } from "../redux/actions/actions";
 // import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { Tab, Container, Label, Menu } from "semantic-ui-react";
+import { Tab, Container, Label, Image, Card, Button } from "semantic-ui-react";
 import "react-tabs/style/react-tabs.css";
 import "./profile.css";
 
@@ -25,6 +25,7 @@ class Profile extends React.Component {
     this.props.getBacklog(this.props.userId);
     this.props.getWishlist(this.props.userId);
     this.props.getCompleted(this.props.userId);
+    console.log(this.props.user);
   }
 
   handleBacklogDeleteClick = (id, game) => {
@@ -47,61 +48,148 @@ class Profile extends React.Component {
   };
 
   renderBacklog() {
-    return this.props.backlog.map((game) => {
-      return (
-        <div key={game.gameId}>
-          <Plate image={game.image} name={game.title} />
-          <button onClick={this.handleCompletedClick.bind(this, game.id, game)}>
-            Completed
-          </button>
-          <button
-            onClick={this.handleBacklogDeleteClick.bind(this, game.id, game)}>
-            Delete
-          </button>
-        </div>
-      );
-    });
+    if (this.props.backlog.length < 1) {
+      return <h1>Please add some games to your backlog!</h1>;
+    } else {
+      return this.props.backlog.map((game) => {
+        return (
+          <Card.Group class="ui cards">
+            <Card key={game.gameId}>
+              <Card.Content>
+                <Image floated="right" size="tiny" src={game.image} />
+                <Card.Header>{game.title}</Card.Header>
+              </Card.Content>
+              <Card.Content extra>
+                <div className="ui two buttons">
+                  <Button
+                    onClick={this.handleCompletedClick.bind(
+                      this,
+                      game.id,
+                      game
+                    )}
+                    basic
+                    color="green">
+                    Complete
+                  </Button>
+                  <Button
+                    onClick={this.handleBacklogDeleteClick.bind(
+                      this,
+                      game.id,
+                      game
+                    )}
+                    basic
+                    color="red">
+                    Delete
+                  </Button>
+                </div>
+              </Card.Content>
+            </Card>
+          </Card.Group>
+        );
+      });
+    }
   }
 
   renderWishlist() {
-    return this.props.wishlist.map((game) => {
-      return (
-        <div key={game.gameId}>
-          <Plate image={game.image} name={game.title} />
-          <button onClick={this.handleMoveClick.bind(this, game.id, game)}>
-            Move To Backlog
-          </button>
-          <button
-            onClick={this.handleWishlistDeleteClick.bind(this, game.id, game)}>
-            Delete
-          </button>
-        </div>
-      );
-    });
+    if (this.props.wishlist.length < 1) {
+      return <h1>Please add some games to your wishlist!</h1>;
+    } else {
+      return this.props.wishlist.map((game) => {
+        return (
+          <Card.Group class="ui cards">
+            <Card key={game.gameId}>
+              <Card.Content>
+                <Image floated="right" size="tiny" src={game.image} />
+                <Card.Header>{game.title}</Card.Header>
+              </Card.Content>
+              <Card.Content extra>
+                <div className="ui two buttons">
+                  <Button
+                    onClick={this.handleMoveClick.bind(this, game.id, game)}
+                    basic
+                    color="green">
+                    Backlog
+                  </Button>
+                  <Button
+                    onClick={this.handleWishlistDeleteClick.bind(
+                      this,
+                      game.id,
+                      game
+                    )}
+                    basic
+                    color="red">
+                    Delete
+                  </Button>
+                </div>
+              </Card.Content>
+            </Card>
+          </Card.Group>
+        );
+      });
+    }
   }
   renderCompleted() {
-    return this.props.completed.map((game) => {
-      return (
-        <div key={game.gameId}>
-          <Plate image={game.image} name={game.title} />
-        </div>
-      );
-    });
+    if (this.props.completed.length < 1) {
+      return <h1>You have not completed any games yet</h1>;
+    } else {
+      return this.props.completed.map((game) => {
+        return (
+          <Card.Group class="ui cards">
+            <Card key={game.gameId}>
+              <Card.Content>
+                <Image floated="right" size="tiny" src={game.image} />
+                <Card.Header>{game.title}</Card.Header>
+              </Card.Content>
+              <Card.Content extra>Stats go here??</Card.Content>
+            </Card>
+          </Card.Group>
+        );
+      });
+    }
   }
 
   render() {
     const panes = [
       {
-        menuItem: { key: "users", icon: "users", content: "Users" },
-        render: () => <Tab.Pane>Tab 1 Content</Tab.Pane>,
+        menuItem: {
+          key: "users",
+          icon: "users",
+          content: this.props.user.username,
+        },
+        render: () => <Tab.Pane>Stats</Tab.Pane>,
       },
       {
-        menuItem: (
-          <Menu.Item key="messages">
-            Backlog<Label>{this.props.backlog.length}</Label>
-          </Menu.Item>
-        ),
+        menuItem: {
+          icon: "gamepad",
+          content: (
+            <React.Fragment>
+              Backlog<Label>{this.props.backlog.length}</Label>
+            </React.Fragment>
+          ),
+        },
         render: () => <Tab.Pane>{this.renderBacklog()}</Tab.Pane>,
+      },
+      {
+        menuItem: {
+          icon: "gift",
+          content: (
+            <React.Fragment>
+              Wishlist<Label>{this.props.wishlist.length}</Label>
+            </React.Fragment>
+          ),
+        },
+        render: () => <Tab.Pane>{this.renderWishlist()}</Tab.Pane>,
+      },
+      {
+        menuItem: {
+          icon: "check",
+          content: (
+            <React.Fragment>
+              Completed<Label>{this.props.completed.length}</Label>
+            </React.Fragment>
+          ),
+        },
+        render: () => <Tab.Pane>{this.renderCompleted()}</Tab.Pane>,
       },
     ];
 
@@ -109,41 +197,6 @@ class Profile extends React.Component {
       <Container>
         <Tab panes={panes} />
       </Container>
-      // <div>
-      //   <Tabs>
-      //     <TabList>
-      //       <Tab>User Info</Tab>
-      //       <Tab>Backlog</Tab>
-      //       <Tab>Wish List</Tab>
-      //       <Tab>Completed Games</Tab>
-      //     </TabList>
-
-      //     <TabPanel></TabPanel>
-
-      //     <TabPanel>
-      //       {this.props.backlog.length < 1 ? (
-      //         <h1>Please add some games to your backlog!</h1>
-      //       ) : (
-      //         this.renderBacklog()
-      //       )}
-      //     </TabPanel>
-      //     <TabPanel>
-      //       {this.props.wishlist.length < 1 ? (
-      //         <h1>Please add some games to your wishlist!</h1>
-      //       ) : (
-      //         this.renderWishlist()
-      //       )}
-      //     </TabPanel>
-
-      //     <TabPanel>
-      //       {this.props.completed.length < 1 ? (
-      //         <h1>You haven't completed any games yet!</h1>
-      //       ) : (
-      //         this.renderCompleted()
-      //       )}
-      //     </TabPanel>
-      //   </Tabs>
-      // </div>
     );
   }
 }

@@ -220,23 +220,13 @@ class Search extends React.Component {
         return (
           <Card onClick={() => this.handlePlateSelection(index)}>
             <Card.Content>
+              <Image floated="right" size="tiny" icon="image" />
               <Card.Header>{game.name}</Card.Header>
               <Card.Meta>
                 {moment(game.released).format("MMMM Do YYYY")}
               </Card.Meta>
               <Card.Description>
-                <List horizontal>
-                  <List.Item>
-                    <Image
-                      avatar
-                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Metacritic.svg/1200px-Metacritic.svg.png"
-                    />
-                    <List.Content>
-                      <List.Header>Score</List.Header>
-                      {game.metacritic}
-                    </List.Content>
-                  </List.Item>
-                </List>
+                <List horizontal></List>
               </Card.Description>
             </Card.Content>
           </Card>
@@ -259,12 +249,6 @@ class Search extends React.Component {
               </Card.Description>
             </Card.Content>
           </Card>
-          // <Plate
-          //   key={game.id}
-          //   image={game.short_screenshots[0].image}
-          //   name={game.name}
-          //   clicked={() => this.handlePlateSelection(index)}
-          // />
         );
       }
     });
@@ -453,23 +437,3 @@ export default connect(mapStateToProps, {
   getWishlist,
   getCompleted,
 })(Search);
-
-// <Card
-// name={this.state.selectedGame.name}
-// platform={platforms}
-// genre={genres}
-// score={this.state.selectedGame.metacritic}
-// image={this.state.selectedGame.short_screenshots[0].image}></Card>
-// <div className="buttons">
-// <Button
-//   onClick={this.handleAddToBacklog}
-//   content="Backlog"></Button>
-// <Button
-//   onClick={this.handleAddToWishlist}
-//   content="Wishlist"></Button>
-// <Button
-//   onClick={this.resetGameSelection}
-//   content="Collection"></Button>
-// <Button onClick={this.resetGameSelection} content="Back"></Button>
-// <p className="validation-error">{this.state.searchMessage}</p>
-// </div>

@@ -1,9 +1,11 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
   const Backlogs = sequelize.define("Backlogs", {
+    gameId: DataTypes.INTEGER,
     title: DataTypes.STRING,
     image: DataTypes.STRING,
-    gameId: DataTypes.INTEGER,
+    platform: DataTypes.STRING,
+    releaseDate: DataTypes.DATE,
   });
   Backlogs.associate = function (models) {
     Backlogs.belongsTo(models.Users, {
