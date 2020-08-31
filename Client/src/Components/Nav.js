@@ -17,7 +17,7 @@ class Nav extends React.Component {
     return (
       <div className="nav">
         <nav>
-          <h1 className="app-header">BVCK/LOG</h1>
+          <h1 className="app-header">The Backlog</h1>
           <ul className="navbar">
             {!this.props.isAuthenticated ? (
               <Link className="link-style" to="/register">
