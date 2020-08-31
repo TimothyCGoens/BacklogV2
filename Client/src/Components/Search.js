@@ -73,7 +73,6 @@ class Search extends React.Component {
 
   //when you click the BACK button, it resets state for selectedGame and searchMessage
   resetGameSelection = () => {
-    console.log("clicked");
     this.setState({
       selectedGame: "",
       searchMessage: "",
@@ -127,7 +126,6 @@ class Search extends React.Component {
       platform: this.state.platform,
       releaseDate: this.state.releaseDate,
     };
-    console.log(game);
     if (this.props.userId === null) {
       this.setState({
         searchMessage: "Please log in to add game to your wishlist",
@@ -209,7 +207,6 @@ class Search extends React.Component {
       platformSelected: true,
       searchMessage: "",
     });
-    console.log(this.state.platform);
   };
 
   renderCardGroup() {

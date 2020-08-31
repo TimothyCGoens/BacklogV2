@@ -1,4 +1,6 @@
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
+
 import { connect } from "react-redux";
 import {
   getUser,
@@ -45,38 +47,16 @@ class Profile extends React.Component {
     this.props.deleteBacklogGameDB(id);
     this.props.moveGameFromBacklogToCompleted(game);
   };
-
-  // platformConfig = {
-  //   PS4: {
-  //     color: "blue",
-  //   },
-  //   NS: {
-  //     color: "red",
-  //   },
-  //   XB: {
-  //     color: "green",
-  //   },
-  //   PC: {
-  //     color: "black",
-  //   },
-  // };
-
-  // getPlatforms = () => {
-  //   this.props.backlog.map((game) => {
-
-  //   });
-  // };
-
   renderBacklog() {
     if (this.props.backlog.length < 1) {
       return <h1>Please add some games to your backlog!</h1>;
     } else {
       return this.props.backlog.map((game) => {
         return (
-          <Card.Group className="ui cards">
+          <Card.Group key={uuidv4()} className="ui cards">
             <Card
               color={
-                `${game.platform}` === "Playstation 4"
+                `${game.platform}` === "PlayStation 4"
                   ? "blue"
                   : `${game.platform}` === "Nintendo Switch"
                   ? "red"
@@ -95,7 +75,7 @@ class Profile extends React.Component {
                 </Card.Meta>
               </Card.Content>
               <Card.Content extra>
-                <div className="ui two buttons">
+                <div key={uuidv4()} className="ui two buttons">
                   <Button
                     onClick={this.handleCompletedClick.bind(
                       this,
@@ -131,8 +111,21 @@ class Profile extends React.Component {
     } else {
       return this.props.wishlist.map((game) => {
         return (
-          <Card.Group class="ui cards">
-            <Card key={game.gameId}>
+          <Card.Group key={uuidv4()} className="ui cards">
+            <Card
+              raised
+              color={
+                `${game.platform}` === "PlayStation 4"
+                  ? "blue"
+                  : `${game.platform}` === "Nintendo Switch"
+                  ? "red"
+                  : `${game.platform}` === "Xbox One"
+                  ? "green"
+                  : `${game.platform}` === "PC"
+                  ? "black"
+                  : null
+              }
+              key={game.gameId}>
               <Card.Content>
                 <Image floated="right" size="tiny" src={game.image} />
                 <Card.Header>{game.title}</Card.Header>
@@ -172,11 +165,26 @@ class Profile extends React.Component {
     } else {
       return this.props.completed.map((game) => {
         return (
-          <Card.Group class="ui cards">
-            <Card key={game.gameId}>
+          <Card.Group key={uuidv4()} className="ui cards">
+            <Card
+              color={
+                `${game.platform}` === "PlayStation 4"
+                  ? "blue"
+                  : `${game.platform}` === "Nintendo Switch"
+                  ? "red"
+                  : `${game.platform}` === "Xbox One"
+                  ? "green"
+                  : `${game.platform}` === "PC"
+                  ? "black"
+                  : null
+              }
+              key={game.gameId}>
               <Card.Content>
                 <Image floated="right" size="tiny" src={game.image} />
                 <Card.Header>{game.title}</Card.Header>
+                <Card.Meta>
+                  {moment(game.released).format("MMMM Do YYYY")}
+                </Card.Meta>
               </Card.Content>
               <Card.Content extra>Stats go here??</Card.Content>
             </Card>
