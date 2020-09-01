@@ -15,17 +15,51 @@ import {
   moveGameFromBacklogToCompleted,
 } from "../redux/actions/actions";
 import moment from "moment";
-import { Tab, Container, Label, Image, Card, Button } from "semantic-ui-react";
+import {
+  Tab,
+  Container,
+  Label,
+  Image,
+  Card,
+  Button,
+  Grid,
+} from "semantic-ui-react";
+import StatTable from "./StatTable";
 import UserDetails from "./UserDetails";
 import "react-tabs/style/react-tabs.css";
 import "./profile.css";
+import Axios from "axios";
 
 class Profile extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      games: [],
+    };
+  }
   componentDidMount() {
     this.props.getUser(this.props.userId);
     this.props.getBacklog(this.props.userId);
     this.props.getWishlist(this.props.userId);
     this.props.getCompleted(this.props.userId);
+
+    Axios.get(
+      `http://localhost:8080/api/backlog/platforms/${this.props.userId}`
+    ).then((response) => {
+      console.log(response);
+      this.setState({
+        data: response.data,
+      });
+
+      // response.data.games.map((game) => {
+      //   let platformObject = {
+      //     platform: game.platform,
+      //     numberOfGames: game.games,
+      //   };
+      // });
+    });
+    console.log(this.state.data);
   }
 
   handleBacklogDeleteClick = (id, game) => {
@@ -193,6 +227,10 @@ class Profile extends React.Component {
     }
   }
 
+  renderStatTable = () => {
+    //do it here
+  };
+
   render() {
     const panes = [
       {
@@ -203,10 +241,23 @@ class Profile extends React.Component {
         },
         render: () => (
           <Tab.Pane>
-            <UserDetails
-              name={this.props.user.username}
-              location={this.props.user.location}
-            />
+            <Container>
+              <Grid divided="vertically">
+                <Grid.Row columns={2}>
+                  <Grid.Column>
+                    <Container>
+                      <UserDetails
+                        name={this.props.user.username}
+                        location={this.props.user.location}
+                      />
+                    </Container>
+                  </Grid.Column>
+                  <Grid.Column className="stat-column">
+                    <StatTable />
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            </Container>
           </Tab.Pane>
         ),
       },

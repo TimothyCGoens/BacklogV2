@@ -23,6 +23,7 @@ const initialState = {
   backlog: [],
   wishlist: [],
   completed: [],
+  // platformData: [],
 };
 
 export default function (state = initialState, action) {

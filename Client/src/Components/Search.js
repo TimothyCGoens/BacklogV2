@@ -29,6 +29,7 @@ import "./search.css";
 const backlogArray = [];
 const wishlistArray = [];
 const completedArray = [];
+const platformCounts = [];
 
 class Search extends React.Component {
   constructor() {
@@ -111,6 +112,7 @@ class Search extends React.Component {
       });
     } else {
       this.props.addBacklogGame(game);
+      // this.countPlatform(game);
       this.setState({
         searchMessage: "Game added!",
       });
@@ -407,7 +409,6 @@ class Search extends React.Component {
             <Dimmer active inverted>
               <Loader inverted>Loading</Loader>
             </Dimmer>
-            <Image src="/images/wireframe/short-paragraph.png" />
           </React.Fragment>
         ) : !this.state.selectedGame && this.state.loading === false ? (
           <Card.Group className="ui cards">{this.renderCardGroup()}</Card.Group>
