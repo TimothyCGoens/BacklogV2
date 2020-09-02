@@ -3,7 +3,6 @@ const router = express.Router();
 const models = require("../models");
 
 router.post("/add", async (req, res) => {
-  console.log(req.body);
   let title = req.body.title;
   let image = req.body.image;
   let userId = req.body.userId;
@@ -45,22 +44,22 @@ router.get("/list/:userId", async (req, res) => {
   res.json(gameData);
 });
 
-router.get("/platforms/:userId", async (req, res) => {
-  let userId = req.params.userId;
+// router.get("/platforms/:userId", async (req, res) => {
+//   let userId = req.params.userId;
 
-  const { count, rows } = await models.Backlogs.findAndCountAll({
-    where: {
-      userId: userId,
-    },
-    attributes: ["platform"],
-    group: "platform",
-  });
-  res.json(
-    (platforms = {
-      platform: rows,
-      games: count,
-    })
-  );
-});
+//   const { count, rows } = await models.Backlogs.findAndCountAll({
+//     where: {
+//       userId: userId,
+//     },
+//     attributes: ["platform"],
+//     group: "platform",
+//   });
+//   res.json(
+//     (platforms = {
+//       platform: rows,
+//       games: count,
+//     })
+//   );
+// });
 
 module.exports = router;

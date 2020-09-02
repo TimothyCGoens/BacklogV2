@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import {
   getUser,
   getBacklog,
-  getBacklogPlatformCount,
+  getPlatformCount,
   getWishlist,
   deleteBacklogGameState,
   deleteBacklogGameDB,
@@ -47,7 +47,7 @@ class Profile extends React.Component {
     this.props.getBacklog(this.props.userId);
     this.props.getWishlist(this.props.userId);
     this.props.getCompleted(this.props.userId);
-    this.props.getBacklogPlatformCount(this.props.userId);
+    this.props.getPlatformCount(this.props.userId);
   }
 
   handleBacklogDeleteClick = (id, game) => {
@@ -219,8 +219,8 @@ class Profile extends React.Component {
     const totalGames = this.props.backlog.length + this.props.completed.length;
 
     let platformCounts = [];
-    let platforms = this.props.backlogPlatforms;
-    let counts = this.props.backlogPlatformCounts;
+    let platforms = this.props.platforms;
+    let counts = this.props.platformGamesCount;
 
     platformCounts = platforms.map(function (item, index) {
       return {
@@ -348,15 +348,15 @@ const mapStateToProps = (state) => {
     backlog: state.backlog,
     wishlist: state.wishlist,
     completed: state.completed,
-    backlogPlatforms: state.backlogPlatforms,
-    backlogPlatformCounts: state.backlogPlatformCounts,
+    platforms: state.platforms,
+    platformGamesCount: state.platformGamesCount,
   };
 };
 
 export default connect(mapStateToProps, {
   getUser,
   getBacklog,
-  getBacklogPlatformCount,
+  getPlatformCount,
   getWishlist,
   getCompleted,
   deleteBacklogGameState,
