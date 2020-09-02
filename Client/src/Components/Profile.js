@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import {
   getUser,
   getBacklog,
+  getBacklogPlatformCount,
   getWishlist,
   deleteBacklogGameState,
   deleteBacklogGameDB,
@@ -28,14 +29,17 @@ import StatTable from "./StatTable";
 import UserDetails from "./UserDetails";
 import "react-tabs/style/react-tabs.css";
 import "./profile.css";
-import Axios from "axios";
+// import Axios from "axios";
+
+let platformsArray = [];
+let countsArray = [];
 
 class Profile extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      games: [],
+      allGames: null,
     };
   }
   componentDidMount() {
@@ -43,23 +47,7 @@ class Profile extends React.Component {
     this.props.getBacklog(this.props.userId);
     this.props.getWishlist(this.props.userId);
     this.props.getCompleted(this.props.userId);
-
-    Axios.get(
-      `http://localhost:8080/api/backlog/platforms/${this.props.userId}`
-    ).then((response) => {
-      console.log(response);
-      this.setState({
-        data: response.data,
-      });
-
-      // response.data.games.map((game) => {
-      //   let platformObject = {
-      //     platform: game.platform,
-      //     numberOfGames: game.games,
-      //   };
-      // });
-    });
-    console.log(this.state.data);
+    this.props.getBacklogPlatformCount(this.props.userId);
   }
 
   handleBacklogDeleteClick = (id, game) => {
@@ -74,12 +62,12 @@ class Profile extends React.Component {
     this.props.moveGameFromWishlistToBacklog(game);
     this.props.deleteWishlistGameDB(id);
   };
-
   handleCompletedClick = (id, game) => {
     console.log(game);
     this.props.deleteBacklogGameDB(id);
     this.props.moveGameFromBacklogToCompleted(game);
   };
+
   renderBacklog() {
     if (this.props.backlog.length < 1) {
       return <h1>Please add some games to your backlog!</h1>;
@@ -230,8 +218,23 @@ class Profile extends React.Component {
   renderStatTable = () => {
     //do it here
   };
+  // handleTabClick = () => {
+  //   console.log("clicked");
+  // };
+
+  renderPlatformCounts = () => {
+    platformsArray = this.props.backlogPlatforms.platform;
+    countsArray = this.props.backlogPlatforms.games;
+    console.log(platformsArray);
+    console.log(countsArray);
+  };
 
   render() {
+    this.renderPlatformCounts();
+    const totalGames = this.props.backlog.length + this.props.completed.length;
+
+    console.log(this.props.backlogPlatforms);
+
     const panes = [
       {
         menuItem: {
@@ -253,7 +256,7 @@ class Profile extends React.Component {
                     </Container>
                   </Grid.Column>
                   <Grid.Column className="stat-column">
-                    <StatTable />
+                    <StatTable allGames={totalGames} />
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
@@ -314,12 +317,14 @@ const mapStateToProps = (state) => {
     backlog: state.backlog,
     wishlist: state.wishlist,
     completed: state.completed,
+    backlogPlatforms: state.backlogPlatforms,
   };
 };
 
 export default connect(mapStateToProps, {
   getUser,
   getBacklog,
+  getBacklogPlatformCount,
   getWishlist,
   getCompleted,
   deleteBacklogGameState,

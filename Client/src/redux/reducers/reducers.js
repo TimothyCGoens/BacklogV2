@@ -1,5 +1,6 @@
 import {
   GET_BACKLOG,
+  GET_BACKLOG_PLATFORM_COUNT,
   ADD_BACKLOG_GAME,
   DELETE_BACKLOG_GAME_DB,
   DELETE_BACKLOG_GAME_STATE,
@@ -23,7 +24,7 @@ const initialState = {
   backlog: [],
   wishlist: [],
   completed: [],
-  // platformData: [],
+  backlogPlatforms: [],
 };
 
 export default function (state = initialState, action) {
@@ -61,6 +62,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         backlog: action.payload,
+      };
+    case GET_BACKLOG_PLATFORM_COUNT:
+      return {
+        ...state,
+        backlogPlatforms: action.payload,
       };
 
     //adding a game to db and state

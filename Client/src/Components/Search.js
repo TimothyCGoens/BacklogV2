@@ -29,7 +29,6 @@ import "./search.css";
 const backlogArray = [];
 const wishlistArray = [];
 const completedArray = [];
-const platformCounts = [];
 
 class Search extends React.Component {
   constructor() {

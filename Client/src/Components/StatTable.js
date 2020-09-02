@@ -1,7 +1,7 @@
 import React from "react";
 import { Header, Table } from "semantic-ui-react";
 
-const StatTable = () => {
+const StatTable = (props) => {
   return (
     <Table basic="very" celled collapsing>
       <Table.Header></Table.Header>
@@ -13,7 +13,7 @@ const StatTable = () => {
               <Header.Subheader>Excluding Wishlist</Header.Subheader>
             </Header>
           </Table.Cell>
-          <Table.Cell>22</Table.Cell>
+          <Table.Cell>{props.allGames}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.Cell>

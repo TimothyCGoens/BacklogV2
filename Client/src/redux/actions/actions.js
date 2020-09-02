@@ -4,6 +4,7 @@ import {
   LOG_IN,
   LOG_OUT,
   GET_BACKLOG,
+  GET_BACKLOG_PLATFORM_COUNT,
   ADD_BACKLOG_GAME,
   DELETE_BACKLOG_GAME_STATE,
   DELETE_BACKLOG_GAME_DB,
@@ -46,6 +47,16 @@ export const getBacklog = (userId) => (dispatch) => {
       payload: res.data,
     })
   );
+};
+export const getBacklogPlatformCount = (userId) => (dispatch) => {
+  axios
+    .get(`http://localhost:8080/api/backlog/platforms/${userId}`)
+    .then((res) =>
+      dispatch({
+        type: GET_BACKLOG_PLATFORM_COUNT,
+        payload: res.data,
+      })
+    );
 };
 export const getWishlist = (userId) => (dispatch) => {
   axios.get(`http://localhost:8080/api/wishlist/list/${userId}`).then((res) =>
