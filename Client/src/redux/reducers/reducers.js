@@ -25,6 +25,7 @@ const initialState = {
   wishlist: [],
   completed: [],
   backlogPlatforms: [],
+  backlogPlatformCounts: [],
 };
 
 export default function (state = initialState, action) {
@@ -66,7 +67,8 @@ export default function (state = initialState, action) {
     case GET_BACKLOG_PLATFORM_COUNT:
       return {
         ...state,
-        backlogPlatforms: action.payload,
+        backlogPlatforms: action.payload.platform,
+        backlogPlatformCounts: action.payload.games,
       };
 
     //adding a game to db and state

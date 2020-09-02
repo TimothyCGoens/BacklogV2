@@ -18,34 +18,10 @@ const StatTable = (props) => {
         <Table.Row>
           <Table.Cell>
             <Header as="h4" image>
-              <Header.Content>PS4</Header.Content>
+              <Header.Content>{props.platform}</Header.Content>
             </Header>
           </Table.Cell>
-          <Table.Cell>15</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>
-            <Header as="h4" image>
-              <Header.Content>Xbox</Header.Content>
-            </Header>
-          </Table.Cell>
-          <Table.Cell>12</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>
-            <Header as="h4" image>
-              <Header.Content>Nintendo Switch</Header.Content>
-            </Header>
-          </Table.Cell>
-          <Table.Cell>11</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>
-            <Header as="h4" image>
-              <Header.Content>PC</Header.Content>
-            </Header>
-          </Table.Cell>
-          <Table.Cell>11</Table.Cell>
+          <Table.Cell>{props.games}</Table.Cell>
         </Table.Row>
       </Table.Body>
     </Table>

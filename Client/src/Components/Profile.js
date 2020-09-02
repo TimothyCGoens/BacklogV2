@@ -24,24 +24,24 @@ import {
   Card,
   Button,
   Grid,
+  Header,
+  Table,
 } from "semantic-ui-react";
-import StatTable from "./StatTable";
+// import StatTable from "./StatTable";
 import UserDetails from "./UserDetails";
 import "react-tabs/style/react-tabs.css";
 import "./profile.css";
 // import Axios from "axios";
 
-let platformsArray = [];
-let countsArray = [];
-
 class Profile extends React.Component {
-  constructor() {
-    super();
+  // constructor() {
+  //   super();
 
-    this.state = {
-      allGames: null,
-    };
-  }
+  //   this.state = {
+  //     platformsArray: [],
+  //     countsArray: [],
+  //   };
+  // }
   componentDidMount() {
     this.props.getUser(this.props.userId);
     this.props.getBacklog(this.props.userId);
@@ -215,26 +215,60 @@ class Profile extends React.Component {
     }
   }
 
-  renderStatTable = () => {
-    //do it here
-  };
-  // handleTabClick = () => {
-  //   console.log("clicked");
-  // };
-
-  renderPlatformCounts = () => {
-    platformsArray = this.props.backlogPlatforms.platform;
-    countsArray = this.props.backlogPlatforms.games;
-    console.log(platformsArray);
-    console.log(countsArray);
-  };
-
-  render() {
-    this.renderPlatformCounts();
+  renderStatTable() {
     const totalGames = this.props.backlog.length + this.props.completed.length;
 
-    console.log(this.props.backlogPlatforms);
+    let platformCounts = [];
+    let platforms = this.props.backlogPlatforms;
+    let counts = this.props.backlogPlatformCounts;
 
+    platformCounts = platforms.map(function (item, index) {
+      return {
+        platform: item.platform,
+        games: counts[index].count,
+      };
+    });
+
+    let sortedPlatforms = platformCounts.sort(function (a, b) {
+      let gamesA = a.games;
+      let gamesB = b.games;
+      return gamesB - gamesA;
+    });
+    console.log(sortedPlatforms);
+
+    return (
+      <Table basic="very" celled collapsing>
+        <Table.Header></Table.Header>
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell>
+              <Header as="h4" image>
+                <Header.Content>Total Games</Header.Content>
+                <Header.Subheader>Excluding Wishlist</Header.Subheader>
+              </Header>
+            </Table.Cell>
+            <Table.Cell>{totalGames}</Table.Cell>
+          </Table.Row>
+          {sortedPlatforms.map((item) => {
+            return (
+              <Table.Row>
+                <Table.Cell>
+                  <Header as="h4" image>
+                    <Header.Content>{item.platform}</Header.Content>
+                  </Header>
+                </Table.Cell>
+                <Table.Cell>{item.games}</Table.Cell>
+              </Table.Row>
+            );
+          })}
+        </Table.Body>
+      </Table>
+    );
+  }
+
+  renderPlatforms = () => {};
+
+  render() {
     const panes = [
       {
         menuItem: {
@@ -256,7 +290,7 @@ class Profile extends React.Component {
                     </Container>
                   </Grid.Column>
                   <Grid.Column className="stat-column">
-                    <StatTable allGames={totalGames} />
+                    {this.renderStatTable()}
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
@@ -318,6 +352,7 @@ const mapStateToProps = (state) => {
     wishlist: state.wishlist,
     completed: state.completed,
     backlogPlatforms: state.backlogPlatforms,
+    backlogPlatformCounts: state.backlogPlatformCounts,
   };
 };
 
