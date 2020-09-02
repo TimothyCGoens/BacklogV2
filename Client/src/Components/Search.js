@@ -88,6 +88,7 @@ class Search extends React.Component {
       gameId: this.state.gameId,
       platform: this.state.platform,
       releaseDate: this.state.releaseDate,
+      backlog: true,
     };
     if (this.props.userId === null) {
       this.setState({
@@ -126,6 +127,7 @@ class Search extends React.Component {
       gameId: this.state.gameId,
       platform: this.state.platform,
       releaseDate: this.state.releaseDate,
+      wishlist: true,
     };
     if (this.props.userId === null) {
       this.setState({

@@ -234,7 +234,6 @@ class Profile extends React.Component {
       let gamesB = b.games;
       return gamesB - gamesA;
     });
-    console.log(sortedPlatforms);
 
     return (
       <Table basic="very" celled collapsing>
@@ -265,8 +264,6 @@ class Profile extends React.Component {
       </Table>
     );
   }
-
-  renderPlatforms = () => {};
 
   render() {
     const panes = [

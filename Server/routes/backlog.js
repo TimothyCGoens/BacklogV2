@@ -18,14 +18,16 @@ router.post("/add", async (req, res) => {
     gameId: gameId,
     platform: platform,
     releaseDate: releaseDate,
+    backlog: true,
+    wishlist: false,
   };
-  await models.Backlogs.create(game);
+  await models.Games.create(game);
   res.json(game);
 });
 
 router.post("/delete/:id", async (req, res) => {
   let id = req.params.id;
-  models.Backlogs.destroy({
+  models.Games.destroy({
     where: {
       id: id,
     },
@@ -34,9 +36,10 @@ router.post("/delete/:id", async (req, res) => {
 
 router.get("/list/:userId", async (req, res) => {
   let userId = req.params.userId;
-  const gameData = await models.Backlogs.findAll({
+  const gameData = await models.Games.findAll({
     where: {
       userId: userId,
+      backlog: true,
     },
   });
   res.json(gameData);
