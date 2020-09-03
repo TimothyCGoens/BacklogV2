@@ -64,6 +64,7 @@ export default function (state = initialState, action) {
         ...state,
         backlog: action.payload,
       };
+
     case GET_PLATFORM_COUNT:
       return {
         ...state,

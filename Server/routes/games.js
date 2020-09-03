@@ -12,7 +12,6 @@ router.get("/all/:userId", async (req, res) => {
     attributes: ["platform"],
     group: "platform",
   });
-  console.log(res);
   res.json(
     (platforms = {
       platform: rows,

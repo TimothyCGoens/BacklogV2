@@ -56,6 +56,7 @@ export const getPlatformCount = (userId) => (dispatch) => {
     })
   );
 };
+
 export const getWishlist = (userId) => (dispatch) => {
   axios.get(`http://localhost:8080/api/wishlist/list/${userId}`).then((res) =>
     dispatch({

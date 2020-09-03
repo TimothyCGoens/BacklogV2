@@ -10,6 +10,7 @@ import {
   Button,
   Dimmer,
   Loader,
+  Popup,
 } from "semantic-ui-react";
 import ReadMoreReact from "read-more-react";
 import moment from "moment";
@@ -361,17 +362,26 @@ class Search extends React.Component {
         <Card.Content extra>
           <div className="dropdown-section">{this.renderDropdown()}</div>
           <p className="validation-error">{this.state.searchMessage}</p>
-          <div className="ui three buttons">
-            <Button onClick={this.handleAddToBacklog} basic color="green">
-              Backlog
-            </Button>
-            <Button onClick={this.handleAddToWishlist} basic color="blue">
-              Wishlist
-            </Button>
-            <Button onClick={this.resetGameSelection} basic color="red">
-              Back
-            </Button>
-          </div>
+          <Button.Group basic size="small">
+            <Popup
+              content="Add to Backlog"
+              trigger={
+                <Button onClick={this.handleAddToBacklog} icon="gamepad" />
+              }
+            />
+            <Popup
+              content="Add to Wishlist"
+              trigger={
+                <Button onClick={this.handleAddToWishlist} icon="gift" />
+              }
+            />
+            <Popup
+              content="Back to Search"
+              trigger={
+                <Button onClick={this.resetGameSelection} icon="reply" />
+              }
+            />
+          </Button.Group>
         </Card.Content>
       </Card>
     );

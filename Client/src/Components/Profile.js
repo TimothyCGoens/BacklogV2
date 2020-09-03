@@ -26,6 +26,7 @@ import {
   Grid,
   Header,
   Table,
+  Popup,
 } from "semantic-ui-react";
 // import StatTable from "./StatTable";
 import UserDetails from "./UserDetails";
@@ -53,6 +54,7 @@ class Profile extends React.Component {
   handleBacklogDeleteClick = (id, game) => {
     this.props.deleteBacklogGameDB(id);
     this.props.deleteBacklogGameState(game);
+    this.props.getPlatformCount();
   };
   handleWishlistDeleteClick = (id, game) => {
     this.props.deleteWishlistGameDB(id);
@@ -61,6 +63,7 @@ class Profile extends React.Component {
   handleMoveClick = (id, game) => {
     this.props.moveGameFromWishlistToBacklog(game);
     this.props.deleteWishlistGameDB(id);
+    this.props.getPlatformCount();
   };
   handleCompletedClick = (id, game) => {
     console.log(game);
@@ -96,28 +99,42 @@ class Profile extends React.Component {
                 </Card.Meta>
               </Card.Content>
               <Card.Content extra>
-                <div key={uuidv4()} className="ui two buttons">
-                  <Button
-                    onClick={this.handleCompletedClick.bind(
-                      this,
-                      game.id,
-                      game
-                    )}
-                    basic
-                    color="green">
-                    Complete
-                  </Button>
-                  <Button
-                    onClick={this.handleBacklogDeleteClick.bind(
-                      this,
-                      game.id,
-                      game
-                    )}
-                    basic
-                    color="red">
-                    Delete
-                  </Button>
-                </div>
+                <Button.Group basic size="small">
+                  <Popup
+                    content="Currently Playing"
+                    trigger={<Button icon="play" />}
+                  />
+                  <Popup
+                    content="Stop Playing"
+                    trigger={<Button icon="stop" />}
+                  />
+                  <Popup
+                    content="Mark game as completed"
+                    trigger={
+                      <Button
+                        onClick={this.handleCompletedClick.bind(
+                          this,
+                          game.id,
+                          game
+                        )}
+                        icon="check"
+                      />
+                    }
+                  />
+                  <Popup
+                    content="Delete Game"
+                    trigger={
+                      <Button
+                        onClick={this.handleBacklogDeleteClick.bind(
+                          this,
+                          game.id,
+                          game
+                        )}
+                        icon="x"
+                      />
+                    }
+                  />
+                </Button.Group>
               </Card.Content>
             </Card>
           </Card.Group>
@@ -155,24 +172,31 @@ class Profile extends React.Component {
                 </Card.Meta>
               </Card.Content>
               <Card.Content extra>
-                <div className="ui two buttons">
-                  <Button
-                    onClick={this.handleMoveClick.bind(this, game.id, game)}
-                    basic
-                    color="green">
-                    Backlog
-                  </Button>
-                  <Button
-                    onClick={this.handleWishlistDeleteClick.bind(
-                      this,
-                      game.id,
-                      game
-                    )}
-                    basic
-                    color="red">
-                    Delete
-                  </Button>
-                </div>
+                <Button.Group basic size="small">
+                  <Popup
+                    content="Move game to your backlog"
+                    trigger={
+                      <Button
+                        onClick={this.handleMoveClick.bind(this, game.id, game)}
+                        icon="gamepad"
+                      />
+                    }
+                  />
+
+                  <Popup
+                    content="Delete"
+                    trigger={
+                      <Button
+                        onClick={this.handleWishlistDeleteClick.bind(
+                          this,
+                          game.id,
+                          game
+                        )}
+                        icon="x"
+                      />
+                    }
+                  />
+                </Button.Group>
               </Card.Content>
             </Card>
           </Card.Group>
@@ -218,6 +242,8 @@ class Profile extends React.Component {
   renderStatTable() {
     const totalGames = this.props.backlog.length + this.props.completed.length;
 
+    console.log(this.props.platforms);
+    console.log(this.props.platformCounts);
     let platformCounts = [];
     let platforms = this.props.platforms;
     let counts = this.props.platformGamesCount;
@@ -276,19 +302,18 @@ class Profile extends React.Component {
         render: () => (
           <Tab.Pane>
             <Container>
-              <Grid divided="vertically">
-                <Grid.Row columns={2}>
+              <Grid columns={4}>
+                <Grid.Row>
                   <Grid.Column>
-                    <Container>
-                      <UserDetails
-                        name={this.props.user.username}
-                        location={this.props.user.location}
-                      />
-                    </Container>
+                    <UserDetails
+                      name={this.props.user.username}
+                      location={this.props.user.location}
+                    />
                   </Grid.Column>
-                  <Grid.Column className="stat-column">
-                    {this.renderStatTable()}
-                  </Grid.Column>
+                </Grid.Row>
+
+                <Grid.Row>
+                  <Grid.Column>{this.renderStatTable()}</Grid.Column>
                 </Grid.Row>
               </Grid>
             </Container>
