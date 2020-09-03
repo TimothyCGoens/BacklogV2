@@ -5,11 +5,13 @@ import {
   getUser,
   getBacklog,
   getPlatformCount,
+  getPlaying,
   getWishlist,
   deleteBacklogGameState,
   deleteBacklogGameDB,
   getCompleted,
   addCompletedGame,
+  addPlayingGame,
   deleteWishlistGameState,
   deleteWishlistGameDB,
   moveGameFromWishlistToBacklog,
@@ -32,6 +34,7 @@ import {
 import UserDetails from "./UserDetails";
 import "react-tabs/style/react-tabs.css";
 import "./profile.css";
+import ImageCard from "./ImageCard";
 // import Axios from "axios";
 
 class Profile extends React.Component {
@@ -48,6 +51,7 @@ class Profile extends React.Component {
     this.props.getBacklog(this.props.userId);
     this.props.getWishlist(this.props.userId);
     this.props.getCompleted(this.props.userId);
+    this.props.getPlaying(this.props.userId);
     this.props.getPlatformCount(this.props.userId);
   }
 
@@ -69,6 +73,9 @@ class Profile extends React.Component {
     console.log(game);
     this.props.deleteBacklogGameDB(id);
     this.props.moveGameFromBacklogToCompleted(game);
+  };
+  handlePlayingClick = (game) => {
+    this.props.addPlayingGame(game);
   };
 
   renderBacklog() {
@@ -102,7 +109,16 @@ class Profile extends React.Component {
                 <Button.Group basic size="small">
                   <Popup
                     content="Currently Playing"
-                    trigger={<Button icon="play" />}
+                    trigger={
+                      <Button
+                        onClick={this.handlePlayingClick.bind(
+                          this,
+                          game,
+                          game.id
+                        )}
+                        icon="play"
+                      />
+                    }
                   />
                   <Popup
                     content="Stop Playing"
@@ -242,8 +258,8 @@ class Profile extends React.Component {
   renderStatTable() {
     const totalGames = this.props.backlog.length + this.props.completed.length;
 
-    console.log(this.props.platforms);
-    console.log(this.props.platformCounts);
+    // console.log(this.props.platforms);
+    // console.log(this.props.platformCounts);
     let platformCounts = [];
     let platforms = this.props.platforms;
     let counts = this.props.platformGamesCount;
@@ -292,6 +308,7 @@ class Profile extends React.Component {
   }
 
   render() {
+    console.log(this.props.playing);
     const panes = [
       {
         menuItem: {
@@ -302,18 +319,40 @@ class Profile extends React.Component {
         render: () => (
           <Tab.Pane>
             <Container>
-              <Grid columns={4}>
-                <Grid.Row>
-                  <Grid.Column>
+              <Grid>
+                <Grid.Row columns={2}>
+                  <Grid.Column width={4}>
                     <UserDetails
                       name={this.props.user.username}
                       location={this.props.user.location}
                     />
                   </Grid.Column>
+                  <Grid.Column width={12}>
+                    <h1>Currently Playing</h1>
+                    <div className="image-card-display">
+                      <ImageCard />
+                      <ImageCard />
+                      <ImageCard />
+                      <ImageCard />
+                      <ImageCard />
+                      <ImageCard />
+                      <ImageCard />
+                      <ImageCard />
+                    </div>
+                  </Grid.Column>
                 </Grid.Row>
-
-                <Grid.Row>
-                  <Grid.Column>{this.renderStatTable()}</Grid.Column>
+                <Grid.Row columns={2}>
+                  <Grid.Column width={4}>{this.renderStatTable()}</Grid.Column>
+                  <Grid.Column width={12}>
+                    <h1>Recently Added</h1>
+                    <div className="image-card-display">
+                      <ImageCard />
+                      <ImageCard />
+                      <ImageCard />
+                      <ImageCard />
+                      <ImageCard />
+                    </div>
+                  </Grid.Column>
                 </Grid.Row>
               </Grid>
             </Container>
@@ -375,14 +414,17 @@ const mapStateToProps = (state) => {
     completed: state.completed,
     platforms: state.platforms,
     platformGamesCount: state.platformGamesCount,
+    playing: state.playing,
   };
 };
 
 export default connect(mapStateToProps, {
   getUser,
+  getPlaying,
   getBacklog,
   getPlatformCount,
   getWishlist,
+  addPlayingGame,
   getCompleted,
   deleteBacklogGameState,
   deleteBacklogGameDB,

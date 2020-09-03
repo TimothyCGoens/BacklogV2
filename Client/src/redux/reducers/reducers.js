@@ -8,9 +8,11 @@ import {
   DELETE_WISHLIST_GAME_DB,
   GET_WISHLIST,
   GET_USER,
+  GET_PLAYING,
   LOG_IN,
   LOG_OUT,
   ADD_WISHLIST_GAME,
+  ADD_PLAYING_GAME,
   // ADD_COMPLETED_GAME,
   GET_COMPLETED,
   MOVE_GAME_FROM_WISHLIST_TO_BACKLOG,
@@ -26,6 +28,7 @@ const initialState = {
   completed: [],
   platforms: [],
   platformGamesCount: [],
+  playing: [],
 };
 
 export default function (state = initialState, action) {
@@ -64,6 +67,11 @@ export default function (state = initialState, action) {
         ...state,
         backlog: action.payload,
       };
+    case GET_PLAYING:
+      return {
+        ...state,
+        playing: action.payload,
+      };
 
     case GET_PLATFORM_COUNT:
       return {
@@ -77,6 +85,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         backlog: [action.payload, ...state.backlog],
+      };
+
+    case ADD_PLAYING_GAME:
+      return {
+        ...state,
+        playing: [action.payload, ...state.playing],
       };
     case ADD_WISHLIST_GAME:
       return {

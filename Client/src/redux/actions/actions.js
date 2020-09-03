@@ -4,8 +4,10 @@ import {
   LOG_IN,
   LOG_OUT,
   GET_BACKLOG,
+  GET_PLAYING,
   GET_PLATFORM_COUNT,
   ADD_BACKLOG_GAME,
+  ADD_PLAYING_GAME,
   DELETE_BACKLOG_GAME_STATE,
   DELETE_BACKLOG_GAME_DB,
   DELETE_WISHLIST_GAME_STATE,
@@ -73,11 +75,26 @@ export const getCompleted = (userId) => (dispatch) => {
     })
   );
 };
+export const getPlaying = (userId) => (dispatch) => {
+  axios.get(`http://localhost:8080/api/games/playing/${userId}`).then((res) =>
+    dispatch({
+      type: GET_PLAYING,
+      payload: res.data,
+    })
+  );
+};
 
 export const addBacklogGame = (game) => async (dispatch) => {
   axios.post("http://localhost:8080/api/backlog/add", game);
   dispatch({
     type: ADD_BACKLOG_GAME,
+    payload: game,
+  });
+};
+export const addPlayingGame = (game) => async (dispatch) => {
+  axios.post("http://localhost:8080/api/backlog/add-playing", game);
+  dispatch({
+    type: ADD_PLAYING_GAME,
     payload: game,
   });
 };

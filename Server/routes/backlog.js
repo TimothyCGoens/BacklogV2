@@ -24,6 +24,34 @@ router.post("/add", async (req, res) => {
   res.json(game);
 });
 
+router.post("/add-playing", async (req, res) => {
+  let title = req.body.title;
+  let image = req.body.image;
+  let userId = req.body.userId;
+  let gameId = req.body.gameId;
+  let platform = req.body.platform;
+  let releaseDate = req.body.releaseDate;
+  let backlog = req.body.backlog;
+
+  let game = {
+    userId: userId,
+    title: title,
+    image: image,
+    gameId: gameId,
+    platform: platform,
+    releaseDate: releaseDate,
+    backlog: true,
+    playing: true,
+    wishlist: false,
+    completed: false,
+  };
+
+  await models.Games.update(game, {
+    where: { id: backlog.id },
+  });
+  res.json(game);
+});
+
 router.post("/delete/:id", async (req, res) => {
   let id = req.params.id;
   models.Games.destroy({

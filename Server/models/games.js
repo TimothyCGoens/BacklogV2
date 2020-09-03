@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     releaseDate: DataTypes.DATE,
     backlog: DataTypes.BOOLEAN,
     wishlist: DataTypes.BOOLEAN,
+    playing: DataTypes.BOOLEAN,
     completed: DataTypes.BOOLEAN,
   });
   Games.associate = function (models) {

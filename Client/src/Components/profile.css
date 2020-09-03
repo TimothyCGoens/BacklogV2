@@ -18,6 +18,8 @@
   flex-wrap: wrap;
   justify-content: space-evenly;
 }
-.column.stat-column {
-  color: pink;
+
+.image-card-display {
+  display: flex;
+  flex-wrap: wrap;
 }

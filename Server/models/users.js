@@ -14,18 +14,6 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   Users.associate = function (models) {
-    Users.hasMany(models.Backlogs, {
-      as: "backlogs",
-      foreignKey: "userId",
-    });
-    Users.hasMany(models.Wishlists, {
-      as: "wishlists",
-      foreignKey: "userId",
-    });
-    Users.hasMany(models.Completeds, {
-      as: "completeds",
-      foreignKey: "userId",
-    });
     Users.hasMany(models.Games, {
       as: "games",
       foreignKey: "userId",

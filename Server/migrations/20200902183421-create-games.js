@@ -32,6 +32,9 @@ module.exports = {
       wishlist: {
         type: Sequelize.BOOLEAN,
       },
+      playing: {
+        type: Sequelize.BOOLEAN,
+      },
       completed: {
         type: Sequelize.BOOLEAN,
       },
