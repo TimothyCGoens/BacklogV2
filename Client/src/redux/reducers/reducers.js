@@ -12,7 +12,8 @@ import {
   LOG_IN,
   LOG_OUT,
   ADD_WISHLIST_GAME,
-  ADD_PLAYING_GAME,
+  START_PLAYING_GAME,
+  STOP_PLAYING_GAME,
   // ADD_COMPLETED_GAME,
   GET_COMPLETED,
   MOVE_GAME_FROM_WISHLIST_TO_BACKLOG,
@@ -87,11 +88,21 @@ export default function (state = initialState, action) {
         backlog: [action.payload, ...state.backlog],
       };
 
-    case ADD_PLAYING_GAME:
+    case START_PLAYING_GAME:
       return {
         ...state,
         playing: [action.payload, ...state.playing],
       };
+
+    case STOP_PLAYING_GAME:
+      console.log(action.payload.gameId);
+      return {
+        ...state,
+        playing: state.playing.filter(
+          (game) => game.gameId !== action.payload.gameId
+        ),
+      };
+
     case ADD_WISHLIST_GAME:
       return {
         ...state,
@@ -110,7 +121,6 @@ export default function (state = initialState, action) {
         backlog: state.backlog.filter((game) => game !== action.payload),
       };
     case DELETE_BACKLOG_GAME_DB:
-      console.log(action.payload);
       return {
         ...state,
       };

@@ -7,7 +7,7 @@ import {
   GET_PLAYING,
   GET_PLATFORM_COUNT,
   ADD_BACKLOG_GAME,
-  ADD_PLAYING_GAME,
+  START_PLAYING_GAME,
   DELETE_BACKLOG_GAME_STATE,
   DELETE_BACKLOG_GAME_DB,
   DELETE_WISHLIST_GAME_STATE,
@@ -16,6 +16,7 @@ import {
   GET_WISHLIST,
   GET_COMPLETED,
   ADD_COMPLETED_GAME,
+  STOP_PLAYING_GAME,
   MOVE_GAME_FROM_WISHLIST_TO_BACKLOG,
   MOVE_GAME_FROM_BACKLOG_TO_COMPLETED,
   // MOVE_GAME_FROM_BACKLOG_TO_COMPLETED_DB,
@@ -91,10 +92,17 @@ export const addBacklogGame = (game) => async (dispatch) => {
     payload: game,
   });
 };
-export const addPlayingGame = (game) => async (dispatch) => {
-  axios.post("http://localhost:8080/api/backlog/add-playing", game);
+export const startPlayingGame = (game) => async (dispatch) => {
+  axios.post("http://localhost:8080/api/backlog/start-playing", game);
   dispatch({
-    type: ADD_PLAYING_GAME,
+    type: START_PLAYING_GAME,
+    payload: game,
+  });
+};
+export const stopPlayingGame = (game) => async (dispatch) => {
+  axios.post("http://localhost:8080/api/backlog/stop-playing", game);
+  dispatch({
+    type: STOP_PLAYING_GAME,
     payload: game,
   });
 };

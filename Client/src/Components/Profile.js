@@ -11,7 +11,8 @@ import {
   deleteBacklogGameDB,
   getCompleted,
   addCompletedGame,
-  addPlayingGame,
+  startPlayingGame,
+  stopPlayingGame,
   deleteWishlistGameState,
   deleteWishlistGameDB,
   moveGameFromWishlistToBacklog,
@@ -75,8 +76,10 @@ class Profile extends React.Component {
     this.props.moveGameFromBacklogToCompleted(game);
   };
   handlePlayingClick = (game) => {
-    console.log(game.id);
-    this.props.addPlayingGame(game);
+    this.props.startPlayingGame(game);
+  };
+  handleStopPlayingClick = (game) => {
+    this.props.stopPlayingGame(game);
   };
 
   renderBacklog() {
@@ -123,7 +126,16 @@ class Profile extends React.Component {
                   />
                   <Popup
                     content="Stop Playing"
-                    trigger={<Button icon="stop" />}
+                    trigger={
+                      <Button
+                        onClick={this.handleStopPlayingClick.bind(
+                          this,
+                          game,
+                          game.id
+                        )}
+                        icon="stop"
+                      />
+                    }
                   />
                   <Popup
                     content="Mark game as completed"
@@ -422,7 +434,8 @@ export default connect(mapStateToProps, {
   getBacklog,
   getPlatformCount,
   getWishlist,
-  addPlayingGame,
+  startPlayingGame,
+  stopPlayingGame,
   getCompleted,
   deleteBacklogGameState,
   deleteBacklogGameDB,
