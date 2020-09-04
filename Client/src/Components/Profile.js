@@ -34,6 +34,7 @@ import {
 } from "semantic-ui-react";
 // import StatTable from "./StatTable";
 import UserDetails from "./UserDetails";
+import CompletedModal from "./CompletedModal";
 import "react-notifications-component/dist/theme.css";
 import "react-tabs/style/react-tabs.css";
 import "./profile.css";
@@ -74,6 +75,7 @@ class Profile extends React.Component {
     this.props.deleteBacklogGameDB(id);
     this.props.deleteBacklogGameState(game);
     this.props.getPlatformCount();
+    this.props.stopPlayingGame(game);
   };
   handleWishlistDeleteClick = (id, game) => {
     store.addNotification({
@@ -111,21 +113,22 @@ class Profile extends React.Component {
     this.props.getPlatformCount();
   };
   handleCompletedClick = (id, game) => {
-    store.addNotification({
-      title: "Sweet!",
-      message: `You have finished ${game.title}!`,
-      type: "success",
-      insert: "flex-row",
-      container: "top-right",
-      animationIn: ["animated", "bounceInDown"],
-      animationOut: ["animated", "bounceOutRight"],
-      dismiss: {
-        duration: 2500,
-        onScreen: true,
-      },
-    });
-    this.props.deleteBacklogGameDB(id);
-    this.props.moveGameFromBacklogToCompleted(game);
+    return <CompletedModal />;
+    // store.addNotification({
+    //   title: "Sweet!",
+    //   message: `You have finished ${game.title}!`,
+    //   type: "success",
+    //   insert: "flex-row",
+    //   container: "top-right",
+    //   animationIn: ["animated", "bounceInDown"],
+    //   animationOut: ["animated", "bounceOutRight"],
+    //   dismiss: {
+    //     duration: 2500,
+    //     onScreen: true,
+    //   },
+    // });
+    // this.props.deleteBacklogGameDB(id);
+    // this.props.moveGameFromBacklogToCompleted(game);
   };
   handlePlayingClick = (game, id) => {
     store.addNotification({
@@ -216,16 +219,9 @@ class Profile extends React.Component {
                     }
                   />
                   <Popup
-                    content="Mark game as completed"
+                    content="Complete Game"
                     trigger={
-                      <Button
-                        onClick={this.handleCompletedClick.bind(
-                          this,
-                          game.id,
-                          game
-                        )}
-                        icon="check"
-                      />
+                      <CompletedModal title={game.title} image={game.image} />
                     }
                   />
                   <Popup
