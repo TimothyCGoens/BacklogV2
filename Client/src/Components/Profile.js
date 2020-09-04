@@ -1,6 +1,7 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import { connect } from "react-redux";
+import { store } from "react-notifications-component";
 import {
   getUser,
   getBacklog,
@@ -33,20 +34,20 @@ import {
 } from "semantic-ui-react";
 // import StatTable from "./StatTable";
 import UserDetails from "./UserDetails";
+import "react-notifications-component/dist/theme.css";
 import "react-tabs/style/react-tabs.css";
 import "./profile.css";
 import ImageCard from "./ImageCard";
 // import Axios from "axios";
 
 class Profile extends React.Component {
-  // constructor() {
-  //   super();
+  constructor() {
+    super();
 
-  //   this.state = {
-  //     platformsArray: [],
-  //     countsArray: [],
-  //   };
-  // }
+    this.state = {
+      playMessage: "",
+    };
+  }
   componentDidMount() {
     this.props.getUser(this.props.userId);
     this.props.getBacklog(this.props.userId);
@@ -57,28 +58,105 @@ class Profile extends React.Component {
   }
 
   handleBacklogDeleteClick = (id, game) => {
+    store.addNotification({
+      title: "Oh no!",
+      message: `You have deleted ${game.title} from your backlog`,
+      type: "danger",
+      insert: "flex-row",
+      container: "top-right",
+      animationIn: ["animated", "bounceInDown"],
+      animationOut: ["animated", "bounceOutRight"],
+      dismiss: {
+        duration: 2500,
+        onScreen: true,
+      },
+    });
     this.props.deleteBacklogGameDB(id);
     this.props.deleteBacklogGameState(game);
     this.props.getPlatformCount();
   };
   handleWishlistDeleteClick = (id, game) => {
+    store.addNotification({
+      title: "Oh no!",
+      message: `You have deleted ${game.title} from your wishlist`,
+      type: "danger",
+      insert: "flex-row",
+      container: "top-right",
+      animationIn: ["animated", "bounceInDown"],
+      animationOut: ["animated", "bounceOutRight"],
+      dismiss: {
+        duration: 2500,
+        onScreen: true,
+      },
+    });
     this.props.deleteWishlistGameDB(id);
     this.props.deleteWishlistGameState(game);
   };
   handleMoveClick = (id, game) => {
+    store.addNotification({
+      title: "Oh boy!",
+      message: `You have moved ${game.title} to your backlog.`,
+      type: "success",
+      insert: "flex-row",
+      container: "top-right",
+      animationIn: ["animated", "bounceInDown"],
+      animationOut: ["animated", "bounceOutRight"],
+      dismiss: {
+        duration: 2500,
+        onScreen: true,
+      },
+    });
     this.props.moveGameFromWishlistToBacklog(game);
     this.props.deleteWishlistGameDB(id);
     this.props.getPlatformCount();
   };
   handleCompletedClick = (id, game) => {
-    console.log(game);
+    store.addNotification({
+      title: "Sweet!",
+      message: `You have finished ${game.title}!`,
+      type: "success",
+      insert: "flex-row",
+      container: "top-right",
+      animationIn: ["animated", "bounceInDown"],
+      animationOut: ["animated", "bounceOutRight"],
+      dismiss: {
+        duration: 2500,
+        onScreen: true,
+      },
+    });
     this.props.deleteBacklogGameDB(id);
     this.props.moveGameFromBacklogToCompleted(game);
   };
-  handlePlayingClick = (game) => {
+  handlePlayingClick = (game, id) => {
+    store.addNotification({
+      title: "Huzzah!",
+      message: `You have begun playing ${game.title}!`,
+      type: "success",
+      insert: "flex-row",
+      container: "top-right",
+      animationIn: ["animated", "bounceInDown"],
+      animationOut: ["animated", "bounceOutRight"],
+      dismiss: {
+        duration: 2500,
+        onScreen: true,
+      },
+    });
     this.props.startPlayingGame(game);
   };
   handleStopPlayingClick = (game) => {
+    store.addNotification({
+      title: "Oh no!",
+      message: `You have stopped playing ${game.title} `,
+      type: "danger",
+      insert: "flex-row",
+      container: "top-right",
+      animationIn: ["animated", "bounceInDown"],
+      animationOut: ["animated", "bounceOutRight"],
+      dismiss: {
+        duration: 2500,
+        onScreen: true,
+      },
+    });
     this.props.stopPlayingGame(game);
   };
 
