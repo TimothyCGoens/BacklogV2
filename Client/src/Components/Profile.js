@@ -75,6 +75,7 @@ class Profile extends React.Component {
     this.props.moveGameFromBacklogToCompleted(game);
   };
   handlePlayingClick = (game) => {
+    console.log(game.id);
     this.props.addPlayingGame(game);
   };
 
@@ -330,14 +331,11 @@ class Profile extends React.Component {
                   <Grid.Column width={12}>
                     <h1>Currently Playing</h1>
                     <div className="image-card-display">
-                      <ImageCard />
-                      <ImageCard />
-                      <ImageCard />
-                      <ImageCard />
-                      <ImageCard />
-                      <ImageCard />
-                      <ImageCard />
-                      <ImageCard />
+                      {this.props.playing.map((game) => {
+                        return (
+                          <ImageCard image={game.image} title={game.title} />
+                        );
+                      })}
                     </div>
                   </Grid.Column>
                 </Grid.Row>

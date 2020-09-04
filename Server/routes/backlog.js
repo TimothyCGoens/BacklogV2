@@ -31,7 +31,7 @@ router.post("/add-playing", async (req, res) => {
   let gameId = req.body.gameId;
   let platform = req.body.platform;
   let releaseDate = req.body.releaseDate;
-  let backlog = req.body.backlog;
+  let id = req.body.id;
 
   let game = {
     userId: userId,
@@ -47,7 +47,7 @@ router.post("/add-playing", async (req, res) => {
   };
 
   await models.Games.update(game, {
-    where: { id: backlog.id },
+    where: { id: id },
   });
   res.json(game);
 });

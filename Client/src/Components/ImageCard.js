@@ -2,9 +2,14 @@ import React from "react";
 import { Image } from "semantic-ui-react";
 import "./ImageCard.css";
 
-const ImageCard = () => {
+const ImageCard = (props) => {
   return (
-    <Image className="image-card" src={"/elliot.jpg"} size="small" rounded />
+    <div className="playing-image">
+      <Image className="image-card" src={props.image} size="small" rounded />
+      <div className="overlay">
+        <div className="playing-image-text">{props.title}</div>
+      </div>
+    </div>
   );
 };
 

@@ -20,16 +20,15 @@ router.get("/all/:userId", async (req, res) => {
   );
 });
 
-router.get("playing/:userId"),
-  async (req, res) => {
-    let userId = req.params.userId;
-    const gameData = await models.Games.findAll({
-      where: {
-        userId: userId,
-        playing: true,
-      },
-    });
-    res.json(gameData);
-  };
+router.get("/playing/:userId", async (req, res) => {
+  let userId = req.params.userId;
+  const gameData = await models.Games.findAll({
+    where: {
+      userId: userId,
+      playing: true,
+    },
+  });
+  res.json(gameData);
+});
 
 module.exports = router;
