@@ -18,7 +18,7 @@ const CompletedModal = (props) => {
           <Form.Input small label="Completion %" placeholder="Completion %" />
           <Form.Input mini label="Trophy %" placeholder="Trophy %" />
           <Form.Input label="Game Time" placeholder="Game Time" />
-          <Form.TextArea label="Coments" placeholder="Comments" />
+          <Form.TextArea label="Comments" placeholder="Comments" />
           <div>
             Rating
             <Rating icon="star" maxRating={5} />
