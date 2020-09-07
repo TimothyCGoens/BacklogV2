@@ -30,7 +30,7 @@ const CompletedModal = (props) => {
           Cancel
         </Button>
         <Button
-          content="Save"
+          content="Submit"
           labelPosition="right"
           icon="checkmark"
           onClick={() => setOpen(false)}
