@@ -5,7 +5,6 @@ import {
   LOG_OUT,
   GET_BACKLOG,
   GET_PLAYING,
-  FINISH_GAME,
   GET_PLATFORM_COUNT,
   ADD_BACKLOG_GAME,
   START_PLAYING_GAME,
@@ -160,17 +159,9 @@ export const moveGameFromWishlistToBacklog = (game) => async (dispatch) => {
 };
 
 export const moveGameFromBacklogToCompleted = (game) => (dispatch) => {
-  axios.post("http://localhost:8080/api/completed/add", game);
-  dispatch({
-    type: MOVE_GAME_FROM_BACKLOG_TO_COMPLETED,
-    payload: game,
-  });
-};
-
-export const finishGame = (game) => (dispatch) => {
   axios.post("http://localhost:8080/api/completed/finish", game);
   dispatch({
-    type: FINISH_GAME,
+    type: MOVE_GAME_FROM_BACKLOG_TO_COMPLETED,
     payload: game,
   });
 };

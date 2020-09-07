@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const models = require("../models");
 
-router.post("/add", async (req, res) => {
+router.post("/finish", async (req, res) => {
   let title = req.body.title;
   let startDate = req.body.createdAt;
   let userId = req.body.userId;
@@ -10,6 +10,8 @@ router.post("/add", async (req, res) => {
   let gameId = req.body.gameId;
   let platform = req.body.platform;
   let releaseDate = req.body.releaseDate;
+  let rating = req.body.rating;
+  let id = req.body.id;
 
   let game = {
     userId: userId,
@@ -19,12 +21,14 @@ router.post("/add", async (req, res) => {
     gameId: gameId,
     platform: platform,
     releaseDate: releaseDate,
+    playing: false,
     wishlist: false,
     backlog: false,
     completed: true,
+    rating: rating,
   };
 
-  await models.Games.create(game);
+  await models.Games.update(game, { where: { id: id } });
   res.json(game);
 });
 
@@ -37,10 +41,6 @@ router.get("/list/:userId", async (req, res) => {
     },
   });
   res.json(gameData);
-});
-
-router.post("/finish", async (req, res) => {
-  const gameData = await models.Games.update;
 });
 
 module.exports = router;

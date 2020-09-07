@@ -18,7 +18,6 @@ import {
   deleteWishlistGameDB,
   moveGameFromWishlistToBacklog,
   moveGameFromBacklogToCompleted,
-  finishGame,
 } from "../redux/actions/actions";
 import moment from "moment";
 import {
@@ -32,6 +31,9 @@ import {
   Header,
   Table,
   Popup,
+  Form,
+  Rating,
+  Modal,
 } from "semantic-ui-react";
 // import StatTable from "./StatTable";
 import UserDetails from "./UserDetails";
@@ -48,6 +50,8 @@ class Profile extends React.Component {
 
     this.state = {
       playMessage: "",
+      open: false,
+      rating: null,
     };
   }
   componentDidMount() {
@@ -57,7 +61,6 @@ class Profile extends React.Component {
     this.props.getCompleted(this.props.userId);
     this.props.getPlaying(this.props.userId);
     this.props.getPlatformCount(this.props.userId);
-    this.props.finishGame(this.props.userId);
   }
 
   handleBacklogDeleteClick = (id, game) => {
@@ -115,23 +118,31 @@ class Profile extends React.Component {
     this.props.getPlatformCount();
   };
   handleCompletedClick = (id, game) => {
-    return <CompletedModal />;
-    // store.addNotification({
-    //   title: "Sweet!",
-    //   message: `You have finished ${game.title}!`,
-    //   type: "success",
-    //   insert: "flex-row",
-    //   container: "top-right",
-    //   animationIn: ["animated", "bounceInDown"],
-    //   animationOut: ["animated", "bounceOutRight"],
-    //   dismiss: {
-    //     duration: 2500,
-    //     onScreen: true,
-    //   },
-    // });
+    game.rating = this.state.rating;
+    store.addNotification({
+      title: "Sweet!",
+      message: `You have finished ${game.title}!`,
+      type: "success",
+      insert: "flex-row",
+      container: "top-right",
+      animationIn: ["animated", "bounceInDown"],
+      animationOut: ["animated", "bounceOutRight"],
+      dismiss: {
+        duration: 2500,
+        onScreen: true,
+      },
+    });
+    // let rating = this.state.rating;
+    // game = { rating, ...game };
+    // console.log(game);
     // this.props.deleteBacklogGameDB(id);
-    // this.props.moveGameFromBacklogToCompleted(game);
+    this.props.moveGameFromBacklogToCompleted(game);
+    this.setState({
+      open: false,
+      rating: null,
+    });
   };
+
   handlePlayingClick = (game, id) => {
     store.addNotification({
       title: "Huzzah!",
@@ -165,7 +176,22 @@ class Profile extends React.Component {
     this.props.stopPlayingGame(game);
   };
 
+  onFormSubmit = async (e) => {
+    e.preventDefault();
+
+    console.log(this.state.rating);
+  };
+
+  // handleSubmit = (game, id) => {
+  //   console.log(this.state.rating);
+  // };
+
+  handleRating = (e, data) => {
+    this.setState({ rating: data.rating });
+  };
+
   renderBacklog() {
+    console.log(this.props.backlog);
     if (this.props.backlog.length < 1) {
       return <h1>Please add some games to your backlog!</h1>;
     } else {
@@ -189,7 +215,7 @@ class Profile extends React.Component {
                 <Image floated="right" size="tiny" src={game.image} />
                 <Card.Header>{game.title}</Card.Header>
                 <Card.Meta>
-                  {moment(game.released).format("MMMM Do YYYY")}
+                  {moment(game.releaseDate).format("MMMM Do YYYY")}
                 </Card.Meta>
                 {game.playing === true ? <p>Currently Playing</p> : null}
               </Card.Content>
@@ -237,11 +263,44 @@ class Profile extends React.Component {
                   <Popup
                     content="Complete Game"
                     trigger={
-                      <CompletedModal
-                        finishGame={this.props.finishGame}
-                        title={game.title}
-                        image={game.image}
-                      />
+                      <Modal
+                        onClose={() => this.setState({ open: false })}
+                        onOpen={() => this.setState({ open: true })}
+                        open={this.state.open}
+                        trigger={<Button icon="check" />}>
+                        <Modal.Header></Modal.Header>
+                        <Modal.Content image>
+                          <Image size="big" src={game.image} wrapped />
+
+                          <div>
+                            Rating
+                            <Rating
+                              onRate={this.handleRating}
+                              icon="star"
+                              maxRating={5}
+                              rating={this.state.rating}
+                            />
+                          </div>
+                        </Modal.Content>
+                        <Modal.Actions>
+                          <Button
+                            color="red"
+                            onClick={() => this.setState({ open: false })}>
+                            Cancel
+                          </Button>
+                          <Button
+                            content="Submit"
+                            labelPosition="right"
+                            icon="checkmark"
+                            onClick={this.handleCompletedClick.bind(
+                              this,
+                              game.id,
+                              game
+                            )}
+                            positive
+                          />
+                        </Modal.Actions>
+                      </Modal>
                     }
                   />
                   <Popup
@@ -328,6 +387,7 @@ class Profile extends React.Component {
     }
   }
   renderCompleted() {
+    console.log(this.props.completed);
     if (this.props.completed.length < 1) {
       return <h1>You have not completed any games yet</h1>;
     } else {
@@ -354,7 +414,9 @@ class Profile extends React.Component {
                   {moment(game.released).format("MMMM Do YYYY")}
                 </Card.Meta>
               </Card.Content>
-              <Card.Content extra>Stats go here??</Card.Content>
+              <Card.Content extra>
+                Rating <Rating rating={game.rating} maxRating={5} disabled />
+              </Card.Content>
             </Card>
           </Card.Group>
         );
@@ -415,7 +477,6 @@ class Profile extends React.Component {
   }
 
   render() {
-    console.log(this.props.playing);
     const panes = [
       {
         menuItem: {
@@ -532,5 +593,4 @@ export default connect(mapStateToProps, {
   moveGameFromWishlistToBacklog,
   moveGameFromBacklogToCompleted,
   addCompletedGame,
-  finishGame,
 })(Profile);
