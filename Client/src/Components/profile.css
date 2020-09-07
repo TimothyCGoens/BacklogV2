@@ -24,3 +24,6 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+.ui.small.image {
+  height: 85px;
+}

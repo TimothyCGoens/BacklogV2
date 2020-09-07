@@ -7,6 +7,7 @@ import {
   DELETE_WISHLIST_GAME_STATE,
   DELETE_WISHLIST_GAME_DB,
   GET_WISHLIST,
+  FINISH_GAME,
   GET_USER,
   GET_PLAYING,
   LOG_IN,
@@ -146,6 +147,12 @@ export default function (state = initialState, action) {
         ...state,
         completed: [action.payload, ...state.completed],
         backlog: state.backlog.filter((game) => game !== action.payload),
+      };
+    case FINISH_GAME:
+      console.log(action.payload);
+      return {
+        ...state,
+        completed: [action.payload, ...state.completed],
       };
 
     default:

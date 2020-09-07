@@ -38,6 +38,24 @@ module.exports = {
       completed: {
         type: Sequelize.BOOLEAN,
       },
+      completionPercent: {
+        type: Sequelize.INTEGER,
+      },
+      trophyPercent: {
+        type: Sequelize.INTEGER,
+      },
+      achievementScore: {
+        type: Sequelize.INTEGER,
+      },
+      gameTime: {
+        type: Sequelize.DATE,
+      },
+      comments: {
+        type: Sequelize.STRING(300),
+      },
+      rating: {
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

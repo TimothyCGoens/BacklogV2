@@ -39,4 +39,8 @@ router.get("/list/:userId", async (req, res) => {
   res.json(gameData);
 });
 
+router.post("/finish", async (req, res) => {
+  const gameData = await models.Games.update;
+});
+
 module.exports = router;

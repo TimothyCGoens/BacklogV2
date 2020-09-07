@@ -18,6 +18,7 @@ import {
   deleteWishlistGameDB,
   moveGameFromWishlistToBacklog,
   moveGameFromBacklogToCompleted,
+  finishGame,
 } from "../redux/actions/actions";
 import moment from "moment";
 import {
@@ -56,6 +57,7 @@ class Profile extends React.Component {
     this.props.getCompleted(this.props.userId);
     this.props.getPlaying(this.props.userId);
     this.props.getPlatformCount(this.props.userId);
+    this.props.finishGame(this.props.userId);
   }
 
   handleBacklogDeleteClick = (id, game) => {
@@ -189,22 +191,36 @@ class Profile extends React.Component {
                 <Card.Meta>
                   {moment(game.released).format("MMMM Do YYYY")}
                 </Card.Meta>
+                {game.playing === true ? <p>Currently Playing</p> : null}
               </Card.Content>
               <Card.Content extra>
                 <Button.Group basic size="small">
-                  <Popup
-                    content="Currently Playing"
-                    trigger={
-                      <Button
-                        onClick={this.handlePlayingClick.bind(
-                          this,
-                          game,
-                          game.id
-                        )}
-                        icon="play"
-                      />
-                    }
-                  />
+                  {game.playing === true ? (
+                    <Button
+                      disabled
+                      onClick={this.handlePlayingClick.bind(
+                        this,
+                        game,
+                        game.id
+                      )}
+                      icon="play"
+                    />
+                  ) : (
+                    <Popup
+                      content="Currently Playing"
+                      trigger={
+                        <Button
+                          onClick={this.handlePlayingClick.bind(
+                            this,
+                            game,
+                            game.id
+                          )}
+                          icon="play"
+                        />
+                      }
+                    />
+                  )}
+
                   <Popup
                     content="Stop Playing"
                     trigger={
@@ -221,7 +237,11 @@ class Profile extends React.Component {
                   <Popup
                     content="Complete Game"
                     trigger={
-                      <CompletedModal title={game.title} image={game.image} />
+                      <CompletedModal
+                        finishGame={this.props.finishGame}
+                        title={game.title}
+                        image={game.image}
+                      />
                     }
                   />
                   <Popup
@@ -429,13 +449,7 @@ class Profile extends React.Component {
                   <Grid.Column width={4}>{this.renderStatTable()}</Grid.Column>
                   <Grid.Column width={12}>
                     <h1>Recently Added</h1>
-                    <div className="image-card-display">
-                      <ImageCard />
-                      <ImageCard />
-                      <ImageCard />
-                      <ImageCard />
-                      <ImageCard />
-                    </div>
+                    <div className="image-card-display"></div>
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
@@ -518,4 +532,5 @@ export default connect(mapStateToProps, {
   moveGameFromWishlistToBacklog,
   moveGameFromBacklogToCompleted,
   addCompletedGame,
+  finishGame,
 })(Profile);

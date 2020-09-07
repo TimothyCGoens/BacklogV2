@@ -21,7 +21,7 @@ const CompletedModal = (props) => {
           <Form.TextArea label="Comments" placeholder="Comments" />
           <div>
             Rating
-            <Rating icon="star" maxRating={5} />
+            <Rating onRate={props.onRate} icon="star" maxRating={5} />
           </div>
         </Form>
       </Modal.Content>
