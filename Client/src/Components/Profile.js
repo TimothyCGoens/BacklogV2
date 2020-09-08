@@ -117,6 +117,7 @@ class Profile extends React.Component {
     this.props.getPlatformCount();
   };
   handleCompletedClick = (id, game) => {
+    game.completedDate = new Date();
     game.rating = this.state.rating;
     store.addNotification({
       title: "Sweet!",
@@ -190,22 +191,10 @@ class Profile extends React.Component {
   };
 
   renderBacklog() {
-    let dateStuff = [];
-    console.log(this.props.backlog);
-
-    // let todaysDate = new Date();
-    // backlogDateArray.map((day) => {
-    //   console.log(day.getTime());
-    // });
-    // let days = times.map((time) => {
-    //   return time / (1000 * 3600 * 24);
-    // });
-    // console.log(days);
-
+    let backlogDates = [];
+    let playingDates = [];
     let todaysDate = new Date();
-    console.log(todaysDate);
     let todaysDateValue = todaysDate.getTime();
-    // console.log(todaysDateValue);
 
     this.props.backlog.map((game) => {
       let days = {
@@ -213,23 +202,34 @@ class Profile extends React.Component {
           (todaysDateValue - Date.parse(game.backlogDate)) / (1000 * 3600 * 24)
         ),
       };
-      return dateStuff.push(days);
+      return backlogDates.push(days);
+    });
+
+    this.props.backlog.map((game) => {
+      let days = {
+        days: Math.floor(
+          (todaysDateValue - Date.parse(game.startPlayingDate)) /
+            (1000 * 3600 * 24)
+        ),
+      };
+      return playingDates.push(days);
     });
 
     // this.props.backlog.map((game) => {
     //   let days = {
     //     days: game.backlogDate,
     //   };
-    //   return dateStuff.push(days);
+    //   return backlogDates.push(days);
     // });
 
-    console.log(dateStuff);
+    console.log(backlogDates);
 
     if (this.props.backlog.length < 1) {
       return <h1>Please add some games to your backlog!</h1>;
     } else {
       return this.props.backlog.map((game, index) => {
-        const days = dateStuff[index];
+        const backlogDayCount = backlogDates[index];
+        const playingDayCount = playingDates[index];
         return (
           <Card.Group key={uuidv4()} className="ui cards">
             <Card
@@ -262,7 +262,7 @@ class Profile extends React.Component {
                       <List.Header>Added to Backlog</List.Header>
                       {moment(game.backlogDate).format("MM-DD-YY")}
                     </List.Content>
-                    <List.Content>{days.days} Days ago</List.Content>
+                    <List.Content>{backlogDayCount.days} Days ago</List.Content>
                   </List.Item>
                   {game.playing === true ? (
                     <List.Item>
@@ -270,7 +270,9 @@ class Profile extends React.Component {
                         <List.Header>Started Playing</List.Header>
                         {moment(game.startedPlayingDate).format("MM-DD-YY")}1
                       </List.Content>
-                      <List.Content>{days.days} Days ago</List.Content>
+                      <List.Content>
+                        {playingDayCount.days} Days ago
+                      </List.Content>
                     </List.Item>
                   ) : null}
                 </List>
@@ -289,7 +291,7 @@ class Profile extends React.Component {
                     />
                   ) : (
                     <Popup
-                      content="Currently Playing"
+                      content="Start Playing"
                       trigger={
                         <Button
                           onClick={this.handlePlayingClick.bind(
@@ -455,11 +457,51 @@ class Profile extends React.Component {
     }
   }
   renderCompleted() {
+    let completedDates = [];
+    let playingDates = [];
+    let todaysDate = new Date();
+    let todaysDateValue = todaysDate.getTime();
+
+    this.props.completed.map((game) => {
+      let days = {
+        days: Math.floor(
+          (Date.parse(game.completedDate) - Date.parse(game.backlogDate)) /
+            (1000 * 3600 * 24)
+        ),
+      };
+      return completedDates.push(days);
+    });
+    console.log(completedDates);
+
+    this.props.completed.map((game) => {
+      let days = {
+        days: Math.floor(
+          (Date.parse(game.stopPlayingDate) -
+            Date.parse(game.startPlayingDate)) /
+            (1000 * 3600 * 24)
+        ),
+      };
+      return playingDates.push(days);
+    });
+    console.log(playingDates);
+
+    // this.props.backlog.map((game) => {
+    //   let days = {
+    //     days: Math.floor(
+    //       (todaysDateValue - Date.parse(game.startPlayingDate)) /
+    //         (1000 * 3600 * 24)
+    //     ),
+    //   };
+    //   return playingDates.push(days);
+    // });
     console.log(this.props.completed);
     if (this.props.completed.length < 1) {
       return <h1>You have not completed any games yet</h1>;
     } else {
-      return this.props.completed.map((game) => {
+      return this.props.completed.map((game, index) => {
+        const completedDayCount = completedDates[index];
+        const playingDayCount = playingDates[index];
+
         return (
           <Card.Group key={uuidv4()} className="ui cards">
             <Card
@@ -482,13 +524,27 @@ class Profile extends React.Component {
                   {moment(game.released).format("MMMM Do YYYY")}
                 </Card.Meta>
               </Card.Content>
+              <Card.Description className="date-stats">
+                <List horizontal>
+                  <List.Item>
+                    <List.Content>
+                      <List.Header>Days on Backlog</List.Header>
+                    </List.Content>
+                    <List.Content>{completedDayCount.days} Days</List.Content>
+                  </List.Item>
+                  <List.Item>
+                    <List.Content>
+                      <List.Header>Days Played</List.Header>
+                    </List.Content>
+                    {!playingDayCount.days ? (
+                      <List.Content>N/A</List.Content>
+                    ) : (
+                      <List.Content>{playingDayCount.days} Days</List.Content>
+                    )}
+                  </List.Item>
+                </List>
+              </Card.Description>
               <Card.Content extra>
-                Added to Backlog: {moment(game.backlogDate).format("MM-DD-YY")}
-                Started Playing:{" "}
-                {moment(game.startPlayingDate).format("MM-DD-YY")}
-                Stopped Playing:{" "}
-                {moment(game.stopPlayingDate).format("MM-DD-YY")}
-                Completed: {moment(game.completedDate).format("MM-DD-YY")}
                 Rating <Rating rating={game.rating} maxRating={5} disabled />
               </Card.Content>
             </Card>

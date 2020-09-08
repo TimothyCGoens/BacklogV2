@@ -12,6 +12,7 @@ router.post("/finish", async (req, res) => {
   let releaseDate = req.body.releaseDate;
   let rating = req.body.rating;
   let id = req.body.id;
+  let completedDate = req.body.completedDate;
 
   let game = {
     userId: userId,
@@ -26,7 +27,7 @@ router.post("/finish", async (req, res) => {
     backlog: false,
     completed: true,
     rating: rating,
-    completedDate: Date(),
+    completedDate: completedDate,
   };
 
   await models.Games.update(game, { where: { id: id } });
