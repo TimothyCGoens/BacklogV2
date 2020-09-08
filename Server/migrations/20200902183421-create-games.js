@@ -38,20 +38,17 @@ module.exports = {
       completed: {
         type: Sequelize.BOOLEAN,
       },
-      completionPercent: {
-        type: Sequelize.INTEGER,
-      },
-      trophyPercent: {
-        type: Sequelize.INTEGER,
-      },
-      achievementScore: {
-        type: Sequelize.INTEGER,
-      },
-      gameTime: {
+      backlogDate: {
         type: Sequelize.DATE,
       },
-      comments: {
-        type: Sequelize.STRING(300),
+      startPlayingDate: {
+        type: Sequelize.DATE,
+      },
+      stopPlayingDate: {
+        type: Sequelize.DATE,
+      },
+      completedDate: {
+        type: Sequelize.DATE,
       },
       rating: {
         type: Sequelize.INTEGER,

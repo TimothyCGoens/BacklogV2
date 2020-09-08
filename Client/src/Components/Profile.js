@@ -31,13 +31,11 @@ import {
   Header,
   Table,
   Popup,
-  Form,
   Rating,
   Modal,
 } from "semantic-ui-react";
 // import StatTable from "./StatTable";
 import UserDetails from "./UserDetails";
-import CompletedModal from "./CompletedModal";
 import "react-notifications-component/dist/theme.css";
 import "react-tabs/style/react-tabs.css";
 import "./profile.css";
@@ -189,6 +187,8 @@ class Profile extends React.Component {
   handleRating = (e, data) => {
     this.setState({ rating: data.rating });
   };
+
+  renderForm() {}
 
   renderBacklog() {
     console.log(this.props.backlog);

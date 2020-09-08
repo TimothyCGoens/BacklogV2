@@ -6,9 +6,9 @@ import "./index.css";
 import App from "./App";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <div>
     <ReactNotification />
     <App />
-  </React.StrictMode>,
+  </div>,
   document.getElementById("root")
 );

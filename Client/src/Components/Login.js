@@ -25,6 +25,7 @@ class Login extends Component {
     axios.get("http://localhost:8080/api/users/list").then((response) => {
       const usernames = response.data.map((item) => item.username);
       const passwords = response.data.map((item) => item.password);
+
       this.setState({
         usernameArray: usernames,
         passwordArray: passwords,
@@ -74,6 +75,8 @@ class Login extends Component {
   };
 
   render() {
+    console.log(this.state.usernameArray);
+    console.log(this.state.passwordArray);
     return (
       <Container>
         <h1>Login</h1>
