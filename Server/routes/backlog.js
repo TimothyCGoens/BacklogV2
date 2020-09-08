@@ -33,6 +33,7 @@ router.post("/start-playing", async (req, res) => {
   let platform = req.body.platform;
   let releaseDate = req.body.releaseDate;
   let id = req.body.id;
+  let playing = req.body.playing;
 
   let game = {
     userId: userId,
@@ -42,7 +43,7 @@ router.post("/start-playing", async (req, res) => {
     platform: platform,
     releaseDate: releaseDate,
     backlog: true,
-    playing: true,
+    playing: playing,
     wishlist: false,
     completed: false,
     startPlayingDate: Date(),
@@ -61,6 +62,7 @@ router.post("/stop-playing", async (req, res) => {
   let gameId = req.body.gameId;
   let platform = req.body.platform;
   let releaseDate = req.body.releaseDate;
+  let playing = req.body.playing;
   let id = req.body.id;
 
   let game = {
@@ -71,7 +73,7 @@ router.post("/stop-playing", async (req, res) => {
     platform: platform,
     releaseDate: releaseDate,
     backlog: true,
-    playing: false,
+    playing: playing,
     wishlist: false,
     completed: false,
     stopPlayingDate: Date(),

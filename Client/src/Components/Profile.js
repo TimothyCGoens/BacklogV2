@@ -144,6 +144,8 @@ class Profile extends React.Component {
   };
 
   handlePlayingClick = (game, id) => {
+    game.playing = true;
+
     store.addNotification({
       title: "Huzzah!",
       message: `You have begun playing ${game.title}!`,
@@ -160,6 +162,7 @@ class Profile extends React.Component {
     this.props.startPlayingGame(game);
   };
   handleStopPlayingClick = (game) => {
+    game.playing = false;
     store.addNotification({
       title: "Oh no!",
       message: `You have stopped playing ${game.title} `,
@@ -262,7 +265,15 @@ class Profile extends React.Component {
                       <List.Header>Added to Backlog</List.Header>
                       {moment(game.backlogDate).format("MM-DD-YY")}
                     </List.Content>
-                    <List.Content>{backlogDayCount.days} Days ago</List.Content>
+                    {backlogDayCount.days < 1 ? (
+                      <List.Content>Today</List.Content>
+                    ) : backlogDayCount.days === 1 ? (
+                      <List.Content>Yesterday</List.Content>
+                    ) : (
+                      <List.Content>
+                        {backlogDayCount.days} Days ago
+                      </List.Content>
+                    )}
                   </List.Item>
                   {game.playing === true ? (
                     <List.Item>
@@ -270,9 +281,15 @@ class Profile extends React.Component {
                         <List.Header>Started Playing</List.Header>
                         {moment(game.startedPlayingDate).format("MM-DD-YY")}1
                       </List.Content>
-                      <List.Content>
-                        {playingDayCount.days} Days ago
-                      </List.Content>
+                      {playingDayCount.days < 1 ? (
+                        <List.Content>Today</List.Content>
+                      ) : playingDayCount === 1 ? (
+                        <List.Content>Yesterday</List.Content>
+                      ) : (
+                        <List.Content>
+                          {playingDayCount.days} Days ago
+                        </List.Content>
+                      )}
                     </List.Item>
                   ) : null}
                 </List>
