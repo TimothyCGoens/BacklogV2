@@ -19,6 +19,7 @@ router.post("/add", async (req, res) => {
     releaseDate: releaseDate,
     backlog: true,
     wishlist: false,
+    backlogDate: Date(),
   };
   await models.Games.create(game);
   res.json(game);
@@ -44,6 +45,7 @@ router.post("/start-playing", async (req, res) => {
     playing: true,
     wishlist: false,
     completed: false,
+    startPlayingDate: Date(),
   };
 
   await models.Games.update(game, {
@@ -72,6 +74,7 @@ router.post("/stop-playing", async (req, res) => {
     playing: false,
     wishlist: false,
     completed: false,
+    stopPlayingDate: Date(),
   };
 
   await models.Games.update(game, {

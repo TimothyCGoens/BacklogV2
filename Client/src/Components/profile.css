@@ -27,3 +27,10 @@
 .ui.small.image {
   height: 85px;
 }
+
+.currently-playing {
+  color: red;
+}
+
+.date-stats {
+}

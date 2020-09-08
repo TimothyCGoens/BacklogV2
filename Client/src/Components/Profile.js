@@ -33,6 +33,7 @@ import {
   Popup,
   Rating,
   Modal,
+  List,
 } from "semantic-ui-react";
 // import StatTable from "./StatTable";
 import UserDetails from "./UserDetails";
@@ -188,14 +189,47 @@ class Profile extends React.Component {
     this.setState({ rating: data.rating });
   };
 
-  renderForm() {}
-
   renderBacklog() {
+    let dateStuff = [];
     console.log(this.props.backlog);
+
+    // let todaysDate = new Date();
+    // backlogDateArray.map((day) => {
+    //   console.log(day.getTime());
+    // });
+    // let days = times.map((time) => {
+    //   return time / (1000 * 3600 * 24);
+    // });
+    // console.log(days);
+
+    let todaysDate = new Date();
+    console.log(todaysDate);
+    let todaysDateValue = todaysDate.getTime();
+    // console.log(todaysDateValue);
+
+    this.props.backlog.map((game) => {
+      let days = {
+        days: Math.floor(
+          (todaysDateValue - Date.parse(game.backlogDate)) / (1000 * 3600 * 24)
+        ),
+      };
+      return dateStuff.push(days);
+    });
+
+    // this.props.backlog.map((game) => {
+    //   let days = {
+    //     days: game.backlogDate,
+    //   };
+    //   return dateStuff.push(days);
+    // });
+
+    console.log(dateStuff);
+
     if (this.props.backlog.length < 1) {
       return <h1>Please add some games to your backlog!</h1>;
     } else {
-      return this.props.backlog.map((game) => {
+      return this.props.backlog.map((game, index) => {
+        const days = dateStuff[index];
         return (
           <Card.Group key={uuidv4()} className="ui cards">
             <Card
@@ -216,9 +250,31 @@ class Profile extends React.Component {
                 <Card.Header>{game.title}</Card.Header>
                 <Card.Meta>
                   {moment(game.releaseDate).format("MMMM Do YYYY")}
+                  {game.playing === true ? (
+                    <p className="currently-playing">Currently Playing</p>
+                  ) : null}
                 </Card.Meta>
-                {game.playing === true ? <p>Currently Playing</p> : null}
               </Card.Content>
+              <Card.Description className="date-stats">
+                <List horizontal>
+                  <List.Item>
+                    <List.Content>
+                      <List.Header>Added to Backlog</List.Header>
+                      {moment(game.backlogDate).format("MM-DD-YY")}
+                    </List.Content>
+                    <List.Content>{days.days} Days ago</List.Content>
+                  </List.Item>
+                  {game.playing === true ? (
+                    <List.Item>
+                      <List.Content>
+                        <List.Header>Started Playing</List.Header>
+                        {moment(game.startedPlayingDate).format("MM-DD-YY")}1
+                      </List.Content>
+                      <List.Content>{days.days} Days ago</List.Content>
+                    </List.Item>
+                  ) : null}
+                </List>
+              </Card.Description>
               <Card.Content extra>
                 <Button.Group basic size="small">
                   {game.playing === true ? (
@@ -246,20 +302,32 @@ class Profile extends React.Component {
                       }
                     />
                   )}
+                  {!game.playing ? (
+                    <Button
+                      disabled
+                      onClick={this.handleStopPlayingClick.bind(
+                        this,
+                        game,
+                        game.id
+                      )}
+                      icon="stop"
+                    />
+                  ) : (
+                    <Popup
+                      content="Stop Playing"
+                      trigger={
+                        <Button
+                          onClick={this.handleStopPlayingClick.bind(
+                            this,
+                            game,
+                            game.id
+                          )}
+                          icon="stop"
+                        />
+                      }
+                    />
+                  )}
 
-                  <Popup
-                    content="Stop Playing"
-                    trigger={
-                      <Button
-                        onClick={this.handleStopPlayingClick.bind(
-                          this,
-                          game,
-                          game.id
-                        )}
-                        icon="stop"
-                      />
-                    }
-                  />
                   <Popup
                     content="Complete Game"
                     trigger={
@@ -415,6 +483,12 @@ class Profile extends React.Component {
                 </Card.Meta>
               </Card.Content>
               <Card.Content extra>
+                Added to Backlog: {moment(game.backlogDate).format("MM-DD-YY")}
+                Started Playing:{" "}
+                {moment(game.startPlayingDate).format("MM-DD-YY")}
+                Stopped Playing:{" "}
+                {moment(game.stopPlayingDate).format("MM-DD-YY")}
+                Completed: {moment(game.completedDate).format("MM-DD-YY")}
                 Rating <Rating rating={game.rating} maxRating={5} disabled />
               </Card.Content>
             </Card>
@@ -450,7 +524,7 @@ class Profile extends React.Component {
       <Table basic="very" celled collapsing>
         <Table.Header></Table.Header>
         <Table.Body>
-          <Table.Row>
+          <Table.Row key={uuidv4()}>
             <Table.Cell>
               <Header as="h4" image>
                 <Header.Content>Total Games</Header.Content>
@@ -461,7 +535,7 @@ class Profile extends React.Component {
           </Table.Row>
           {sortedPlatforms.map((item) => {
             return (
-              <Table.Row>
+              <Table.Row key={uuidv4()}>
                 <Table.Cell>
                   <Header as="h4" image>
                     <Header.Content>{item.platform}</Header.Content>
@@ -500,7 +574,11 @@ class Profile extends React.Component {
                     <div className="image-card-display">
                       {this.props.playing.map((game) => {
                         return (
-                          <ImageCard image={game.image} title={game.title} />
+                          <ImageCard
+                            key={uuidv4()}
+                            image={game.image}
+                            title={game.title}
+                          />
                         );
                       })}
                     </div>

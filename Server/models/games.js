@@ -10,11 +10,10 @@ module.exports = (sequelize, DataTypes) => {
     wishlist: DataTypes.BOOLEAN,
     playing: DataTypes.BOOLEAN,
     completed: DataTypes.BOOLEAN,
-    completionPercent: DataTypes.INTEGER,
-    trophyPercent: DataTypes.INTEGER,
-    achievementScore: DataTypes.INTEGER,
-    gameTime: DataTypes.DATE,
-    comments: DataTypes.STRING,
+    backlogDate: DataTypes.DATE,
+    startPlayingDate: DataTypes.DATE,
+    stopPlayingDate: DataTypes.DATE,
+    completedDate: DataTypes.DATE,
     rating: DataTypes.INTEGER,
   });
   Games.associate = function (models) {

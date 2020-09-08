@@ -31,14 +31,20 @@ router.post("/user", (req, res) => {
     },
   }).then((user) => {
     if (user) {
-      jwt.sign({ username: username }, "secret", function (err, token) {
-        if (token) {
-          res.json({ token: token, id: user.dataValues.id });
-          console.log(token);
-        } else {
-          res.status(500).json({ message: "unable to generate token" });
-        }
-      });
+      jwt
+        .sign({ username: username }, "secret", function (err, token) {
+          if (token) {
+            res.json({ token: token, id: user.dataValues.id });
+            console.log(token);
+          } else {
+            res.status(500).json({ message: "unable to generate token" });
+          }
+        })
+        .catch((err) => {
+          res.statusCode = 500;
+          res.json(err);
+          console.log(err);
+        });
     }
   });
 });
