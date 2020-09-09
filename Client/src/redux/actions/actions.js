@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
   GET_USER,
+  GET_RECENT,
   LOG_IN,
   LOG_OUT,
   GET_BACKLOG,
@@ -50,6 +51,15 @@ export const getBacklog = (userId) => (dispatch) => {
       payload: res.data,
     })
   );
+};
+
+export const getRecent = (userId) => (dispatch) => {
+  axios.get(`http://localhost:8080/api/games/recent/${userId}`).then((res) => {
+    dispatch({
+      type: GET_RECENT,
+      payload: res.data,
+    });
+  });
 };
 export const getPlatformCount = (userId) => (dispatch) => {
   axios.get(`http://localhost:8080/api/games/all/${userId}`).then((res) =>
@@ -165,11 +175,3 @@ export const moveGameFromBacklogToCompleted = (game) => (dispatch) => {
     payload: game,
   });
 };
-
-// export const moveGameFromBacklogToCompletedDB = (game) => async (dispatch) => {
-//   await axios.post("http://localhost:8080/api/completed/add", game);
-//   dispatch({
-//     type: MOVE_GAME_FROM_BACKLOG_TO_COMPLETED_DB,
-//     payload: game,
-//   });
-// };

@@ -18,6 +18,7 @@ import {
   deleteWishlistGameDB,
   moveGameFromWishlistToBacklog,
   moveGameFromBacklogToCompleted,
+  getRecent,
 } from "../redux/actions/actions";
 import { Breakpoint } from "react-socks";
 import moment from "moment";
@@ -37,6 +38,7 @@ import {
   List,
 } from "semantic-ui-react";
 // import StatTable from "./StatTable";
+import ProfileFeed from "./ProfileFeed";
 import UserDetails from "./UserDetails";
 import "react-notifications-component/dist/theme.css";
 import "react-tabs/style/react-tabs.css";
@@ -61,6 +63,7 @@ class Profile extends React.Component {
     this.props.getCompleted(this.props.userId);
     this.props.getPlaying(this.props.userId);
     this.props.getPlatformCount(this.props.userId);
+    this.props.getRecent(this.props.userId);
   }
 
   handleBacklogDeleteClick = (id, game) => {
@@ -596,6 +599,7 @@ class Profile extends React.Component {
   }
 
   render() {
+    console.log(this.props.recent);
     const desktopPanes = [
       {
         menuItem: {
@@ -632,8 +636,8 @@ class Profile extends React.Component {
                 <Grid.Row columns={2}>
                   <Grid.Column width={4}>{this.renderStatTable()}</Grid.Column>
                   <Grid.Column width={12}>
-                    <h1>Recently Added</h1>
-                    <div className="image-card-display"></div>
+                    <h1>Your Feed</h1>
+                    <ProfileFeed />
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
@@ -772,6 +776,7 @@ const mapStateToProps = (state) => {
     platforms: state.platforms,
     platformGamesCount: state.platformGamesCount,
     playing: state.playing,
+    recent: state.recent,
   };
 };
 
@@ -791,4 +796,5 @@ export default connect(mapStateToProps, {
   moveGameFromWishlistToBacklog,
   moveGameFromBacklogToCompleted,
   addCompletedGame,
+  getRecent,
 })(Profile);

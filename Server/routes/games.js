@@ -32,4 +32,14 @@ router.get("/playing/:userId", async (req, res) => {
   res.json(gameData);
 });
 
+router.get("/recent/:userId", async (req, res) => {
+  let userId = req.params.userId;
+  const gameData = await models.Games.findAll({
+    where: {
+      userId: userId,
+    },
+  });
+  res.json(gameData);
+});
+
 module.exports = router;

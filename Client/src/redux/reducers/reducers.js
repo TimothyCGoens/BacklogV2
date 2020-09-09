@@ -1,5 +1,6 @@
 import {
   GET_BACKLOG,
+  GET_RECENT,
   GET_PLATFORM_COUNT,
   ADD_BACKLOG_GAME,
   DELETE_BACKLOG_GAME_DB,
@@ -30,6 +31,7 @@ const initialState = {
   platforms: [],
   platformGamesCount: [],
   playing: [],
+  recent: [],
 };
 
 export default function (state = initialState, action) {
@@ -68,6 +70,12 @@ export default function (state = initialState, action) {
         ...state,
         backlog: action.payload,
       };
+    case GET_RECENT:
+      console.log(action.payload);
+      return {
+        ...state,
+        recent: action.payload,
+      };
     case GET_PLAYING:
       return {
         ...state,
@@ -75,7 +83,6 @@ export default function (state = initialState, action) {
       };
 
     case GET_PLATFORM_COUNT:
-      console.log(action.payload);
       return {
         ...state,
         platforms: action.payload.platform,
@@ -96,7 +103,6 @@ export default function (state = initialState, action) {
       };
 
     case STOP_PLAYING_GAME:
-      console.log(action.payload.gameId);
       return {
         ...state,
         playing: state.playing.filter(

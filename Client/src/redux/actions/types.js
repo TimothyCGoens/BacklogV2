@@ -1,5 +1,6 @@
 export const GET_BACKLOG = "GET_BACKLOG";
 export const GET_PLAYING = "GET_PLAYING";
+export const GET_RECENT = "GET_RECENT";
 export const GET_PLATFORM_COUNT = "GET_PLATFORM_COUNT";
 export const ADD_BACKLOG_GAME = "ADD_BACKLOG_GAME";
 export const START_PLAYING_GAME = "START_PLAYING_GAME";
