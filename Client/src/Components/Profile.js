@@ -690,13 +690,8 @@ class Profile extends React.Component {
             <Container>
               <Grid>
                 <Grid.Row columns={2}>
-                  <Grid.Column width={4}>
-                    <UserDetails
-                      name={this.props.user.username}
-                      location={this.props.user.location}
-                    />
-                  </Grid.Column>
-                  <Grid.Column width={12}>
+                  <Grid.Column width={8}>{this.renderStatTable()}</Grid.Column>
+                  <Grid.Column width={8}>
                     <h1>Currently Playing</h1>
                     <div className="image-card-display">
                       {this.props.playing.map((game) => {
@@ -709,13 +704,6 @@ class Profile extends React.Component {
                         );
                       })}
                     </div>
-                  </Grid.Column>
-                </Grid.Row>
-                <Grid.Row columns={2}>
-                  <Grid.Column width={4}>{this.renderStatTable()}</Grid.Column>
-                  <Grid.Column width={12}>
-                    <h1>Recently Added</h1>
-                    <div className="image-card-display"></div>
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
@@ -766,7 +754,7 @@ class Profile extends React.Component {
         <Breakpoint medium up>
           <Tab panes={desktopPanes} />
         </Breakpoint>
-        <Breakpoint medium down>
+        <Breakpoint small down>
           <Tab panes={mobilePanes} />
         </Breakpoint>
       </Container>
