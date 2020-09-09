@@ -8,6 +8,7 @@ router.get("/all/:userId", async (req, res) => {
   const { count, rows } = await models.Games.findAndCountAll({
     where: {
       userId: userId,
+      wishlist: false,
     },
     attributes: ["platform"],
     group: "platform",

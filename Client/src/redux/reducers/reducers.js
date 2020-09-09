@@ -75,6 +75,7 @@ export default function (state = initialState, action) {
       };
 
     case GET_PLATFORM_COUNT:
+      console.log(action.payload);
       return {
         ...state,
         platforms: action.payload.platform,

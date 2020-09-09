@@ -19,6 +19,7 @@ import {
   moveGameFromWishlistToBacklog,
   moveGameFromBacklogToCompleted,
 } from "../redux/actions/actions";
+import { Breakpoint } from "react-socks";
 import moment from "moment";
 import {
   Tab,
@@ -145,37 +146,11 @@ class Profile extends React.Component {
 
   handlePlayingClick = (game, id) => {
     game.playing = true;
-
-    store.addNotification({
-      title: "Huzzah!",
-      message: `You have begun playing ${game.title}!`,
-      type: "success",
-      insert: "flex-row",
-      container: "top-right",
-      animationIn: ["animated", "bounceInDown"],
-      animationOut: ["animated", "bounceOutRight"],
-      dismiss: {
-        duration: 2500,
-        onScreen: true,
-      },
-    });
     this.props.startPlayingGame(game);
   };
   handleStopPlayingClick = (game) => {
     game.playing = false;
-    store.addNotification({
-      title: "Oh no!",
-      message: `You have stopped playing ${game.title} `,
-      type: "danger",
-      insert: "flex-row",
-      container: "top-right",
-      animationIn: ["animated", "bounceInDown"],
-      animationOut: ["animated", "bounceOutRight"],
-      dismiss: {
-        duration: 2500,
-        onScreen: true,
-      },
-    });
+
     this.props.stopPlayingGame(game);
   };
 
@@ -184,10 +159,6 @@ class Profile extends React.Component {
 
     console.log(this.state.rating);
   };
-
-  // handleSubmit = (game, id) => {
-  //   console.log(this.state.rating);
-  // };
 
   handleRating = (e, data) => {
     this.setState({ rating: data.rating });
@@ -232,6 +203,7 @@ class Profile extends React.Component {
     } else {
       return this.props.backlog.map((game, index) => {
         const backlogDayCount = backlogDates[index];
+        console.log(backlogDayCount);
         const playingDayCount = playingDates[index];
         return (
           <Card.Group key={uuidv4()} className="ui cards">
@@ -477,7 +449,7 @@ class Profile extends React.Component {
     let completedDates = [];
     let playingDates = [];
     let todaysDate = new Date();
-    let todaysDateValue = todaysDate.getTime();
+    // let todaysDateValue = todaysDate.getTime();
 
     this.props.completed.map((game) => {
       let days = {
@@ -624,7 +596,7 @@ class Profile extends React.Component {
   }
 
   render() {
-    const panes = [
+    const desktopPanes = [
       {
         menuItem: {
           key: "users",
@@ -706,10 +678,97 @@ class Profile extends React.Component {
         render: () => <Tab.Pane>{this.renderCompleted()}</Tab.Pane>,
       },
     ];
+    const mobilePanes = [
+      {
+        menuItem: {
+          key: "users",
+          icon: "users",
+          content: this.props.user.username,
+        },
+        render: () => (
+          <Tab.Pane>
+            <Container>
+              <Grid>
+                <Grid.Row columns={2}>
+                  <Grid.Column width={4}>
+                    <UserDetails
+                      name={this.props.user.username}
+                      location={this.props.user.location}
+                    />
+                  </Grid.Column>
+                  <Grid.Column width={12}>
+                    <h1>Currently Playing</h1>
+                    <div className="image-card-display">
+                      {this.props.playing.map((game) => {
+                        return (
+                          <ImageCard
+                            key={uuidv4()}
+                            image={game.image}
+                            title={game.title}
+                          />
+                        );
+                      })}
+                    </div>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row columns={2}>
+                  <Grid.Column width={4}>{this.renderStatTable()}</Grid.Column>
+                  <Grid.Column width={12}>
+                    <h1>Recently Added</h1>
+                    <div className="image-card-display"></div>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            </Container>
+          </Tab.Pane>
+        ),
+      },
+      {
+        menuItem: {
+          key: "backlog",
+          icon: "gamepad",
+          content: (
+            <React.Fragment>
+              <Label>{this.props.backlog.length}</Label>
+            </React.Fragment>
+          ),
+        },
+        render: () => <Tab.Pane>{this.renderBacklog()}</Tab.Pane>,
+      },
+      {
+        menuItem: {
+          key: "wishlist",
+          icon: "gift",
+          content: (
+            <React.Fragment>
+              <Label>{this.props.wishlist.length}</Label>
+            </React.Fragment>
+          ),
+        },
+        render: () => <Tab.Pane>{this.renderWishlist()}</Tab.Pane>,
+      },
+      {
+        menuItem: {
+          key: "completed",
+          icon: "check",
+          content: (
+            <React.Fragment>
+              <Label>{this.props.completed.length}</Label>
+            </React.Fragment>
+          ),
+        },
+        render: () => <Tab.Pane>{this.renderCompleted()}</Tab.Pane>,
+      },
+    ];
 
     return (
       <Container>
-        <Tab panes={panes} />
+        <Breakpoint medium up>
+          <Tab panes={desktopPanes} />
+        </Breakpoint>
+        <Breakpoint medium down>
+          <Tab panes={mobilePanes} />
+        </Breakpoint>
       </Container>
     );
   }

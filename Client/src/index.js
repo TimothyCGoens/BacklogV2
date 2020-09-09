@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import "./index.css";
+import "bootstrap/dist/css/bootstrap.css";
 import App from "./App";
 
 ReactDOM.render(

@@ -19,6 +19,8 @@ router.post("/add", async (req, res) => {
     releaseDate: releaseDate,
     backlog: true,
     wishlist: false,
+    completed: false,
+    playing: false,
     backlogDate: Date(),
   };
   await models.Games.create(game);

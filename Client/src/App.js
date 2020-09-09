@@ -1,5 +1,5 @@
 import React from "react";
-import Nav from "./Components/Nav";
+import NavigationBar from "./Components/NavigationBar";
 import Home from "./Components/Home";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
@@ -11,6 +11,7 @@ import { Router, Switch, Route } from "react-router-dom";
 import createBrowserHistory from "./history";
 import setAuthenticationHeader from "./utilities/authenticate";
 import requireAuth from "./Components/requireAuth";
+import { BreakpointProvider } from "react-socks";
 
 import "./App.css";
 
@@ -20,16 +21,18 @@ function App() {
   return (
     <Provider store={store}>
       <Router history={createBrowserHistory}>
-        <div className="App">
-          <Nav />
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/register" component={Register} />
-            <Route path="/login" component={Login} />
-            <Route path="/profile" component={requireAuth(Profile)} />
-            <Route path="/search" component={Search} />
-          </Switch>
-        </div>
+        <BreakpointProvider>
+          <div className="App">
+            <NavigationBar />
+            <Switch>
+              <Route path="/home" exact component={Home} />
+              <Route path="/register" component={Register} />
+              <Route path="/login" component={Login} />
+              <Route path="/profile" component={requireAuth(Profile)} />
+              <Route path="/search" component={Search} />
+            </Switch>
+          </div>
+        </BreakpointProvider>
       </Router>
     </Provider>
   );
