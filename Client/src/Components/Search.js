@@ -98,9 +98,10 @@ class Search extends React.Component {
       completed: false,
     };
     const feedGame = {
-      action: "Added to Backlog",
+      action: "Added",
       userId: this.props.userId,
       title: this.state.selectedGame.name,
+      destination: "Backlog",
     };
     if (this.props.userId === null) {
       this.setState({
@@ -143,9 +144,10 @@ class Search extends React.Component {
       wishlist: true,
     };
     const feedGame = {
-      action: "Added to Wishlist",
+      action: "Added",
       userId: this.props.userId,
       title: this.state.selectedGame.name,
+      destination: "Wishlist",
     };
     if (this.props.userId === null) {
       this.setState({

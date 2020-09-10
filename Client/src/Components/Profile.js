@@ -39,6 +39,7 @@ import {
   Modal,
   List,
   Input,
+  Feed,
 } from "semantic-ui-react";
 // import StatTable from "./StatTable";
 import ProfileFeed from "./ProfileFeed";
@@ -70,6 +71,12 @@ class Profile extends React.Component {
   }
 
   handleBacklogDeleteClick = (id, game) => {
+    const feedGame = {
+      userId: this.props.userId,
+      title: game.title,
+      action: "Deleted",
+      destination: "Backlog",
+    };
     store.addNotification({
       title: "Oh no!",
       message: `You have deleted ${game.title} from your backlog`,
@@ -87,8 +94,15 @@ class Profile extends React.Component {
     this.props.deleteBacklogGameState(game);
     this.props.getPlatformCount();
     this.props.stopPlayingGame(game);
+    this.props.addToFeed(feedGame);
   };
   handleWishlistDeleteClick = (id, game) => {
+    const feedGame = {
+      userId: this.props.userId,
+      title: game.title,
+      action: "Deleted",
+      destination: "Wishlist",
+    };
     store.addNotification({
       title: "Oh no!",
       message: `You have deleted ${game.title} from your wishlist`,
@@ -104,12 +118,14 @@ class Profile extends React.Component {
     });
     this.props.deleteWishlistGameDB(id);
     this.props.deleteWishlistGameState(game);
+    this.props.addToFeed(feedGame);
   };
   handleMoveClick = (id, game) => {
     const feedGame = {
       userId: this.props.userId,
       title: game.title,
-      action: `Moved ${game.title} to Backlog`,
+      action: "Moved",
+      destination: "Backlog",
     };
     store.addNotification({
       title: "Oh boy!",
@@ -130,6 +146,12 @@ class Profile extends React.Component {
     this.props.getPlatformCount();
   };
   handleCompletedClick = (id, game) => {
+    const feedGame = {
+      userId: this.props.userId,
+      title: game.title,
+      action: "Completed",
+      destination: "",
+    };
     game.completedDate = new Date();
 
     store.addNotification({
@@ -150,6 +172,7 @@ class Profile extends React.Component {
     // console.log(game);
     // this.props.deleteBacklogGameDB(id);
     this.props.moveGameFromBacklogToCompleted(game);
+    this.props.addToFeed(feedGame);
     this.setState({
       open: false,
       rating: null,
@@ -157,18 +180,26 @@ class Profile extends React.Component {
   };
 
   handlePlayingClick = (game, id) => {
+    game.playing = true;
     const feedGame = {
+      userId: this.props.userId,
       title: game.title,
       action: "Started Playing",
+      destination: "",
     };
     this.props.startPlayingGame(game);
     this.props.addToFeed(feedGame);
   };
   handleStopPlayingClick = (game) => {
-    game.action = "Stopped Playing";
     game.playing = false;
+    const feedGame = {
+      userId: this.props.userId,
+      title: game.title,
+      action: "Stopped Playing",
+      destination: "",
+    };
     this.props.stopPlayingGame(game);
-    this.props.addToFeed(game);
+    this.props.addToFeed(feedGame);
   };
 
   // onFormSubmit = async (e) => {
@@ -178,6 +209,56 @@ class Profile extends React.Component {
   handleRating = (e, data) => {
     this.setState({ rating: data.rating });
   };
+
+  renderFeed() {
+    let feedDates = [];
+    let todaysDate = new Date();
+    let todaysDateValue = todaysDate.getTime();
+
+    this.props.feed.map((game) => {
+      let days = {
+        days: Math.floor(
+          (todaysDateValue - Date.parse(game.updatedAt)) / (1000 * 3600 * 24)
+        ),
+      };
+      return feedDates.push(days);
+    });
+    console.log(feedDates);
+
+    if (this.props.feed.length < 1) {
+      return <h3>No recent changes</h3>;
+    } else {
+      return this.props.feed.map((game, index) => {
+        const feedDayCount = feedDates[index];
+        return (
+          <Feed>
+            <Feed.Event>
+              <Feed.Content>
+                {game.action === "Moved" || game.action === "Added" ? (
+                  <Feed.Summary>
+                    You {game.action} {game.title} to your{" "}
+                    <b>{game.destination}</b>
+                    <Feed.Date>{feedDayCount.days}</Feed.Date>
+                  </Feed.Summary>
+                ) : game.action === "Deleted" ? (
+                  <Feed.Summary>
+                    You {game.action} {game.title} from your{" "}
+                    <b>{game.destination}</b>
+                    <Feed.Date>{feedDayCount.days}</Feed.Date>
+                  </Feed.Summary>
+                ) : (
+                  <Feed.Summary>
+                    You {game.action} {game.title}
+                    <Feed.Date>{feedDayCount.days}</Feed.Date>
+                  </Feed.Summary>
+                )}
+              </Feed.Content>
+            </Feed.Event>
+          </Feed>
+        );
+      });
+    }
+  }
 
   renderBacklog() {
     let backlogDates = [];
@@ -552,6 +633,7 @@ class Profile extends React.Component {
   }
 
   render() {
+    console.log(this.props.feed);
     const desktopPanes = [
       {
         menuItem: {
@@ -593,7 +675,7 @@ class Profile extends React.Component {
                   <Grid.Column width={4}>{this.renderStatTable()}</Grid.Column>
                   <Grid.Column width={12}>
                     <h1>Your Feed</h1>
-                    <ProfileFeed />
+                    {this.renderFeed()}
                   </Grid.Column>
                 </Grid.Row>
               </Grid>

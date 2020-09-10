@@ -6,11 +6,13 @@ router.post("/add", async (req, res) => {
   let title = req.body.title;
   let action = req.body.action;
   let userId = req.body.userId;
+  let destination = req.body.destination;
 
   let game = {
     userId: userId,
     title: title,
     action: action,
+    destination: destination,
   };
   console.log(game);
   await models.UserFeeds.create(game);
@@ -23,6 +25,7 @@ router.get("/list/:userId", async (req, res) => {
     where: {
       userId: userId,
     },
+    limit: 5,
   });
   res.json(gameData);
 });

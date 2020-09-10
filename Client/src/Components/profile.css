@@ -50,9 +50,6 @@
   flex-direction: column;
 }
 
-/* .date-stats {
-} */
-
-/* .ui.container {
-  margin-top: 75px;
-} */
+.ui.feed > .event > .content .summary {
+  font-weight: normal;
+}
