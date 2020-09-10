@@ -19,6 +19,8 @@ import {
   moveGameFromWishlistToBacklog,
   moveGameFromBacklogToCompleted,
   getRecent,
+  getFeed,
+  addToFeed,
 } from "../redux/actions/actions";
 import { Breakpoint } from "react-socks";
 import moment from "moment";
@@ -64,6 +66,7 @@ class Profile extends React.Component {
     this.props.getPlaying(this.props.userId);
     this.props.getPlatformCount(this.props.userId);
     this.props.getRecent(this.props.userId);
+    this.props.getFeed(this.props.userId);
   }
 
   handleBacklogDeleteClick = (id, game) => {
@@ -103,6 +106,11 @@ class Profile extends React.Component {
     this.props.deleteWishlistGameState(game);
   };
   handleMoveClick = (id, game) => {
+    const feedGame = {
+      userId: this.props.userId,
+      title: game.title,
+      action: `Moved ${game.title} to Backlog`,
+    };
     store.addNotification({
       title: "Oh boy!",
       message: `You have moved ${game.title} to your backlog.`,
@@ -117,6 +125,7 @@ class Profile extends React.Component {
       },
     });
     this.props.moveGameFromWishlistToBacklog(game);
+    this.props.addToFeed(feedGame);
     this.props.deleteWishlistGameDB(id);
     this.props.getPlatformCount();
   };
@@ -147,18 +156,19 @@ class Profile extends React.Component {
     });
   };
 
-  handleRatingSubmit = (id, game) => {
-    console.log("clicked");
-    game.rating = this.state.rating;
-  };
-
   handlePlayingClick = (game, id) => {
-    game.playing = true;
+    const feedGame = {
+      title: game.title,
+      action: "Started Playing",
+    };
     this.props.startPlayingGame(game);
+    this.props.addToFeed(feedGame);
   };
   handleStopPlayingClick = (game) => {
+    game.action = "Stopped Playing";
     game.playing = false;
     this.props.stopPlayingGame(game);
+    this.props.addToFeed(game);
   };
 
   // onFormSubmit = async (e) => {
@@ -199,7 +209,6 @@ class Profile extends React.Component {
     } else {
       return this.props.backlog.map((game, index) => {
         const backlogDayCount = backlogDates[index];
-        console.log(backlogDayCount);
         const playingDayCount = playingDates[index];
         return (
           <Card.Group key={uuidv4()} className="ui cards">
@@ -725,6 +734,7 @@ const mapStateToProps = (state) => {
     platformGamesCount: state.platformGamesCount,
     playing: state.playing,
     recent: state.recent,
+    feed: state.feed,
   };
 };
 
@@ -745,6 +755,8 @@ export default connect(mapStateToProps, {
   moveGameFromBacklogToCompleted,
   addCompletedGame,
   getRecent,
+  getFeed,
+  addToFeed,
 })(Profile);
 
 // Rating <Rating rating={game.rating} maxRating={5} disabled />

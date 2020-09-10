@@ -8,6 +8,7 @@ const backlogRouter = require("./routes/backlog");
 const wishlistRouter = require("./routes/wishlist");
 const completedRouter = require("./routes/completed");
 const gamesRouter = require("./routes/games");
+const feedRouter = require("./routes/feed");
 const Router = express.Router;
 const router = new Router();
 const app = express();
@@ -24,6 +25,7 @@ app.use("/api/backlog", backlogRouter);
 app.use("/api/wishlist", wishlistRouter);
 app.use("/api/completed", completedRouter);
 app.use("/api/games", gamesRouter);
+app.use("/api/feed", feedRouter);
 
 app.listen(8080, () => {
   console.log("server is up and running");

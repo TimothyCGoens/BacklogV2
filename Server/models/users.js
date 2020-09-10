@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
       as: "games",
       foreignKey: "userId",
     });
+    Users.hasMany(models.UserFeeds, {
+      as: "userFeeds",
+      foreignKey: "userId",
+    });
   };
   return Users;
 };

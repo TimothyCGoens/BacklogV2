@@ -24,6 +24,7 @@ import {
   getBacklog,
   getWishlist,
   getCompleted,
+  addToFeed,
 } from "../redux/actions/actions";
 import { connect } from "react-redux";
 import rawg from "../apis/rawg";
@@ -92,6 +93,14 @@ class Search extends React.Component {
       platform: this.state.platform,
       releaseDate: this.state.releaseDate,
       backlog: true,
+      wishlist: false,
+      playing: false,
+      completed: false,
+    };
+    const feedGame = {
+      action: "Added to Backlog",
+      userId: this.props.userId,
+      title: this.state.selectedGame.name,
     };
     if (this.props.userId === null) {
       this.setState({
@@ -115,6 +124,7 @@ class Search extends React.Component {
       });
     } else {
       this.props.addBacklogGame(game);
+      this.props.addToFeed(feedGame);
       // this.countPlatform(game);
       this.setState({
         searchMessage: "Game added!",
@@ -131,6 +141,11 @@ class Search extends React.Component {
       platform: this.state.platform,
       releaseDate: this.state.releaseDate,
       wishlist: true,
+    };
+    const feedGame = {
+      action: "Added to Wishlist",
+      userId: this.props.userId,
+      title: this.state.selectedGame.name,
     };
     if (this.props.userId === null) {
       this.setState({
@@ -154,6 +169,7 @@ class Search extends React.Component {
       });
     } else {
       this.props.addWishlistGame(game);
+      this.props.addToFeed(feedGame);
       this.setState({
         searchMessage: "Game added!",
       });
@@ -450,4 +466,5 @@ export default connect(mapStateToProps, {
   getBacklog,
   getWishlist,
   getCompleted,
+  addToFeed,
 })(Search);

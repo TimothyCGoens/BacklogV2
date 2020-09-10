@@ -1,6 +1,7 @@
 import {
   GET_BACKLOG,
   GET_RECENT,
+  ADD_TO_FEED,
   GET_PLATFORM_COUNT,
   ADD_BACKLOG_GAME,
   DELETE_BACKLOG_GAME_DB,
@@ -9,6 +10,7 @@ import {
   DELETE_WISHLIST_GAME_DB,
   GET_WISHLIST,
   GET_USER,
+  GET_FEED,
   GET_PLAYING,
   LOG_IN,
   LOG_OUT,
@@ -32,6 +34,7 @@ const initialState = {
   platformGamesCount: [],
   playing: [],
   recent: [],
+  feed: [],
 };
 
 export default function (state = initialState, action) {
@@ -81,6 +84,12 @@ export default function (state = initialState, action) {
         ...state,
         playing: action.payload,
       };
+    case GET_FEED:
+      console.log(action.payload);
+      return {
+        ...state,
+        feed: action.payload,
+      };
 
     case GET_PLATFORM_COUNT:
       return {
@@ -94,6 +103,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         backlog: [action.payload, ...state.backlog],
+      };
+
+    case ADD_TO_FEED:
+      console.log(action.payload);
+      return {
+        ...state,
+        feed: [action.payload, ...state.feed],
       };
 
     case START_PLAYING_GAME:

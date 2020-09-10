@@ -6,8 +6,10 @@ import {
   LOG_OUT,
   GET_BACKLOG,
   GET_PLAYING,
+  GET_FEED,
   GET_PLATFORM_COUNT,
   ADD_BACKLOG_GAME,
+  ADD_TO_FEED,
   START_PLAYING_GAME,
   DELETE_BACKLOG_GAME_STATE,
   DELETE_BACKLOG_GAME_DB,
@@ -102,6 +104,24 @@ export const addBacklogGame = (game) => async (dispatch) => {
     payload: game,
   });
 };
+
+export const addToFeed = (game) => async (dispatch) => {
+  axios.post("http://localhost:8080/api/feed/add", game);
+  dispatch({
+    type: ADD_TO_FEED,
+    payload: game,
+  });
+};
+
+export const getFeed = (userId) => (dispatch) => {
+  axios.get(`http://localhost:8080/api/feed/list/${userId}`).then((res) =>
+    dispatch({
+      type: GET_FEED,
+      payload: res.data,
+    })
+  );
+};
+
 export const startPlayingGame = (game) => async (dispatch) => {
   axios.post("http://localhost:8080/api/backlog/start-playing", game);
   dispatch({
