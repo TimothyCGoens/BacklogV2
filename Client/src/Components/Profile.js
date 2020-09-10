@@ -36,6 +36,7 @@ import {
   Rating,
   Modal,
   List,
+  Input,
 } from "semantic-ui-react";
 // import StatTable from "./StatTable";
 import ProfileFeed from "./ProfileFeed";
@@ -44,7 +45,6 @@ import "react-notifications-component/dist/theme.css";
 import "react-tabs/style/react-tabs.css";
 import "./profile.css";
 import ImageCard from "./ImageCard";
-// import Axios from "axios";
 
 class Profile extends React.Component {
   constructor() {
@@ -122,7 +122,7 @@ class Profile extends React.Component {
   };
   handleCompletedClick = (id, game) => {
     game.completedDate = new Date();
-    game.rating = this.state.rating;
+
     store.addNotification({
       title: "Sweet!",
       message: `You have finished ${game.title}!`,
@@ -147,21 +147,23 @@ class Profile extends React.Component {
     });
   };
 
+  handleRatingSubmit = (id, game) => {
+    console.log("clicked");
+    game.rating = this.state.rating;
+  };
+
   handlePlayingClick = (game, id) => {
     game.playing = true;
     this.props.startPlayingGame(game);
   };
   handleStopPlayingClick = (game) => {
     game.playing = false;
-
     this.props.stopPlayingGame(game);
   };
 
-  onFormSubmit = async (e) => {
-    e.preventDefault();
-
-    console.log(this.state.rating);
-  };
+  // onFormSubmit = async (e) => {
+  //   e.preventDefault();
+  // };
 
   handleRating = (e, data) => {
     this.setState({ rating: data.rating });
@@ -191,15 +193,6 @@ class Profile extends React.Component {
       };
       return playingDates.push(days);
     });
-
-    // this.props.backlog.map((game) => {
-    //   let days = {
-    //     days: game.backlogDate,
-    //   };
-    //   return backlogDates.push(days);
-    // });
-
-    console.log(backlogDates);
 
     if (this.props.backlog.length < 1) {
       return <h1>Please add some games to your backlog!</h1>;
@@ -325,44 +318,14 @@ class Profile extends React.Component {
                   <Popup
                     content="Complete Game"
                     trigger={
-                      <Modal
-                        onClose={() => this.setState({ open: false })}
-                        onOpen={() => this.setState({ open: true })}
-                        open={this.state.open}
-                        trigger={<Button icon="check" />}>
-                        <Modal.Header></Modal.Header>
-                        <Modal.Content image>
-                          <Image size="big" src={game.image} wrapped />
-
-                          <div>
-                            Rating
-                            <Rating
-                              onRate={this.handleRating}
-                              icon="star"
-                              maxRating={5}
-                              rating={this.state.rating}
-                            />
-                          </div>
-                        </Modal.Content>
-                        <Modal.Actions>
-                          <Button
-                            color="red"
-                            onClick={() => this.setState({ open: false })}>
-                            Cancel
-                          </Button>
-                          <Button
-                            content="Submit"
-                            labelPosition="right"
-                            icon="checkmark"
-                            onClick={this.handleCompletedClick.bind(
-                              this,
-                              game.id,
-                              game
-                            )}
-                            positive
-                          />
-                        </Modal.Actions>
-                      </Modal>
+                      <Button
+                        onClick={this.handleCompletedClick.bind(
+                          this,
+                          game.id,
+                          game
+                        )}
+                        icon="check"
+                      />
                     }
                   />
                   <Popup
@@ -451,8 +414,6 @@ class Profile extends React.Component {
   renderCompleted() {
     let completedDates = [];
     let playingDates = [];
-    let todaysDate = new Date();
-    // let todaysDateValue = todaysDate.getTime();
 
     this.props.completed.map((game) => {
       let days = {
@@ -463,7 +424,6 @@ class Profile extends React.Component {
       };
       return completedDates.push(days);
     });
-    console.log(completedDates);
 
     this.props.completed.map((game) => {
       let days = {
@@ -475,18 +435,7 @@ class Profile extends React.Component {
       };
       return playingDates.push(days);
     });
-    console.log(playingDates);
 
-    // this.props.backlog.map((game) => {
-    //   let days = {
-    //     days: Math.floor(
-    //       (todaysDateValue - Date.parse(game.startPlayingDate)) /
-    //         (1000 * 3600 * 24)
-    //     ),
-    //   };
-    //   return playingDates.push(days);
-    // });
-    console.log(this.props.completed);
     if (this.props.completed.length < 1) {
       return <h1>You have not completed any games yet</h1>;
     } else {
@@ -536,9 +485,6 @@ class Profile extends React.Component {
                   </List.Item>
                 </List>
               </Card.Description>
-              <Card.Content extra>
-                Rating <Rating rating={game.rating} maxRating={5} disabled />
-              </Card.Content>
             </Card>
           </Card.Group>
         );
@@ -549,8 +495,6 @@ class Profile extends React.Component {
   renderStatTable() {
     const totalGames = this.props.backlog.length + this.props.completed.length;
 
-    // console.log(this.props.platforms);
-    // console.log(this.props.platformCounts);
     let platformCounts = [];
     let platforms = this.props.platforms;
     let counts = this.props.platformGamesCount;
@@ -599,7 +543,6 @@ class Profile extends React.Component {
   }
 
   render() {
-    console.log(this.props.recent);
     const desktopPanes = [
       {
         menuItem: {
@@ -620,17 +563,21 @@ class Profile extends React.Component {
                   </Grid.Column>
                   <Grid.Column width={12}>
                     <h1>Currently Playing</h1>
-                    <div className="image-card-display">
-                      {this.props.playing.map((game) => {
-                        return (
-                          <ImageCard
-                            key={uuidv4()}
-                            image={game.image}
-                            title={game.title}
-                          />
-                        );
-                      })}
-                    </div>
+                    {this.props.playing.length === 0 ? (
+                      <h1>You haven't started playing any games.</h1>
+                    ) : (
+                      <div className="image-card-display">
+                        {this.props.playing.map((game) => {
+                          return (
+                            <ImageCard
+                              key={uuidv4()}
+                              image={game.image}
+                              title={game.title}
+                            />
+                          );
+                        })}
+                      </div>
+                    )}
                   </Grid.Column>
                 </Grid.Row>
                 <Grid.Row columns={2}>
@@ -682,6 +629,7 @@ class Profile extends React.Component {
         render: () => <Tab.Pane>{this.renderCompleted()}</Tab.Pane>,
       },
     ];
+
     const mobilePanes = [
       {
         menuItem: {
@@ -798,3 +746,5 @@ export default connect(mapStateToProps, {
   addCompletedGame,
   getRecent,
 })(Profile);
+
+// Rating <Rating rating={game.rating} maxRating={5} disabled />

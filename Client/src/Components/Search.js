@@ -12,6 +12,7 @@ import {
   Loader,
   Popup,
   Input,
+  Container,
 } from "semantic-ui-react";
 import ReadMoreReact from "read-more-react";
 import moment from "moment";
@@ -390,20 +391,22 @@ class Search extends React.Component {
 
   renderForm() {
     return (
-      <form onSubmit={this.onFormSubmit}>
-        <div className="register-input-section">
-          <Input
-            icon="search"
-            value={this.state.gameTitle}
-            onChange={this.onGameTitleInputChange}
-            name="gameTitle"
-            autoComplete="off"
-            type="text"
-            placeholder="Search..."
-          />
-          <Button onClick={this.setLoading}>Submit</Button>
-        </div>
-      </form>
+      <Container>
+        <form onSubmit={this.onFormSubmit}>
+          <div className="register-input-section">
+            <Input
+              icon="search"
+              value={this.state.gameTitle}
+              onChange={this.onGameTitleInputChange}
+              name="gameTitle"
+              autoComplete="off"
+              type="text"
+              placeholder="Search..."
+            />
+            <Button onClick={this.setLoading}>Submit</Button>
+          </div>
+        </form>
+      </Container>
     );
   }
 

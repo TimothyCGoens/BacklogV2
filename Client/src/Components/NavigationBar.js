@@ -39,7 +39,7 @@ class NavigationBar extends React.Component {
   render() {
     return (
       <div>
-        <Navbar fixed="top" color="light" light expand="md">
+        <Navbar color="light" light expand="md">
           <NavbarBrand tag={Link} to="/home">
             the backlog
           </NavbarBrand>

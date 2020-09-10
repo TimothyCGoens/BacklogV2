@@ -32,5 +32,27 @@
   color: red;
 }
 
-.date-stats {
+.ui.modal {
+  height: auto;
+  position: relative;
 }
+
+.modal-detail-stuff {
+  display: flex;
+}
+
+.rating {
+  display: flex;
+}
+
+.detail-input-section {
+  display: flex;
+  flex-direction: column;
+}
+
+/* .date-stats {
+} */
+
+/* .ui.container {
+  margin-top: 75px;
+} */

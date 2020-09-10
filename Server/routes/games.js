@@ -26,6 +26,7 @@ router.get("/playing/:userId", async (req, res) => {
   const gameData = await models.Games.findAll({
     where: {
       userId: userId,
+      playing: true,
     },
   });
   res.json(gameData);

@@ -75,8 +75,6 @@ class Login extends Component {
   };
 
   render() {
-    console.log(this.state.usernameArray);
-    console.log(this.state.passwordArray);
     return (
       <Container>
         <h1>Login</h1>
