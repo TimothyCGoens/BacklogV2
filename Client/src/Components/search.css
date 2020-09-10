@@ -15,12 +15,13 @@
   background-color: white;
   outline: none;
 }
+/* .search-form {
+  height: 100px;
+} */
 .input-section {
   align-items: center;
 }
-.search-input {
-  margin-bottom: 10px;
-}
+
 .dropdown-section {
   display: flex;
   justify-content: center;

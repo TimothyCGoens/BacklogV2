@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import history from "../history";
-import { Button, Container } from "semantic-ui-react";
+import { Button, Container, Input } from "semantic-ui-react";
 
 import "./register.css";
 
@@ -50,7 +50,7 @@ const Register = () => {
       <h1>Register</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="input-section">
+        <div className="register-input-section">
           <label className="register-label">First Name</label>
           <input
             className="registration-input"
@@ -61,7 +61,7 @@ const Register = () => {
           />
           {errors.firstName && <p className="validation-error">Required</p>}
         </div>
-        <div className="input-section">
+        <div className="register-input-section">
           <label className="register-label">Last Name</label>
           <input
             className="registration-input"
@@ -72,7 +72,7 @@ const Register = () => {
           />
           {errors.lastName && <p className="validation-error">Required</p>}
         </div>
-        <div className="input-section">
+        <div className="register-input-section">
           <label className="register-label">Email</label>
           <input
             className="registration-input"
@@ -84,7 +84,7 @@ const Register = () => {
           {errors.email && <p className="validation-error">Required</p>}
           <p className="validation-error">{emailMessage}</p>
         </div>
-        <div className="input-section">
+        <div className="register-input-section">
           <label className="register-label">Username</label>
           <input
             className="registration-input"
@@ -96,7 +96,7 @@ const Register = () => {
           {errors.username && <p className="validation-error">Required</p>}
           <p className="validation-error">{userNameMessage}</p>
         </div>
-        <div className="input-section">
+        <div className="register-input-section">
           <label className="register-label">Password</label>
           <input
             className="registration-input"
@@ -107,7 +107,7 @@ const Register = () => {
           />
           {errors.password && <p className="validation-error">Required</p>}
         </div>
-        <div className="input-section">
+        <div className="register-input-section">
           <label className="register-label">Location</label>
           <input
             className="registration-input"

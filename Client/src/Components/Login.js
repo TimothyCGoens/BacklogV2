@@ -3,7 +3,7 @@ import axios from "axios";
 import history from "../history";
 import { connect } from "react-redux";
 import { setAuthenticationHeader } from "../utilities/authenticate";
-import { Button, Container } from "semantic-ui-react";
+import { Button, Container, Input } from "semantic-ui-react";
 
 import "./login.css";
 
@@ -81,9 +81,9 @@ class Login extends Component {
       <Container>
         <h1>Login</h1>
         <form onSubmit={this.onFormSubmit}>
-          <div className="input-section">
+          <div className="register-input-section">
             <label className="login-label">User Name</label>
-            <input
+            <Input
               value={this.state.username}
               onChange={this.onUsernameInputChange}
               className="login-input"
@@ -93,9 +93,9 @@ class Login extends Component {
             />
             <p className="validation-error">{this.state.usernameMessage}</p>
           </div>
-          <div className="input-section">
+          <div className="register-input-section">
             <label className="login-label">Password</label>
-            <input
+            <Input
               value={this.state.password}
               onChange={this.onPasswordInputChange}
               className="login-input"

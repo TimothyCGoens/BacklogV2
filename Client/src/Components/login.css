@@ -13,10 +13,8 @@
 }
 
 .login-input {
-  background-color: #789;
   width: 300px;
 }
-.login-input:focus {
-  background-color: white;
-  outline: none;
+.input-section {
+  margin-bottom: 25px;
 }
