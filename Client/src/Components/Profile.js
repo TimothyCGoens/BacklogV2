@@ -236,9 +236,31 @@ class Profile extends React.Component {
               <Feed.Content>
                 {game.action === "Moved" || game.action === "Added" ? (
                   <Feed.Summary>
-                    You {game.action} {game.title} to your{" "}
-                    <b>{game.destination}</b>
-                    <Feed.Date>{feedDayCount.days}</Feed.Date>
+                    You {game.action}
+                    <p
+                      className={
+                        `${game.platform}` === "Playstation 4"
+                          ? "playstation"
+                          : `${game.platform}` === "Xbox One"
+                          ? "xbox"
+                          : `${game.platform}` === "Nintendo Switch"
+                          ? "nintendo"
+                          : `${game.platform}` === "PC"
+                          ? "pc"
+                          : null
+                      }>
+                      {game.title}
+                    </p>{" "}
+                    to your <b>{game.destination}</b>
+                    {feedDayCount.days < 1 ? (
+                      <Feed.Date>
+                        {moment(game.updatedAt).format("h:mm:ss a")}
+                      </Feed.Date>
+                    ) : feedDayCount === 1 ? (
+                      <Feed.Date>yesterday</Feed.Date>
+                    ) : (
+                      <Feed.Date>{feedDayCount.days}</Feed.Date>
+                    )}
                   </Feed.Summary>
                 ) : game.action === "Deleted" ? (
                   <Feed.Summary>

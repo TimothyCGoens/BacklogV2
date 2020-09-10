@@ -52,4 +52,37 @@
 
 .ui.feed > .event > .content .summary {
   font-weight: normal;
+  display: flex;
+}
+
+.xbox {
+  color: green;
+  font-weight: 700;
+  display: flex;
+  margin-right: 3px;
+  margin-left: 3px;
+}
+.pc {
+  color: black;
+  font-weight: 700;
+  display: flex;
+  margin-right: 3px;
+  margin-left: 3px;
+}
+.playstation {
+  color: blue;
+  font-weight: 700;
+  display: flex;
+  margin-right: 3px;
+  margin-left: 3px;
+}
+.nintendo {
+  color: red;
+  font-weight: 700;
+  display: flex;
+  margin-right: 3px;
+  margin-left: 3px;
+}
+b {
+  margin-left: 3px;
 }

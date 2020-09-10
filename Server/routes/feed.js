@@ -7,12 +7,14 @@ router.post("/add", async (req, res) => {
   let action = req.body.action;
   let userId = req.body.userId;
   let destination = req.body.destination;
+  let platform = req.body.platform;
 
   let game = {
     userId: userId,
     title: title,
     action: action,
     destination: destination,
+    platform: platform,
   };
   console.log(game);
   await models.UserFeeds.create(game);

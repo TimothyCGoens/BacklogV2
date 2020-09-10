@@ -102,6 +102,7 @@ class Search extends React.Component {
       userId: this.props.userId,
       title: this.state.selectedGame.name,
       destination: "Backlog",
+      platform: this.state.platform,
     };
     if (this.props.userId === null) {
       this.setState({
@@ -148,6 +149,7 @@ class Search extends React.Component {
       userId: this.props.userId,
       title: this.state.selectedGame.name,
       destination: "Wishlist",
+      platform: this.state.platform,
     };
     if (this.props.userId === null) {
       this.setState({
