@@ -98,7 +98,7 @@ class Search extends React.Component {
       completed: false,
     };
     const feedGame = {
-      action: "Added",
+      action: "added",
       userId: this.props.userId,
       title: this.state.selectedGame.name,
       destination: "Backlog",
@@ -145,7 +145,7 @@ class Search extends React.Component {
       wishlist: true,
     };
     const feedGame = {
-      action: "Added",
+      action: "added",
       userId: this.props.userId,
       title: this.state.selectedGame.name,
       destination: "Wishlist",

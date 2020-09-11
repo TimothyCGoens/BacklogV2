@@ -28,6 +28,7 @@ router.get("/list/:userId", async (req, res) => {
       userId: userId,
     },
     limit: 5,
+    order: [["updatedAt", "DESC"]],
   });
   res.json(gameData);
 });

@@ -73,12 +73,7 @@ export default function (state = initialState, action) {
         ...state,
         backlog: action.payload,
       };
-    case GET_RECENT:
-      console.log(action.payload);
-      return {
-        ...state,
-        recent: action.payload,
-      };
+
     case GET_PLAYING:
       return {
         ...state,

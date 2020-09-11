@@ -18,7 +18,6 @@ import {
   deleteWishlistGameDB,
   moveGameFromWishlistToBacklog,
   moveGameFromBacklogToCompleted,
-  getRecent,
   getFeed,
   addToFeed,
 } from "../redux/actions/actions";
@@ -66,7 +65,6 @@ class Profile extends React.Component {
     this.props.getCompleted(this.props.userId);
     this.props.getPlaying(this.props.userId);
     this.props.getPlatformCount(this.props.userId);
-    this.props.getRecent(this.props.userId);
     this.props.getFeed(this.props.userId);
   }
 
@@ -74,8 +72,9 @@ class Profile extends React.Component {
     const feedGame = {
       userId: this.props.userId,
       title: game.title,
-      action: "Deleted",
+      action: "deleted",
       destination: "Backlog",
+      platform: game.platform,
     };
     store.addNotification({
       title: "Oh no!",
@@ -100,8 +99,9 @@ class Profile extends React.Component {
     const feedGame = {
       userId: this.props.userId,
       title: game.title,
-      action: "Deleted",
+      action: "deleted",
       destination: "Wishlist",
+      platform: game.platform,
     };
     store.addNotification({
       title: "Oh no!",
@@ -124,8 +124,9 @@ class Profile extends React.Component {
     const feedGame = {
       userId: this.props.userId,
       title: game.title,
-      action: "Moved",
+      action: "moved",
       destination: "Backlog",
+      platform: game.platform,
     };
     store.addNotification({
       title: "Oh boy!",
@@ -149,8 +150,9 @@ class Profile extends React.Component {
     const feedGame = {
       userId: this.props.userId,
       title: game.title,
-      action: "Completed",
+      action: "completed",
       destination: "",
+      platform: game.platform,
     };
     game.completedDate = new Date();
 
@@ -184,8 +186,9 @@ class Profile extends React.Component {
     const feedGame = {
       userId: this.props.userId,
       title: game.title,
-      action: "Started Playing",
+      action: "started playing",
       destination: "",
+      platform: game.platform,
     };
     this.props.startPlayingGame(game);
     this.props.addToFeed(feedGame);
@@ -195,8 +198,9 @@ class Profile extends React.Component {
     const feedGame = {
       userId: this.props.userId,
       title: game.title,
-      action: "Stopped Playing",
+      action: "stopped playing",
       destination: "",
+      platform: game.platform,
     };
     this.props.stopPlayingGame(game);
     this.props.addToFeed(feedGame);
@@ -234,12 +238,12 @@ class Profile extends React.Component {
           <Feed>
             <Feed.Event>
               <Feed.Content>
-                {game.action === "Moved" || game.action === "Added" ? (
+                {game.action === "added" || game.action === "moved" ? (
                   <Feed.Summary>
                     You {game.action}
                     <p
                       className={
-                        `${game.platform}` === "Playstation 4"
+                        `${game.platform}` === "PlayStation 4"
                           ? "playstation"
                           : `${game.platform}` === "Xbox One"
                           ? "xbox"
@@ -250,7 +254,7 @@ class Profile extends React.Component {
                           : null
                       }>
                       {game.title}
-                    </p>{" "}
+                    </p>
                     to your <b>{game.destination}</b>
                     {feedDayCount.days < 1 ? (
                       <Feed.Date>
@@ -262,15 +266,51 @@ class Profile extends React.Component {
                       <Feed.Date>{feedDayCount.days}</Feed.Date>
                     )}
                   </Feed.Summary>
-                ) : game.action === "Deleted" ? (
+                ) : game.action === "deleted" ? (
                   <Feed.Summary>
-                    You {game.action} {game.title} from your{" "}
-                    <b>{game.destination}</b>
-                    <Feed.Date>{feedDayCount.days}</Feed.Date>
+                    You {game.action}
+                    <p
+                      className={
+                        `${game.platform}` === "PlayStation 4"
+                          ? "playstation"
+                          : `${game.platform}` === "Xbox One"
+                          ? "xbox"
+                          : `${game.platform}` === "Nintendo Switch"
+                          ? "nintendo"
+                          : `${game.platform}` === "PC"
+                          ? "pc"
+                          : null
+                      }>
+                      {game.title}
+                    </p>
+                    from your <b>{game.destination}</b>
+                    {feedDayCount.days < 1 ? (
+                      <Feed.Date>
+                        {moment(game.updatedAt).format("h:mm:ss a")}
+                      </Feed.Date>
+                    ) : feedDayCount === 1 ? (
+                      <Feed.Date>yesterday</Feed.Date>
+                    ) : (
+                      <Feed.Date>{feedDayCount.days}</Feed.Date>
+                    )}
                   </Feed.Summary>
                 ) : (
                   <Feed.Summary>
-                    You {game.action} {game.title}
+                    You {game.action}
+                    <p
+                      className={
+                        `${game.platform}` === "PlayStation 4"
+                          ? "playstation"
+                          : `${game.platform}` === "Xbox One"
+                          ? "xbox"
+                          : `${game.platform}` === "Nintendo Switch"
+                          ? "nintendo"
+                          : `${game.platform}` === "PC"
+                          ? "pc"
+                          : null
+                      }>
+                      {game.title}
+                    </p>
                     <Feed.Date>{feedDayCount.days}</Feed.Date>
                   </Feed.Summary>
                 )}
@@ -858,7 +898,6 @@ export default connect(mapStateToProps, {
   moveGameFromWishlistToBacklog,
   moveGameFromBacklogToCompleted,
   addCompletedGame,
-  getRecent,
   getFeed,
   addToFeed,
 })(Profile);

@@ -1,7 +1,6 @@
 import axios from "axios";
 import {
   GET_USER,
-  GET_RECENT,
   LOG_IN,
   LOG_OUT,
   GET_BACKLOG,
@@ -55,14 +54,6 @@ export const getBacklog = (userId) => (dispatch) => {
   );
 };
 
-export const getRecent = (userId) => (dispatch) => {
-  axios.get(`http://localhost:8080/api/games/recent/${userId}`).then((res) => {
-    dispatch({
-      type: GET_RECENT,
-      payload: res.data,
-    });
-  });
-};
 export const getPlatformCount = (userId) => (dispatch) => {
   axios.get(`http://localhost:8080/api/games/all/${userId}`).then((res) =>
     dispatch({
