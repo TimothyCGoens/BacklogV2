@@ -27,7 +27,9 @@ app.use("/api/completed", completedRouter);
 app.use("/api/games", gamesRouter);
 app.use("/api/feed", feedRouter);
 
-app.listen(8080, () => {
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
   console.log("server is up and running");
 });
 

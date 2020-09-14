@@ -53,6 +53,7 @@
 .ui.feed > .event > .content .summary {
   font-weight: normal;
   display: flex;
+  justify-content: center;
 }
 
 .xbox {

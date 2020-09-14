@@ -275,12 +275,12 @@ class Profile extends React.Component {
                     to your <b>{game.destination}</b>
                     {feedDayCount.days < 1 ? (
                       <Feed.Date>
-                        {moment(game.updatedAt).format("h:mm:ss a")}
+                        {moment(game.updatedAt).format("h:mm a")}
                       </Feed.Date>
                     ) : feedDayCount === 1 ? (
                       <Feed.Date>yesterday</Feed.Date>
                     ) : (
-                      <Feed.Date>{feedDayCount.days}</Feed.Date>
+                      <Feed.Date>{feedDayCount.days} days ago</Feed.Date>
                     )}
                   </Feed.Summary>
                 ) : game.action === "deleted" ? (
@@ -320,12 +320,12 @@ class Profile extends React.Component {
                     from your <b>{game.destination}</b>
                     {feedDayCount.days < 1 ? (
                       <Feed.Date>
-                        {moment(game.updatedAt).format("h:mm:ss a")}
+                        {moment(game.updatedAt).format("h:mm a")}
                       </Feed.Date>
                     ) : feedDayCount === 1 ? (
                       <Feed.Date>yesterday</Feed.Date>
                     ) : (
-                      <Feed.Date>{feedDayCount.days}</Feed.Date>
+                      <Feed.Date>{feedDayCount.days} days ago</Feed.Date>
                     )}
                   </Feed.Summary>
                 ) : (
@@ -362,7 +362,15 @@ class Profile extends React.Component {
                       }>
                       {game.title}
                     </p>
-                    <Feed.Date>{feedDayCount.days}</Feed.Date>
+                    {feedDayCount.days < 1 ? (
+                      <Feed.Date>
+                        {moment(game.updatedAt).format("h:mm a")}
+                      </Feed.Date>
+                    ) : feedDayCount === 1 ? (
+                      <Feed.Date>yesterday</Feed.Date>
+                    ) : (
+                      <Feed.Date>{feedDayCount.days} days ago</Feed.Date>
+                    )}
                   </Feed.Summary>
                 )}
               </Feed.Content>
