@@ -14,25 +14,10 @@ class Login extends Component {
     this.state = {
       username: "",
       password: "",
-      usernameArray: [],
-      passwordarray: [],
-      usernameMessage: "",
-      passwordMessage: "",
       errorMessage: "",
     };
   }
 
-  componentDidMount() {
-    axios.get("http://localhost:8080/api/users/list").then((response) => {
-      const usernames = response.data.map((item) => item.username);
-      const passwords = response.data.map((item) => item.password);
-
-      this.setState({
-        usernameArray: usernames,
-        passwordArray: passwords,
-      });
-    });
-  }
   onUsernameInputChange = (e) => {
     this.setState({
       username: e.target.value,
@@ -54,7 +39,6 @@ class Login extends Component {
         password: this.state.password,
       })
       .then((response) => {
-        console.log(response.data);
         if (response.data.message) {
           this.setState({
             errorMessage: response.data.message,

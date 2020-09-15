@@ -37,25 +37,29 @@ export const logOut = () => {
 };
 
 //getting all the date from these tables
-export const getUser = (userId) => (dispatch) => {
-  axios.get(`http://localhost:8080/api/profile/list/${userId}`).then((res) =>
-    dispatch({
-      type: GET_USER,
-      payload: res.data,
-    })
-  );
+export const getUser = (userId) => async (dispatch) => {
+  await axios
+    .get(`http://localhost:8080/api/profile/list/${userId}`)
+    .then((res) =>
+      dispatch({
+        type: GET_USER,
+        payload: res.data,
+      })
+    );
 };
-export const getBacklog = (userId) => (dispatch) => {
-  axios.get(`http://localhost:8080/api/backlog/list/${userId}`).then((res) =>
-    dispatch({
-      type: GET_BACKLOG,
-      payload: res.data,
-    })
-  );
+export const getBacklog = (userId) => async (dispatch) => {
+  await axios
+    .get(`http://localhost:8080/api/backlog/list/${userId}`)
+    .then((res) =>
+      dispatch({
+        type: GET_BACKLOG,
+        payload: res.data,
+      })
+    );
 };
 
-export const getPlatformCount = (userId) => (dispatch) => {
-  axios.get(`http://localhost:8080/api/games/all/${userId}`).then((res) =>
+export const getPlatformCount = (userId) => async (dispatch) => {
+  await axios.get(`http://localhost:8080/api/games/all/${userId}`).then((res) =>
     dispatch({
       type: GET_PLATFORM_COUNT,
       payload: res.data,
@@ -63,33 +67,39 @@ export const getPlatformCount = (userId) => (dispatch) => {
   );
 };
 
-export const getWishlist = (userId) => (dispatch) => {
-  axios.get(`http://localhost:8080/api/wishlist/list/${userId}`).then((res) =>
-    dispatch({
-      type: GET_WISHLIST,
-      payload: res.data,
-    })
-  );
+export const getWishlist = (userId) => async (dispatch) => {
+  await axios
+    .get(`http://localhost:8080/api/wishlist/list/${userId}`)
+    .then((res) =>
+      dispatch({
+        type: GET_WISHLIST,
+        payload: res.data,
+      })
+    );
 };
-export const getCompleted = (userId) => (dispatch) => {
-  axios.get(`http://localhost:8080/api/completed/list/${userId}`).then((res) =>
-    dispatch({
-      type: GET_COMPLETED,
-      payload: res.data,
-    })
-  );
+export const getCompleted = (userId) => async (dispatch) => {
+  await axios
+    .get(`http://localhost:8080/api/completed/list/${userId}`)
+    .then((res) =>
+      dispatch({
+        type: GET_COMPLETED,
+        payload: res.data,
+      })
+    );
 };
-export const getPlaying = (userId) => (dispatch) => {
-  axios.get(`http://localhost:8080/api/games/playing/${userId}`).then((res) =>
-    dispatch({
-      type: GET_PLAYING,
-      payload: res.data,
-    })
-  );
+export const getPlaying = (userId) => async (dispatch) => {
+  await axios
+    .get(`http://localhost:8080/api/games/playing/${userId}`)
+    .then((res) =>
+      dispatch({
+        type: GET_PLAYING,
+        payload: res.data,
+      })
+    );
 };
 
 export const addBacklogGame = (game) => async (dispatch) => {
-  axios.post("http://localhost:8080/api/backlog/add", game);
+  await axios.post("http://localhost:8080/api/backlog/add", game);
   dispatch({
     type: ADD_BACKLOG_GAME,
     payload: game,
@@ -97,15 +107,15 @@ export const addBacklogGame = (game) => async (dispatch) => {
 };
 
 export const addToFeed = (game) => async (dispatch) => {
-  axios.post("http://localhost:8080/api/feed/add", game);
+  await axios.post("http://localhost:8080/api/feed/add", game);
   dispatch({
     type: ADD_TO_FEED,
     payload: game,
   });
 };
 
-export const getFeed = (userId) => (dispatch) => {
-  axios.get(`http://localhost:8080/api/feed/list/${userId}`).then((res) =>
+export const getFeed = (userId) => async (dispatch) => {
+  await axios.get(`http://localhost:8080/api/feed/list/${userId}`).then((res) =>
     dispatch({
       type: GET_FEED,
       payload: res.data,
@@ -114,14 +124,14 @@ export const getFeed = (userId) => (dispatch) => {
 };
 
 export const startPlayingGame = (game) => async (dispatch) => {
-  axios.post("http://localhost:8080/api/backlog/start-playing", game);
+  await axios.post("http://localhost:8080/api/backlog/start-playing", game);
   dispatch({
     type: START_PLAYING_GAME,
     payload: game,
   });
 };
 export const stopPlayingGame = (game) => async (dispatch) => {
-  axios.post("http://localhost:8080/api/backlog/stop-playing", game);
+  await axios.post("http://localhost:8080/api/backlog/stop-playing", game);
   dispatch({
     type: STOP_PLAYING_GAME,
     payload: game,
@@ -129,7 +139,7 @@ export const stopPlayingGame = (game) => async (dispatch) => {
 };
 
 export const addWishlistGame = (game) => async (dispatch) => {
-  axios.post("http://localhost:8080/api/wishlist/add", game);
+  await axios.post("http://localhost:8080/api/wishlist/add", game);
   dispatch({
     type: ADD_WISHLIST_GAME,
     payload: game,
@@ -137,7 +147,7 @@ export const addWishlistGame = (game) => async (dispatch) => {
 };
 
 export const addCompletedGame = (game) => async (dispatch) => {
-  axios.post("http://localhost:8080/api/completed/add", game);
+  await axios.post("http://localhost:8080/api/completed/add", game);
   dispatch({
     type: ADD_COMPLETED_GAME,
     payload: game,
@@ -179,8 +189,8 @@ export const moveGameFromWishlistToBacklog = (game) => async (dispatch) => {
   });
 };
 
-export const moveGameFromBacklogToCompleted = (game) => (dispatch) => {
-  axios.post("http://localhost:8080/api/completed/finish", game);
+export const moveGameFromBacklogToCompleted = (game) => async (dispatch) => {
+  await axios.post("http://localhost:8080/api/completed/finish", game);
   dispatch({
     type: MOVE_GAME_FROM_BACKLOG_TO_COMPLETED,
     payload: game,

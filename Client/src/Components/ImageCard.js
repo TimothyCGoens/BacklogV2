@@ -2,6 +2,7 @@ import React from "react";
 import { Image } from "semantic-ui-react";
 import "./ImageCard.css";
 
+//image that shows up in profile as a game you are currently playing
 const ImageCard = (props) => {
   return (
     <div className="playing-image">

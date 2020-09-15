@@ -41,7 +41,8 @@ import {
   Feed,
 } from "semantic-ui-react";
 // import StatTable from "./StatTable";
-import ProfileFeed from "./ProfileFeed";
+// import ProfileFeed from "./ProfileFeed";
+import WishlistCardGroup from "./WishlistCardGroup";
 import UserDetails from "./UserDetails";
 import "react-notifications-component/dist/theme.css";
 import "react-tabs/style/react-tabs.css";
@@ -169,10 +170,6 @@ class Profile extends React.Component {
         onScreen: true,
       },
     });
-    // let rating = this.state.rating;
-    // game = { rating, ...game };
-    // console.log(game);
-    // this.props.deleteBacklogGameDB(id);
     this.props.moveGameFromBacklogToCompleted(game);
     this.props.addToFeed(feedGame);
     this.setState({
@@ -206,14 +203,6 @@ class Profile extends React.Component {
     this.props.addToFeed(feedGame);
   };
 
-  // onFormSubmit = async (e) => {
-  //   e.preventDefault();
-  // };
-
-  handleRating = (e, data) => {
-    this.setState({ rating: data.rating });
-  };
-
   renderFeed() {
     let feedDates = [];
     let todaysDate = new Date();
@@ -227,7 +216,6 @@ class Profile extends React.Component {
       };
       return feedDates.push(days);
     });
-    console.log(feedDates);
 
     if (this.props.feed.length < 1) {
       return <h3>No recent changes</h3>;
@@ -584,74 +572,46 @@ class Profile extends React.Component {
     } else {
       return this.props.wishlist.map((game) => {
         return (
-          <Card.Group key={uuidv4()} className="ui cards">
-            <Card
-              raised
-              color={
-                `${game.platform}` === "PlayStation 4" ||
-                `${game.platform}` === "PS Vita" ||
-                `${game.platform}` === "PlayStation 3" ||
-                `${game.platform}` === "PlayStation 2" ||
-                `${game.platform}` === "PlayStation"
-                  ? "blue"
-                  : `${game.platform}` === "Nintendo Switch" ||
-                    `${game.platform}` === "Wii U" ||
-                    `${game.platform}` === "Wii" ||
-                    `${game.platform}` === "GameCube" ||
-                    `${game.platform}` === "Nintendo 64" ||
-                    `${game.platform}` === "SNES" ||
-                    `${game.platform}` === "SNES" ||
-                    `${game.platform}` === "NES" ||
-                    `${game.platform}` === "Game Boy" ||
-                    `${game.platform}` === "Nintendo 3DS" ||
-                    `${game.platform}` === "Game Boy Color"
-                  ? "red"
-                  : `${game.platform}` === "Xbox One" ||
-                    `${game.platform}` === "Xbox 360" ||
-                    `${game.platform}` === "Xbox" ||
-                    `${game.platform}` === "Xbox Series S/X"
-                  ? "green"
-                  : `${game.platform}` === "PC"
-                  ? "black"
-                  : null
-              }
-              key={game.gameId}>
-              <Card.Content>
-                <Image floated="right" size="tiny" src={game.image} />
-                <Card.Header>{game.title}</Card.Header>
-                <Card.Meta>
-                  {moment(game.released).format("MMMM Do YYYY")}
-                </Card.Meta>
-              </Card.Content>
-              <Card.Content extra>
-                <Button.Group basic size="small">
-                  <Popup
-                    content="Move game to your backlog"
-                    trigger={
-                      <Button
-                        onClick={this.handleMoveClick.bind(this, game.id, game)}
-                        icon="gamepad"
-                      />
-                    }
-                  />
-
-                  <Popup
-                    content="Delete"
-                    trigger={
-                      <Button
-                        onClick={this.handleWishlistDeleteClick.bind(
-                          this,
-                          game.id,
-                          game
-                        )}
-                        icon="x"
-                      />
-                    }
-                  />
-                </Button.Group>
-              </Card.Content>
-            </Card>
-          </Card.Group>
+          <WishlistCardGroup
+            color={
+              `${game.platform}` === "PlayStation 4" ||
+              `${game.platform}` === "PS Vita" ||
+              `${game.platform}` === "PlayStation 3" ||
+              `${game.platform}` === "PlayStation 2" ||
+              `${game.platform}` === "PlayStation"
+                ? "blue"
+                : `${game.platform}` === "Nintendo Switch" ||
+                  `${game.platform}` === "Wii U" ||
+                  `${game.platform}` === "Wii" ||
+                  `${game.platform}` === "GameCube" ||
+                  `${game.platform}` === "Nintendo 64" ||
+                  `${game.platform}` === "SNES" ||
+                  `${game.platform}` === "SNES" ||
+                  `${game.platform}` === "NES" ||
+                  `${game.platform}` === "Game Boy" ||
+                  `${game.platform}` === "Nintendo 3DS" ||
+                  `${game.platform}` === "Game Boy Color"
+                ? "red"
+                : `${game.platform}` === "Xbox One" ||
+                  `${game.platform}` === "Xbox 360" ||
+                  `${game.platform}` === "Xbox" ||
+                  `${game.platform}` === "Xbox Series S/X"
+                ? "green"
+                : `${game.platform}` === "PC"
+                ? "black"
+                : null
+            }
+            key={uuidv4()}
+            image={game.image}
+            title={game.title}
+            released={moment(game.released).format("MMMM Do YYYY")}
+            backlogClick={this.handleMoveClick.bind(this, game.id, game)}
+            deleteClick={this.handleWishlistDeleteClick.bind(
+              this,
+              game.id,
+              game
+            )}
+          />
         );
       });
     }
@@ -805,7 +765,6 @@ class Profile extends React.Component {
   }
 
   render() {
-    console.log(this.props.feed);
     const desktopPanes = [
       {
         menuItem: {
