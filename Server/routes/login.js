@@ -20,7 +20,7 @@ function authenticate(req, res, next) {
   });
 }
 
-router.post("/user", (req, res) => {
+router.post("/newuser", (req, res) => {
   let username = req.body.username;
   let password = req.body.password;
 
@@ -30,7 +30,9 @@ router.post("/user", (req, res) => {
       password: password,
     },
   }).then((user) => {
-    if (user) {
+    if (!user) {
+      res.json({ message: "Invalid username or password" });
+    } else if (user) {
       jwt
         .sign({ username: username }, "secret", function (err, token) {
           if (token) {

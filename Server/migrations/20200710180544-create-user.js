@@ -16,9 +16,25 @@ module.exports = {
       },
       email: {
         type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          isEmail: true,
+        },
+        unique: {
+          args: true,
+          msg: "Email address already in use",
+        },
       },
       username: {
         type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          isUsername: true,
+        },
+        unique: {
+          args: true,
+          msg: "Username already in use",
+        },
       },
       password: {
         type: Sequelize.STRING,
