@@ -220,7 +220,7 @@ class Profile extends React.Component {
       return this.props.feed.map((game, index) => {
         const feedDayCount = feedDates[index];
         return (
-          <Feed>
+          <Feed key={uuidv4()}>
             <Feed.Event>
               <Feed.Content>
                 {game.action === "added" || game.action === "moved" ? (
