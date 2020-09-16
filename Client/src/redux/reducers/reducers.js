@@ -1,6 +1,5 @@
 import {
   GET_BACKLOG,
-  GET_RECENT,
   ADD_TO_FEED,
   GET_PLATFORM_COUNT,
   ADD_BACKLOG_GAME,
@@ -80,13 +79,13 @@ export default function (state = initialState, action) {
         playing: action.payload,
       };
     case GET_FEED:
-      console.log(action.payload);
       return {
         ...state,
         feed: action.payload,
       };
 
     case GET_PLATFORM_COUNT:
+      console.log(action.payload);
       return {
         ...state,
         platforms: action.payload.platform,

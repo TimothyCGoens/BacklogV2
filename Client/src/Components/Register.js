@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import history from "../history";
-import { Button, Container, Input } from "semantic-ui-react";
+import { Button, Container } from "semantic-ui-react";
 
 import "./register.css";
 

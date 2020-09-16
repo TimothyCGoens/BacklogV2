@@ -34,14 +34,11 @@ import {
   Header,
   Table,
   Popup,
-  Rating,
-  Modal,
   List,
-  Input,
   Feed,
 } from "semantic-ui-react";
-// import StatTable from "./StatTable";
-// import ProfileFeed from "./ProfileFeed";
+import PlatformChart from "./PlatformChart";
+// import StatChartB from "./StatChartB";
 import WishlistCardGroup from "./WishlistCardGroup";
 import UserDetails from "./UserDetails";
 import "react-notifications-component/dist/theme.css";
@@ -530,7 +527,6 @@ class Profile extends React.Component {
                       }
                     />
                   )}
-
                   <Popup
                     content="Complete Game"
                     trigger={
@@ -814,6 +810,7 @@ class Profile extends React.Component {
           </Tab.Pane>
         ),
       },
+
       {
         menuItem: {
           key: "backlog",
@@ -849,6 +846,29 @@ class Profile extends React.Component {
           ),
         },
         render: () => <Tab.Pane>{this.renderCompleted()}</Tab.Pane>,
+      },
+      {
+        menuItem: {
+          key: "stats",
+          icon: "pie graph",
+          content: <React.Fragment>Stats</React.Fragment>,
+        },
+        render: () => (
+          <Tab.Pane>
+            <Grid>
+              <Grid.Row columns={2}>
+                <Grid.Column width={8}>
+                  <PlatformChart />
+                </Grid.Column>
+                <Grid.Column width={8}></Grid.Column>
+              </Grid.Row>
+              <Grid.Row columns={2}>
+                <Grid.Column width={8}></Grid.Column>
+                <Grid.Column width={8}></Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Tab.Pane>
+        ),
       },
     ];
 
@@ -920,6 +940,14 @@ class Profile extends React.Component {
           ),
         },
         render: () => <Tab.Pane>{this.renderCompleted()}</Tab.Pane>,
+      },
+      {
+        menuItem: {
+          key: "stats",
+          icon: "pie graph",
+          content: <React.Fragment>Stats</React.Fragment>,
+        },
+        render: () => <Tab.Pane>Stats go here</Tab.Pane>,
       },
     ];
 
