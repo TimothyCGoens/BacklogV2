@@ -9,6 +9,7 @@ router.post("/add", async (req, res) => {
   let gameId = req.body.gameId;
   let platform = req.body.platform;
   let releaseDate = req.body.releaseDate;
+  let genre = req.body.genre;
 
   let game = {
     userId: userId,
@@ -17,6 +18,7 @@ router.post("/add", async (req, res) => {
     gameId: gameId,
     platform: platform,
     releaseDate: releaseDate,
+    genre: genre,
     wishlist: true,
     backlog: false,
     playing: false,

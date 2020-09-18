@@ -6,9 +6,9 @@ import userReducers from "./user/reducer";
 import profileReducers from "./profile/reducers";
 
 export default combineReducers({
-  backlog: backlogReducers,
-  wishlist: wishlistReducers,
-  completed: completedReducers,
-  user: userReducers,
-  profile: profileReducers,
+  // backlog: backlogReducers,
+  // wishlist: wishlistReducers,
+  // completed: completedReducers,
+  // user: userReducers,
+  // profile: profileReducers,
 });

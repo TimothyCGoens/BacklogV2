@@ -6,6 +6,7 @@ import {
   GET_BACKLOG,
   GET_PLAYING,
   GET_FEED,
+  GET_GENRES,
   GET_PLATFORM_COUNT,
   ADD_BACKLOG_GAME,
   ADD_TO_FEED,
@@ -87,6 +88,17 @@ export const getCompleted = (userId) => async (dispatch) => {
       })
     );
 };
+export const getGenres = (userId) => async (dispatch) => {
+  await axios
+    .get(`http://localhost:8080/api/games/genres/${userId}`)
+    .then((res) =>
+      dispatch({
+        type: GET_GENRES,
+        payload: res.data,
+      })
+    );
+};
+
 export const getPlaying = (userId) => async (dispatch) => {
   await axios
     .get(`http://localhost:8080/api/games/playing/${userId}`)

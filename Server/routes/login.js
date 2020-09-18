@@ -37,7 +37,6 @@ router.post("/newuser", (req, res) => {
         .sign({ username: username }, "secret", function (err, token) {
           if (token) {
             res.json({ token: token, id: user.dataValues.id });
-            console.log(token);
           } else {
             res.status(500).json({ message: "unable to generate token" });
           }

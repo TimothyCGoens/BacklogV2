@@ -1,6 +1,0 @@
-export const GET_PLAYING = "GET_PLAYING";
-export const ADD_TO_FEED = "ADD_TO_FEED";
-export const GET_FEED = "GET_FEED";
-export const GET_PLATFORM_COUNT = "GET_PLATFORM_COUNT";
-export const START_PLAYING_GAME = "START_PLAYING_GAME";
-export const STOP_PLAYING_GAME = "STOP_PLAYING_GAME";

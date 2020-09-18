@@ -92,6 +92,7 @@ class Search extends React.Component {
       gameId: this.state.gameId,
       platform: this.state.platform,
       releaseDate: this.state.releaseDate,
+      genre: this.state.genres[0].name,
       backlog: true,
       wishlist: false,
       playing: false,
@@ -142,6 +143,7 @@ class Search extends React.Component {
       gameId: this.state.gameId,
       platform: this.state.platform,
       releaseDate: this.state.releaseDate,
+      genre: this.state.genres[0].name,
       wishlist: true,
     };
     const feedGame = {

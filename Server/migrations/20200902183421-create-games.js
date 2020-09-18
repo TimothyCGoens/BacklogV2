@@ -26,6 +26,9 @@ module.exports = {
       releaseDate: {
         type: Sequelize.DATE,
       },
+      genre: {
+        type: Sequelize.STRING,
+      },
       backlog: {
         type: Sequelize.BOOLEAN,
       },

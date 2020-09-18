@@ -37,7 +37,7 @@ import {
   List,
   Feed,
 } from "semantic-ui-react";
-import PlatformChart from "./PlatformChart";
+// import PlatformChart from "./PlatformChart";
 // import StatChartB from "./StatChartB";
 import WishlistCardGroup from "./WishlistCardGroup";
 import UserDetails from "./UserDetails";
@@ -45,6 +45,7 @@ import "react-notifications-component/dist/theme.css";
 import "react-tabs/style/react-tabs.css";
 import "./profile.css";
 import ImageCard from "./ImageCard";
+import GenreChart from "./GenreChart";
 
 class Profile extends React.Component {
   constructor() {
@@ -858,7 +859,7 @@ class Profile extends React.Component {
             <Grid>
               <Grid.Row columns={2}>
                 <Grid.Column width={8}>
-                  <PlatformChart />
+                  <GenreChart />
                 </Grid.Column>
                 <Grid.Column width={8}></Grid.Column>
               </Grid.Row>

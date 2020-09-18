@@ -53,12 +53,14 @@ class PlatformChart extends Component {
         games: counts[index].count,
       };
     });
+    console.log(platformCounts);
 
     let sortedPlatforms = platformCounts.sort(function (a, b) {
       let gamesA = a.games;
       let gamesB = b.games;
       return gamesB - gamesA;
     });
+    console.log(sortedPlatforms);
     this.setState({
       platformCountArray: sortedPlatforms,
     });

@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "rxwkbwma",
-    "password": "HquxmAMESjvKNGSuSSW9ZVIH42M5og8W",
-    "database": "rxwkbwma",
-    "host": "lallah.db.elephantsql.com",
+    "username": "postgres",
+    "password": null,
+    "database": "newbacklog",
+    "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
@@ -14,10 +14,10 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "username": "rxwkbwma",
+    "password": "HquxmAMESjvKNGSuSSW9ZVIH42M5og8W",
+    "database": "rxwkbwma",
+    "host": "lallah.db.elephantsql.com",
     "dialect": "postgres"
   }
 }

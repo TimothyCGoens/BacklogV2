@@ -9,6 +9,7 @@ router.post("/add", async (req, res) => {
   let gameId = req.body.gameId;
   let platform = req.body.platform;
   let releaseDate = req.body.releaseDate;
+  let genre = req.body.genre;
 
   let game = {
     userId: userId,
@@ -17,6 +18,7 @@ router.post("/add", async (req, res) => {
     gameId: gameId,
     platform: platform,
     releaseDate: releaseDate,
+    genre: genre,
     backlog: true,
     wishlist: false,
     completed: false,
@@ -34,6 +36,7 @@ router.post("/start-playing", async (req, res) => {
   let gameId = req.body.gameId;
   let platform = req.body.platform;
   let releaseDate = req.body.releaseDate;
+  let genre = req.body.genre;
   let id = req.body.id;
   let playing = req.body.playing;
 
@@ -44,6 +47,7 @@ router.post("/start-playing", async (req, res) => {
     gameId: gameId,
     platform: platform,
     releaseDate: releaseDate,
+    genre: genre,
     backlog: true,
     playing: playing,
     wishlist: false,
@@ -64,6 +68,7 @@ router.post("/stop-playing", async (req, res) => {
   let gameId = req.body.gameId;
   let platform = req.body.platform;
   let releaseDate = req.body.releaseDate;
+  let genre = req.body.genre;
   let playing = req.body.playing;
   let id = req.body.id;
 
@@ -74,6 +79,7 @@ router.post("/stop-playing", async (req, res) => {
     gameId: gameId,
     platform: platform,
     releaseDate: releaseDate,
+    genre: genre,
     backlog: true,
     playing: playing,
     wishlist: false,

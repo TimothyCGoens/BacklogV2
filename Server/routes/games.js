@@ -21,6 +21,25 @@ router.get("/all/:userId", async (req, res) => {
   );
 });
 
+router.get("/genres/:userId", async (req, res) => {
+  let userId = req.params.userId;
+
+  const { count, rows } = await models.Games.findAndCountAll({
+    where: {
+      userId: userId,
+      wishlist: false,
+    },
+    attributes: ["genre"],
+    group: "genre",
+  });
+  res.json(
+    (genres = {
+      genre: rows,
+      games: count,
+    })
+  );
+});
+
 router.get("/playing/:userId", async (req, res) => {
   let userId = req.params.userId;
   const gameData = await models.Games.findAll({

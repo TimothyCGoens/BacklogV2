@@ -22,10 +22,3 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-  // "development": {
-  //   "username": "postgres",
-  //   "password": null,
-  //   "database": "newbacklog",
-  //   "host": "127.0.0.1",
-  //   "dialect": "postgres"
-  // },

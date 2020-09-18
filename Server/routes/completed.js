@@ -10,6 +10,7 @@ router.post("/finish", async (req, res) => {
   let gameId = req.body.gameId;
   let platform = req.body.platform;
   let releaseDate = req.body.releaseDate;
+  let genre = req.body.genre;
   let rating = req.body.rating;
   let id = req.body.id;
   let completedDate = req.body.completedDate;
@@ -22,6 +23,7 @@ router.post("/finish", async (req, res) => {
     gameId: gameId,
     platform: platform,
     releaseDate: releaseDate,
+    genre: genre,
     playing: false,
     wishlist: false,
     backlog: false,

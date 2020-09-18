@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     image: DataTypes.STRING,
     platform: DataTypes.STRING,
     releaseDate: DataTypes.DATE,
+    genre: DataTypes.STRING,
     backlog: DataTypes.BOOLEAN,
     wishlist: DataTypes.BOOLEAN,
     playing: DataTypes.BOOLEAN,

@@ -1,5 +1,6 @@
 import {
   GET_BACKLOG,
+  GET_GENRES,
   ADD_TO_FEED,
   GET_PLATFORM_COUNT,
   ADD_BACKLOG_GAME,
@@ -34,6 +35,8 @@ const initialState = {
   playing: [],
   recent: [],
   feed: [],
+  genres: [],
+  genreGamesCount: [],
 };
 
 export default function (state = initialState, action) {
@@ -72,6 +75,13 @@ export default function (state = initialState, action) {
         ...state,
         backlog: action.payload,
       };
+    case GET_GENRES:
+      console.log(action.payload);
+      return {
+        ...state,
+        genres: action.payload.genre,
+        genreGamesCount: action.payload.games,
+      };
 
     case GET_PLAYING:
       return {
@@ -85,7 +95,6 @@ export default function (state = initialState, action) {
       };
 
     case GET_PLATFORM_COUNT:
-      console.log(action.payload);
       return {
         ...state,
         platforms: action.payload.platform,
@@ -94,13 +103,13 @@ export default function (state = initialState, action) {
 
     //adding a game to db and state
     case ADD_BACKLOG_GAME:
+      console.log(action.payload);
       return {
         ...state,
         backlog: [action.payload, ...state.backlog],
       };
 
     case ADD_TO_FEED:
-      console.log(action.payload);
       return {
         ...state,
         feed: [action.payload, ...state.feed],
@@ -121,6 +130,7 @@ export default function (state = initialState, action) {
       };
 
     case ADD_WISHLIST_GAME:
+      console.log(action.payload);
       return {
         ...state,
         wishlist: [action.payload, ...state.wishlist],
