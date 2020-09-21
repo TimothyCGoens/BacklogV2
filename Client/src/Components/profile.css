@@ -87,3 +87,8 @@
 b {
   margin-left: 3px;
 }
+
+.chart-grid {
+  display: flex;
+  justify-content: center;
+}

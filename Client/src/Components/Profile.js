@@ -7,6 +7,7 @@ import {
   getBacklog,
   getPlatformCount,
   getPlaying,
+  getGenres,
   getWishlist,
   deleteBacklogGameState,
   deleteBacklogGameDB,
@@ -37,15 +38,26 @@ import {
   List,
   Feed,
 } from "semantic-ui-react";
-// import PlatformChart from "./PlatformChart";
-// import StatChartB from "./StatChartB";
+import {
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Tooltip,
+  Legend,
+} from "recharts";
+import { PieChart, Pie, Sector, Cell } from "recharts";
 import WishlistCardGroup from "./WishlistCardGroup";
 import UserDetails from "./UserDetails";
 import "react-notifications-component/dist/theme.css";
 import "react-tabs/style/react-tabs.css";
 import "./profile.css";
 import ImageCard from "./ImageCard";
-import GenreChart from "./GenreChart";
+
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
+const RADIAN = Math.PI / 180;
 
 class Profile extends React.Component {
   constructor() {
@@ -57,6 +69,7 @@ class Profile extends React.Component {
       rating: null,
     };
   }
+
   componentDidMount() {
     this.props.getUser(this.props.userId);
     this.props.getBacklog(this.props.userId);
@@ -65,6 +78,7 @@ class Profile extends React.Component {
     this.props.getPlaying(this.props.userId);
     this.props.getPlatformCount(this.props.userId);
     this.props.getFeed(this.props.userId);
+    this.props.getGenres(this.props.userId);
   }
 
   handleBacklogDeleteClick = (id, game) => {
@@ -188,6 +202,7 @@ class Profile extends React.Component {
     this.props.startPlayingGame(game);
     this.props.addToFeed(feedGame);
   };
+
   handleStopPlayingClick = (game) => {
     game.playing = false;
     const feedGame = {
@@ -711,6 +726,144 @@ class Profile extends React.Component {
     }
   }
 
+  renderPlatformChart() {
+    const getIntroOfPage = (label) => {
+      if (label === "PlayStation 4") {
+        return "Playstation 4";
+      }
+      if (label === "PC") {
+        return "PC";
+      }
+      if (label === "PlayStation") {
+        return "PlayStation";
+      }
+      if (label === "macOS") {
+        return "macOS";
+      }
+    };
+
+    const CustomTooltip = ({ active, payload, label }) => {
+      if (active) {
+        return (
+          <div className="custom-tooltip">
+            <p className="label">{`${label} : ${payload[0].value}`}</p>
+            <p className="intro">{getIntroOfPage(label)}</p>
+          </div>
+        );
+      }
+
+      return null;
+    };
+
+    let platformCounts = [];
+
+    let platforms = this.props.platforms;
+    let counts = this.props.platformGamesCount;
+
+    platformCounts = platforms.map(function (item, index) {
+      return {
+        platform: item.platform,
+        games: parseInt(counts[index].count),
+      };
+    });
+
+    let sortedPlatforms = platformCounts.sort(function (a, b) {
+      let gamesA = a.games;
+      let gamesB = b.games;
+      return gamesB - gamesA;
+    });
+    console.log(sortedPlatforms);
+
+    const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
+    const RADIAN = Math.PI / 180;
+    const renderCustomizedLabel = ({
+      cx,
+      cy,
+      midAngle,
+      innerRadius,
+      outerRadius,
+      percent,
+      index,
+    }) => {
+      const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+      const x = cx + radius * Math.cos(-midAngle * RADIAN);
+      const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+      return (
+        <text
+          x={x}
+          y={y}
+          fill="white"
+          textAnchor={x > cx ? "start" : "end"}
+          dominantBaseline="central">
+          {`${(percent * 100).toFixed(0)}%`}
+        </text>
+      );
+    };
+
+    return (
+      <PieChart width={400} height={400}>
+        <Tooltip content={<CustomTooltip />} />
+
+        <Pie
+          data={sortedPlatforms}
+          cx={200}
+          cy={200}
+          labelLine={false}
+          label={renderCustomizedLabel}
+          outerRadius={80}
+          fill="#8884d8"
+          dataKey="games">
+          {sortedPlatforms.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+      </PieChart>
+    );
+  }
+
+  renderGenreChart() {
+    let genreCounts = [];
+
+    let genres = this.props.genres;
+    let counts = this.props.genreGamesCount;
+
+    genreCounts = genres.map(function (item, index) {
+      return {
+        genre: item.genre,
+        games: counts[index].count,
+      };
+    });
+
+    let sortedGenres = genreCounts.sort(function (a, b) {
+      let gamesA = a.games;
+      let gamesB = b.games;
+
+      return gamesB - gamesA;
+    });
+
+    return (
+      <RadarChart
+        cx={300}
+        cy={250}
+        outerRadius={100}
+        width={500}
+        height={500}
+        data={sortedGenres}>
+        <PolarGrid />
+        <PolarAngleAxis dataKey="genre" />
+        <PolarRadiusAxis />
+        <Radar
+          dataKey="games"
+          stroke="#8884d8"
+          fill="#8884d8"
+          fillOpacity={0.6}
+        />
+      </RadarChart>
+    );
+  }
+
   renderStatTable() {
     const totalGames = this.props.backlog.length + this.props.completed.length;
 
@@ -859,9 +1012,11 @@ class Profile extends React.Component {
             <Grid>
               <Grid.Row columns={2}>
                 <Grid.Column width={8}>
-                  <GenreChart />
+                  Games by Genre{this.renderGenreChart()}
                 </Grid.Column>
-                <Grid.Column width={8}></Grid.Column>
+                <Grid.Column width={8}>
+                  Games by Platform{this.renderPlatformChart()}
+                </Grid.Column>
               </Grid.Row>
               <Grid.Row columns={2}>
                 <Grid.Column width={8}></Grid.Column>
@@ -977,6 +1132,8 @@ const mapStateToProps = (state) => {
     playing: state.playing,
     recent: state.recent,
     feed: state.feed,
+    genres: state.genres,
+    genreGamesCount: state.genreGamesCount,
   };
 };
 
@@ -985,6 +1142,7 @@ export default connect(mapStateToProps, {
   getPlaying,
   getBacklog,
   getPlatformCount,
+  getGenres,
   getWishlist,
   startPlayingGame,
   stopPlayingGame,
