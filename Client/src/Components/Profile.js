@@ -21,6 +21,10 @@ import {
   moveGameFromBacklogToCompleted,
   getFeed,
   addToFeed,
+  getSonyCounts,
+  getXboxCounts,
+  getNesCounts,
+  getPcCounts,
 } from "../redux/actions/actions";
 import { Breakpoint } from "react-socks";
 import moment from "moment";
@@ -45,19 +49,14 @@ import {
   PolarAngleAxis,
   PolarRadiusAxis,
   Tooltip,
-  Legend,
 } from "recharts";
-import { PieChart, Pie, Sector, Cell } from "recharts";
+import { PieChart, Pie, Cell } from "recharts";
 import WishlistCardGroup from "./WishlistCardGroup";
 import UserDetails from "./UserDetails";
 import "react-notifications-component/dist/theme.css";
 import "react-tabs/style/react-tabs.css";
 import "./profile.css";
 import ImageCard from "./ImageCard";
-
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-
-const RADIAN = Math.PI / 180;
 
 class Profile extends React.Component {
   constructor() {
@@ -79,6 +78,10 @@ class Profile extends React.Component {
     this.props.getPlatformCount(this.props.userId);
     this.props.getFeed(this.props.userId);
     this.props.getGenres(this.props.userId);
+    this.props.getSonyCounts(this.props.userId);
+    this.props.getXboxCounts(this.props.userId);
+    this.props.getNesCounts(this.props.userId);
+    this.props.getPcCounts(this.props.userId);
   }
 
   handleBacklogDeleteClick = (id, game) => {
@@ -261,7 +264,6 @@ class Profile extends React.Component {
                             `${game.platform}` === "GameCube" ||
                             `${game.platform}` === "Nintendo 64" ||
                             `${game.platform}` === "SNES" ||
-                            `${game.platform}` === "SNES" ||
                             `${game.platform}` === "NES" ||
                             `${game.platform}` === "Game Boy" ||
                             `${game.platform}` === "Nintendo 3DS" ||
@@ -306,7 +308,6 @@ class Profile extends React.Component {
                             `${game.platform}` === "GameCube" ||
                             `${game.platform}` === "Nintendo 64" ||
                             `${game.platform}` === "SNES" ||
-                            `${game.platform}` === "SNES" ||
                             `${game.platform}` === "NES" ||
                             `${game.platform}` === "Game Boy" ||
                             `${game.platform}` === "Nintendo 3DS" ||
@@ -350,7 +351,6 @@ class Profile extends React.Component {
                             `${game.platform}` === "Wii" ||
                             `${game.platform}` === "GameCube" ||
                             `${game.platform}` === "Nintendo 64" ||
-                            `${game.platform}` === "SNES" ||
                             `${game.platform}` === "SNES" ||
                             `${game.platform}` === "NES" ||
                             `${game.platform}` === "Game Boy" ||
@@ -428,7 +428,6 @@ class Profile extends React.Component {
                     `${game.platform}` === "Wii" ||
                     `${game.platform}` === "GameCube" ||
                     `${game.platform}` === "Nintendo 64" ||
-                    `${game.platform}` === "SNES" ||
                     `${game.platform}` === "SNES" ||
                     `${game.platform}` === "NES" ||
                     `${game.platform}` === "Game Boy" ||
@@ -598,7 +597,6 @@ class Profile extends React.Component {
                   `${game.platform}` === "GameCube" ||
                   `${game.platform}` === "Nintendo 64" ||
                   `${game.platform}` === "SNES" ||
-                  `${game.platform}` === "SNES" ||
                   `${game.platform}` === "NES" ||
                   `${game.platform}` === "Game Boy" ||
                   `${game.platform}` === "Nintendo 3DS" ||
@@ -676,7 +674,6 @@ class Profile extends React.Component {
                     `${game.platform}` === "GameCube" ||
                     `${game.platform}` === "Nintendo 64" ||
                     `${game.platform}` === "SNES" ||
-                    `${game.platform}` === "SNES" ||
                     `${game.platform}` === "NES" ||
                     `${game.platform}` === "Game Boy" ||
                     `${game.platform}` === "Nintendo 3DS" ||
@@ -727,33 +724,7 @@ class Profile extends React.Component {
   }
 
   renderPlatformChart() {
-    const getIntroOfPage = (label) => {
-      if (label === "PlayStation 4") {
-        return "Playstation 4";
-      }
-      if (label === "PC") {
-        return "PC";
-      }
-      if (label === "PlayStation") {
-        return "PlayStation";
-      }
-      if (label === "macOS") {
-        return "macOS";
-      }
-    };
-
-    const CustomTooltip = ({ active, payload, label }) => {
-      if (active) {
-        return (
-          <div className="custom-tooltip">
-            <p className="label">{`${label} : ${payload[0].value}`}</p>
-            <p className="intro">{getIntroOfPage(label)}</p>
-          </div>
-        );
-      }
-
-      return null;
-    };
+    let sony = this.props.sonyCounts;
 
     let platformCounts = [];
 
@@ -772,46 +743,19 @@ class Profile extends React.Component {
       let gamesB = b.games;
       return gamesB - gamesA;
     });
-    console.log(sortedPlatforms);
 
     const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
     const RADIAN = Math.PI / 180;
-    const renderCustomizedLabel = ({
-      cx,
-      cy,
-      midAngle,
-      innerRadius,
-      outerRadius,
-      percent,
-      index,
-    }) => {
-      const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-      const x = cx + radius * Math.cos(-midAngle * RADIAN);
-      const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-      return (
-        <text
-          x={x}
-          y={y}
-          fill="white"
-          textAnchor={x > cx ? "start" : "end"}
-          dominantBaseline="central">
-          {`${(percent * 100).toFixed(0)}%`}
-        </text>
-      );
-    };
 
     return (
       <PieChart width={400} height={400}>
-        <Tooltip content={<CustomTooltip />} />
-
         <Pie
           data={sortedPlatforms}
           cx={200}
           cy={200}
           labelLine={false}
-          label={renderCustomizedLabel}
+          // label={renderCustomizedLabel}
           outerRadius={80}
           fill="#8884d8"
           dataKey="games">
@@ -825,7 +769,7 @@ class Profile extends React.Component {
 
   renderGenreChart() {
     let genreCounts = [];
-
+    console.log(this.props.genres.length);
     let genres = this.props.genres;
     let counts = this.props.genreGamesCount;
 
@@ -1134,6 +1078,10 @@ const mapStateToProps = (state) => {
     feed: state.feed,
     genres: state.genres,
     genreGamesCount: state.genreGamesCount,
+    sonyCounts: state.sonyCounts,
+    xboxCounts: state.xboxCounts,
+    nesCounts: state.nesCounts,
+    pcCounts: state.pcCounts,
   };
 };
 
@@ -1156,6 +1104,10 @@ export default connect(mapStateToProps, {
   addCompletedGame,
   getFeed,
   addToFeed,
+  getSonyCounts,
+  getXboxCounts,
+  getNesCounts,
+  getPcCounts,
 })(Profile);
 
 // Rating <Rating rating={game.rating} maxRating={5} disabled />

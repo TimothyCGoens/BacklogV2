@@ -51,4 +51,74 @@ router.get("/playing/:userId", async (req, res) => {
   res.json(gameData);
 });
 
+router.get("/sonycounts/:userId", async (req, res) => {
+  let userId = req.params.userId;
+  const gameData = await models.Games.findAll({
+    where: {
+      userId: userId,
+      wishlist: false,
+      platform: [
+        "PlayStation 4",
+        "PlayStation 3",
+        "PlayStation 2",
+        "PlayStation",
+        "PS Vita",
+        "PSP",
+      ],
+    },
+    attributes: ["backlogDate", "genre", "platform", "title"],
+  });
+  res.json(gameData);
+});
+
+router.get("/xboxcounts/:userId", async (req, res) => {
+  let userId = req.params.userId;
+  const gameData = await models.Games.findAll({
+    where: {
+      userId: userId,
+      wishlist: false,
+      platform: ["Xbox 360", "Xbox One", "Xbox", "Xbox Series S/X"],
+    },
+    attributes: ["backlogDate", "genre", "platform", "title"],
+  });
+  res.json(gameData);
+});
+
+router.get("/nescounts/:userId", async (req, res) => {
+  let userId = req.params.userId;
+  const gameData = await models.Games.findAll({
+    where: {
+      userId: userId,
+      wishlist: false,
+      platform: [
+        "NES",
+        "SNES",
+        "Nintendo 64",
+        "GameCube",
+        "Wii",
+        "Wii U",
+        "Nintendo Switch",
+        "Game Boy",
+        "Game Boy Color",
+        "Nintendo 3DS",
+      ],
+    },
+    attributes: ["backlogDate", "genre", "platform", "title"],
+  });
+  res.json(gameData);
+});
+
+router.get("/pccounts/:userId", async (req, res) => {
+  let userId = req.params.userId;
+  const gameData = await models.Games.findAll({
+    where: {
+      userId: userId,
+      wishlist: false,
+      platform: ["PC"],
+    },
+    attributes: ["backlogDate", "genre", "platform", "title"],
+  });
+  res.json(gameData);
+});
+
 module.exports = router;

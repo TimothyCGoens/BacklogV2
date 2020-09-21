@@ -8,6 +8,10 @@ import {
   DELETE_BACKLOG_GAME_STATE,
   DELETE_WISHLIST_GAME_STATE,
   DELETE_WISHLIST_GAME_DB,
+  GET_SONY_COUNTS,
+  GET_XBOX_COUNTS,
+  GET_NES_COUNTS,
+  GET_PC_COUNTS,
   GET_WISHLIST,
   GET_USER,
   GET_FEED,
@@ -37,6 +41,10 @@ const initialState = {
   feed: [],
   genres: [],
   genreGamesCount: [],
+  sonyCounts: [],
+  xboxCounts: [],
+  nesCounts: [],
+  pcCounts: [],
 };
 
 export default function (state = initialState, action) {
@@ -76,7 +84,6 @@ export default function (state = initialState, action) {
         backlog: action.payload,
       };
     case GET_GENRES:
-      console.log(action.payload);
       return {
         ...state,
         genres: action.payload.genre,
@@ -101,9 +108,34 @@ export default function (state = initialState, action) {
         platformGamesCount: action.payload.games,
       };
 
+    case GET_SONY_COUNTS:
+      console.log(action.payload);
+      return {
+        ...state,
+        sonyCounts: action.payload.length,
+      };
+
+    case GET_XBOX_COUNTS:
+      console.log(action.payload);
+      return {
+        ...state,
+        xboxCounts: action.payload,
+      };
+    case GET_NES_COUNTS:
+      console.log(action.payload);
+      return {
+        ...state,
+        nesCounts: action.payload,
+      };
+    case GET_PC_COUNTS:
+      console.log(action.payload);
+      return {
+        ...state,
+        pcCounts: action.payload,
+      };
+
     //adding a game to db and state
     case ADD_BACKLOG_GAME:
-      console.log(action.payload);
       return {
         ...state,
         backlog: [action.payload, ...state.backlog],

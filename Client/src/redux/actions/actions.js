@@ -8,6 +8,10 @@ import {
   GET_FEED,
   GET_GENRES,
   GET_PLATFORM_COUNT,
+  GET_SONY_COUNTS,
+  GET_XBOX_COUNTS,
+  GET_NES_COUNTS,
+  GET_PC_COUNTS,
   ADD_BACKLOG_GAME,
   ADD_TO_FEED,
   START_PLAYING_GAME,
@@ -66,6 +70,50 @@ export const getPlatformCount = (userId) => async (dispatch) => {
       payload: res.data,
     })
   );
+};
+
+export const getSonyCounts = (userId) => async (dispatch) => {
+  await axios
+    .get(`http://localhost:8080/api/games/sonycounts/${userId}`)
+    .then((res) => {
+      dispatch({
+        type: GET_SONY_COUNTS,
+        payload: res.data,
+      });
+    });
+};
+
+export const getXboxCounts = (userId) => async (dispatch) => {
+  await axios
+    .get(`http://localhost:8080/api/games/xboxcounts/${userId}`)
+    .then((res) => {
+      dispatch({
+        type: GET_XBOX_COUNTS,
+        payload: res.data,
+      });
+    });
+};
+
+export const getNesCounts = (userId) => async (dispatch) => {
+  await axios
+    .get(`http://localhost:8080/api/games/nescounts/${userId}`)
+    .then((res) => {
+      dispatch({
+        type: GET_NES_COUNTS,
+        payload: res.data,
+      });
+    });
+};
+
+export const getPcCounts = (userId) => async (dispatch) => {
+  await axios
+    .get(`http://localhost:8080/api/games/pccounts/${userId}`)
+    .then((res) => {
+      dispatch({
+        type: GET_PC_COUNTS,
+        payload: res.data,
+      });
+    });
 };
 
 export const getWishlist = (userId) => async (dispatch) => {
