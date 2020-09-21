@@ -41,6 +41,7 @@ class GenreChart extends Component {
     return (
       <div>
         <h1>Genres</h1>
+        <p>radar chart</p>
       </div>
     );
   }
