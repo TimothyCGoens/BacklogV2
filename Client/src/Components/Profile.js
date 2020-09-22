@@ -41,6 +41,7 @@ import {
   Popup,
   List,
   Feed,
+  Dropdown,
 } from "semantic-ui-react";
 import {
   Radar,
@@ -67,6 +68,7 @@ class Profile extends React.Component {
       playMessage: "",
       open: false,
       rating: null,
+      chart: "",
     };
   }
 
@@ -219,6 +221,44 @@ class Profile extends React.Component {
     this.props.stopPlayingGame(game);
     this.props.addToFeed(feedGame);
   };
+
+  handleChartSelection = (e, data) => {
+    this.setState({
+      chart: data.value,
+    });
+    console.log(this.state.chart);
+  };
+
+  renderDropdown() {
+    const chartOptions = [
+      {
+        key: "Genres",
+        text: "Genres",
+        value: "Genres",
+      },
+      {
+        key: "Games by Platform",
+        text: "Games by Platform",
+        value: "Games by Platform",
+      },
+    ];
+
+    // const platformOptions = this.state.platforms.map((platform) => {
+    //   return {
+    //     key: platform.platform.name,
+    //     text: platform.platform.name,
+    //     value: platform.platform.name,
+    //   };
+    // });
+    return (
+      <Dropdown
+        className="ui search selection dropdown"
+        placeholder="Please Select a Chart"
+        onChange={this.handleChartSelection}
+        options={chartOptions}
+      />
+    );
+  }
 
   renderFeed() {
     let feedDates = [];
@@ -796,7 +836,7 @@ class Profile extends React.Component {
     // };
 
     return (
-      <PieChart width={400} height={400}>
+      <PieChart width={500} height={500}>
         <Pie
           data={platformCounts}
           cx={200}
@@ -1027,20 +1067,20 @@ class Profile extends React.Component {
         },
         render: () => (
           <Tab.Pane>
-            <Grid>
-              <Grid.Row columns={2}>
-                <Grid.Column width={8}>
-                  Games by Genre{this.renderGenreChart()}
-                </Grid.Column>
-                <Grid.Column width={8}>
-                  Games by Platform{this.renderPlatformChart()}
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row columns={2}>
-                <Grid.Column width={8}></Grid.Column>
-                <Grid.Column width={8}></Grid.Column>
-              </Grid.Row>
-            </Grid>
+            <div className="chart-page">
+              {this.renderDropdown()}
+              {this.state.chart === "Genres" ? (
+                <div className="chart-section">
+                  <h3>Games by Genre</h3>
+                  {this.renderGenreChart()}
+                </div>
+              ) : this.state.chart === "Games by Platform" ? (
+                <div className="chart-section">
+                  <h3>Games by Platform</h3>
+                  {this.renderPlatformChart()}
+                </div>
+              ) : null}
+            </div>
           </Tab.Pane>
         ),
       },
@@ -1119,9 +1159,24 @@ class Profile extends React.Component {
         menuItem: {
           key: "stats",
           icon: "pie graph",
-          content: <React.Fragment>Stats</React.Fragment>,
+          content: <React.Fragment></React.Fragment>,
         },
-        render: () => <Tab.Pane>Stats go here</Tab.Pane>,
+        render: () => (
+          <Tab.Pane>
+            <Grid>
+              <Grid.Row columns={1}>
+                <Grid.Column width={16}>
+                  Games by Genre{this.renderGenreChart()}
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row columns={1}>
+                <Grid.Column width={16}>
+                  Games by Platform{this.renderPlatformChart()}
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Tab.Pane>
+        ),
       },
     ];
 

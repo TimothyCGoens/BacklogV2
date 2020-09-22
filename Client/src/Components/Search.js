@@ -235,6 +235,7 @@ class Search extends React.Component {
       platformSelected: true,
       searchMessage: "",
     });
+    console.log(this.state.platform);
   };
 
   renderCardGroup() {
