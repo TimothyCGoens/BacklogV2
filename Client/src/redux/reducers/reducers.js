@@ -109,26 +109,22 @@ export default function (state = initialState, action) {
       };
 
     case GET_SONY_COUNTS:
-      console.log(action.payload);
       return {
         ...state,
-        sonyCounts: action.payload.length,
+        sonyCounts: action.payload,
       };
 
     case GET_XBOX_COUNTS:
-      console.log(action.payload);
       return {
         ...state,
         xboxCounts: action.payload,
       };
     case GET_NES_COUNTS:
-      console.log(action.payload);
       return {
         ...state,
         nesCounts: action.payload,
       };
     case GET_PC_COUNTS:
-      console.log(action.payload);
       return {
         ...state,
         pcCounts: action.payload,

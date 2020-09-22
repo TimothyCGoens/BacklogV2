@@ -49,6 +49,7 @@ import {
   PolarAngleAxis,
   PolarRadiusAxis,
   Tooltip,
+  Legend,
 } from "recharts";
 import { PieChart, Pie, Cell } from "recharts";
 import WishlistCardGroup from "./WishlistCardGroup";
@@ -725,41 +726,114 @@ class Profile extends React.Component {
 
   renderPlatformChart() {
     let sony = this.props.sonyCounts;
+    let nes = this.props.nesCounts;
+    let pc = this.props.pcCounts;
+    let xbox = this.props.xboxCounts;
 
-    let platformCounts = [];
+    let xboxObject = {
+      platform: "Xbox",
+      games: xbox.length,
+    };
+    let pcObject = {
+      platform: "PC",
+      games: pc.length,
+    };
+    let sonyObject = {
+      platform: "Sony",
+      games: sony.length,
+    };
+    let nesObject = {
+      platform: "Nintendo",
+      games: nes.length,
+    };
 
-    let platforms = this.props.platforms;
-    let counts = this.props.platformGamesCount;
+    const platformCounts = [xboxObject, pcObject, sonyObject, nesObject];
 
-    platformCounts = platforms.map(function (item, index) {
-      return {
-        platform: item.platform,
-        games: parseInt(counts[index].count),
-      };
-    });
+    console.log(platformCounts);
 
-    let sortedPlatforms = platformCounts.sort(function (a, b) {
-      let gamesA = a.games;
-      let gamesB = b.games;
-      return gamesB - gamesA;
-    });
+    // let platforms = this.props.platforms;
+    // let counts = this.props.platformGamesCount;
 
-    const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+    // platformCounts = platforms.map(function (item, index) {
+    //   return {
+    //     platform: item.platform,
+    //     games: parseInt(counts[index].count),
+    //   };
+    // });
+
+    // let sortedPlatforms = platformCounts.sort(function (a, b) {
+    //   let gamesA = a.games;
+    //   let gamesB = b.games;
+    //   return gamesB - gamesA;
+    // });
+
+    const COLORS = ["#21ba45", "#1b1c1d", "#2185d0", "#db2828"];
 
     const RADIAN = Math.PI / 180;
+    // const renderCustomizedLabel = ({
+    //   cx,
+    //   cy,
+    //   midAngle,
+    //   innerRadius,
+    //   outerRadius,
+    //   percent,
+    //   index,
+    // }) => {
+    //   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    //   const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    //   const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    //   return (
+    //     <text
+    //       x={x}
+    //       y={y}
+    //       fill="white"
+    //       textAnchor={x > cx ? "start" : "end"}
+    //       dominantBaseline="central">
+    //       {`${(percent * 100).toFixed(0)}%`}
+    //     </text>
+    //   );
+    // };
 
     return (
       <PieChart width={400} height={400}>
         <Pie
-          data={sortedPlatforms}
+          data={platformCounts}
           cx={200}
           cy={200}
           labelLine={false}
-          // label={renderCustomizedLabel}
+          label={({
+            cx,
+            cy,
+            midAngle,
+            innerRadius,
+            outerRadius,
+            value,
+            index,
+          }) => {
+            const RADIAN = Math.PI / 180;
+            // eslint-disable-next-line
+            const radius = 25 + innerRadius + (outerRadius - innerRadius);
+            // eslint-disable-next-line
+            const x = cx + radius * Math.cos(-midAngle * RADIAN);
+            // eslint-disable-next-line
+            const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+            return (
+              <text
+                x={x}
+                y={y}
+                fill={COLORS[index]}
+                textAnchor={x > cx ? "start" : "end"}
+                dominantBaseline="central">
+                {platformCounts[index].platform} ({value})
+              </text>
+            );
+          }}
           outerRadius={80}
           fill="#8884d8"
           dataKey="games">
-          {sortedPlatforms.map((entry, index) => (
+          {platformCounts.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
