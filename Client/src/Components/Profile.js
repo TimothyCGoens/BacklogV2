@@ -204,6 +204,7 @@ class Profile extends React.Component {
       action: "started playing",
       destination: "",
       platform: game.platform,
+      platformFamily: game.platformFamily,
     };
     this.props.startPlayingGame(game);
     this.props.addToFeed(feedGame);
@@ -217,6 +218,7 @@ class Profile extends React.Component {
       action: "stopped playing",
       destination: "",
       platform: game.platform,
+      platform: game.platformFamily,
     };
     this.props.stopPlayingGame(game);
     this.props.addToFeed(feedGame);
@@ -273,7 +275,7 @@ class Profile extends React.Component {
       };
       return feedDates.push(days);
     });
-
+    console.log(feedDates);
     if (this.props.feed.length < 1) {
       return <h3>No recent changes</h3>;
     } else {
@@ -301,11 +303,13 @@ class Profile extends React.Component {
                       {game.title}
                     </p>
                     to your <b>{game.destination}</b>
-                    {feedDayCount.days < 1 ? (
+                    {isNaN(feedDayCount.days) ? (
+                      <Feed.Date>just now</Feed.Date>
+                    ) : feedDayCount.days < 1 ? (
                       <Feed.Date>
                         {moment(game.updatedAt).format("h:mm a")}
                       </Feed.Date>
-                    ) : feedDayCount === 1 ? (
+                    ) : feedDayCount.days === 1 ? (
                       <Feed.Date>yesterday</Feed.Date>
                     ) : (
                       <Feed.Date>{feedDayCount.days} days ago</Feed.Date>
@@ -329,11 +333,13 @@ class Profile extends React.Component {
                       {game.title}
                     </p>
                     from your <b>{game.destination}</b>
-                    {feedDayCount.days < 1 ? (
+                    {isNaN(feedDayCount.days) ? (
+                      <Feed.Date>just now</Feed.Date>
+                    ) : feedDayCount.days < 1 ? (
                       <Feed.Date>
                         {moment(game.updatedAt).format("h:mm a")}
                       </Feed.Date>
-                    ) : feedDayCount === 1 ? (
+                    ) : feedDayCount.days === 1 ? (
                       <Feed.Date>yesterday</Feed.Date>
                     ) : (
                       <Feed.Date>{feedDayCount.days} days ago</Feed.Date>
@@ -356,11 +362,13 @@ class Profile extends React.Component {
                       }>
                       {game.title}
                     </p>
-                    {feedDayCount.days < 1 ? (
+                    {isNaN(feedDayCount.days) ? (
+                      <Feed.Date>just now</Feed.Date>
+                    ) : feedDayCount.days < 1 ? (
                       <Feed.Date>
                         {moment(game.updatedAt).format("h:mm a")}
                       </Feed.Date>
-                    ) : feedDayCount === 1 ? (
+                    ) : feedDayCount.days === 1 ? (
                       <Feed.Date>yesterday</Feed.Date>
                     ) : (
                       <Feed.Date>{feedDayCount.days} days ago</Feed.Date>
