@@ -49,8 +49,8 @@ import {
   PolarGrid,
   PolarAngleAxis,
   PolarRadiusAxis,
-  Tooltip,
-  Legend,
+  // Tooltip,
+  // Legend,
 } from "recharts";
 import { PieChart, Pie, Cell } from "recharts";
 import WishlistCardGroup from "./WishlistCardGroup";
@@ -252,7 +252,7 @@ class Profile extends React.Component {
     // });
     return (
       <Dropdown
-        className="ui search selection dropdown"
+        className="ui search selection dropdown chart-dropdown"
         placeholder="Please Select a Chart"
         onChange={this.handleChartSelection}
         options={chartOptions}
@@ -288,29 +288,13 @@ class Profile extends React.Component {
                     You {game.action}
                     <p
                       className={
-                        `${game.platform}` === "PlayStation 4" ||
-                        `${game.platform}` === "PS Vita" ||
-                        `${game.platform}` === "PlayStation 3" ||
-                        `${game.platform}` === "PlayStation 2" ||
-                        `${game.platform}` === "PlayStation"
+                        `${game.platformFamily}` === "PlayStation"
                           ? "playstation"
-                          : `${game.platform}` === "Xbox One" ||
-                            `${game.platform}` === "Xbox 360" ||
-                            `${game.platform}` === "Xbox" ||
-                            `${game.platform}` === "Xbox Series S/X"
+                          : `${game.platformFamily}` === "Xbox"
                           ? "xbox"
-                          : `${game.platform}` === "Nintendo Switch" ||
-                            `${game.platform}` === "Wii U" ||
-                            `${game.platform}` === "Wii" ||
-                            `${game.platform}` === "GameCube" ||
-                            `${game.platform}` === "Nintendo 64" ||
-                            `${game.platform}` === "SNES" ||
-                            `${game.platform}` === "NES" ||
-                            `${game.platform}` === "Game Boy" ||
-                            `${game.platform}` === "Nintendo 3DS" ||
-                            `${game.platform}` === "Game Boy Color"
+                          : `${game.platformFamily}` === "Nintendo"
                           ? "nintendo"
-                          : `${game.platform}` === "PC"
+                          : `${game.platformFamily}` === "PC"
                           ? "pc"
                           : null
                       }>
@@ -332,29 +316,13 @@ class Profile extends React.Component {
                     You {game.action}
                     <p
                       className={
-                        `${game.platform}` === "PlayStation 4" ||
-                        `${game.platform}` === "PS Vita" ||
-                        `${game.platform}` === "PlayStation 3" ||
-                        `${game.platform}` === "PlayStation 2" ||
-                        `${game.platform}` === "PlayStation"
+                        `${game.platformFamily}` === "PlayStation"
                           ? "playstation"
-                          : `${game.platform}` === "Xbox One" ||
-                            `${game.platform}` === "Xbox 360" ||
-                            `${game.platform}` === "Xbox" ||
-                            `${game.platform}` === "Xbox Series S/X"
+                          : `${game.platformFamily}` === "Xbox"
                           ? "xbox"
-                          : `${game.platform}` === "Nintendo Switch" ||
-                            `${game.platform}` === "Wii U" ||
-                            `${game.platform}` === "Wii" ||
-                            `${game.platform}` === "GameCube" ||
-                            `${game.platform}` === "Nintendo 64" ||
-                            `${game.platform}` === "SNES" ||
-                            `${game.platform}` === "NES" ||
-                            `${game.platform}` === "Game Boy" ||
-                            `${game.platform}` === "Nintendo 3DS" ||
-                            `${game.platform}` === "Game Boy Color"
+                          : `${game.platformFamily}` === "Nintendo"
                           ? "nintendo"
-                          : `${game.platform}` === "PC"
+                          : `${game.platformFamily}` === "PC"
                           ? "pc"
                           : null
                       }>
@@ -376,29 +344,13 @@ class Profile extends React.Component {
                     You {game.action}
                     <p
                       className={
-                        `${game.platform}` === "PlayStation 4" ||
-                        `${game.platform}` === "PS Vita" ||
-                        `${game.platform}` === "PlayStation 3" ||
-                        `${game.platform}` === "PlayStation 2" ||
-                        `${game.platform}` === "PlayStation"
+                        `${game.platformFamily}` === "PlayStation"
                           ? "playstation"
-                          : `${game.platform}` === "Xbox One" ||
-                            `${game.platform}` === "Xbox 360" ||
-                            `${game.platform}` === "Xbox" ||
-                            `${game.platform}` === "Xbox Series S/X"
+                          : `${game.platformFamily}` === "Xbox"
                           ? "xbox"
-                          : `${game.platform}` === "Nintendo Switch" ||
-                            `${game.platform}` === "Wii U" ||
-                            `${game.platform}` === "Wii" ||
-                            `${game.platform}` === "GameCube" ||
-                            `${game.platform}` === "Nintendo 64" ||
-                            `${game.platform}` === "SNES" ||
-                            `${game.platform}` === "NES" ||
-                            `${game.platform}` === "Game Boy" ||
-                            `${game.platform}` === "Nintendo 3DS" ||
-                            `${game.platform}` === "Game Boy Color"
+                          : `${game.platformFamily}` === "Nintendo"
                           ? "nintendo"
-                          : `${game.platform}` === "PC"
+                          : `${game.platformFamily}` === "PC"
                           ? "pc"
                           : null
                       }>
@@ -458,29 +410,13 @@ class Profile extends React.Component {
           <Card.Group key={uuidv4()} className="ui cards">
             <Card
               color={
-                `${game.platform}` === "PlayStation 4" ||
-                `${game.platform}` === "PS Vita" ||
-                `${game.platform}` === "PlayStation 3" ||
-                `${game.platform}` === "PlayStation 2" ||
-                `${game.platform}` === "PlayStation"
+                `${game.platformFamily}` === "PlayStation"
                   ? "blue"
-                  : `${game.platform}` === "Nintendo Switch" ||
-                    `${game.platform}` === "Wii U" ||
-                    `${game.platform}` === "Wii" ||
-                    `${game.platform}` === "GameCube" ||
-                    `${game.platform}` === "Nintendo 64" ||
-                    `${game.platform}` === "SNES" ||
-                    `${game.platform}` === "NES" ||
-                    `${game.platform}` === "Game Boy" ||
-                    `${game.platform}` === "Nintendo 3DS" ||
-                    `${game.platform}` === "Game Boy Color"
+                  : `${game.platformFamily}` === "Nintendo"
                   ? "red"
-                  : `${game.platform}` === "Xbox One" ||
-                    `${game.platform}` === "Xbox 360" ||
-                    `${game.platform}` === "Xbox" ||
-                    `${game.platform}` === "Xbox Series S/X"
+                  : `${game.platformFamily}` === "Xbox"
                   ? "green"
-                  : `${game.platform}` === "PC"
+                  : `${game.platformFamily}` === "PC"
                   ? "black"
                   : null
               }
@@ -626,29 +562,13 @@ class Profile extends React.Component {
         return (
           <WishlistCardGroup
             color={
-              `${game.platform}` === "PlayStation 4" ||
-              `${game.platform}` === "PS Vita" ||
-              `${game.platform}` === "PlayStation 3" ||
-              `${game.platform}` === "PlayStation 2" ||
-              `${game.platform}` === "PlayStation"
+              `${game.platformFamily}` === "PlayStation"
                 ? "blue"
-                : `${game.platform}` === "Nintendo Switch" ||
-                  `${game.platform}` === "Wii U" ||
-                  `${game.platform}` === "Wii" ||
-                  `${game.platform}` === "GameCube" ||
-                  `${game.platform}` === "Nintendo 64" ||
-                  `${game.platform}` === "SNES" ||
-                  `${game.platform}` === "NES" ||
-                  `${game.platform}` === "Game Boy" ||
-                  `${game.platform}` === "Nintendo 3DS" ||
-                  `${game.platform}` === "Game Boy Color"
+                : `${game.platformFamily}` === "Nintendo"
                 ? "red"
-                : `${game.platform}` === "Xbox One" ||
-                  `${game.platform}` === "Xbox 360" ||
-                  `${game.platform}` === "Xbox" ||
-                  `${game.platform}` === "Xbox Series S/X"
+                : `${game.platformFamily}` === "Xbox"
                 ? "green"
-                : `${game.platform}` === "PC"
+                : `${game.platformFamily}` === "PC"
                 ? "black"
                 : null
             }
@@ -703,29 +623,13 @@ class Profile extends React.Component {
           <Card.Group key={uuidv4()} className="ui cards">
             <Card
               color={
-                `${game.platform}` === "PlayStation 4" ||
-                `${game.platform}` === "PS Vita" ||
-                `${game.platform}` === "PlayStation 3" ||
-                `${game.platform}` === "PlayStation 2" ||
-                `${game.platform}` === "PlayStation"
+                `${game.platformFamily}` === "PlayStation"
                   ? "blue"
-                  : `${game.platform}` === "Nintendo Switch" ||
-                    `${game.platform}` === "Wii U" ||
-                    `${game.platform}` === "Wii" ||
-                    `${game.platform}` === "GameCube" ||
-                    `${game.platform}` === "Nintendo 64" ||
-                    `${game.platform}` === "SNES" ||
-                    `${game.platform}` === "NES" ||
-                    `${game.platform}` === "Game Boy" ||
-                    `${game.platform}` === "Nintendo 3DS" ||
-                    `${game.platform}` === "Game Boy Color"
+                  : `${game.platformFamily}` === "Nintendo"
                   ? "red"
-                  : `${game.platform}` === "Xbox One" ||
-                    `${game.platform}` === "Xbox 360" ||
-                    `${game.platform}` === "Xbox" ||
-                    `${game.platform}` === "Xbox Series S/X"
+                  : `${game.platformFamily}` === "Xbox"
                   ? "green"
-                  : `${game.platform}` === "PC"
+                  : `${game.platformFamily}` === "PC"
                   ? "black"
                   : null
               }
@@ -791,49 +695,7 @@ class Profile extends React.Component {
 
     console.log(platformCounts);
 
-    // let platforms = this.props.platforms;
-    // let counts = this.props.platformGamesCount;
-
-    // platformCounts = platforms.map(function (item, index) {
-    //   return {
-    //     platform: item.platform,
-    //     games: parseInt(counts[index].count),
-    //   };
-    // });
-
-    // let sortedPlatforms = platformCounts.sort(function (a, b) {
-    //   let gamesA = a.games;
-    //   let gamesB = b.games;
-    //   return gamesB - gamesA;
-    // });
-
     const COLORS = ["#21ba45", "#1b1c1d", "#2185d0", "#db2828"];
-
-    const RADIAN = Math.PI / 180;
-    // const renderCustomizedLabel = ({
-    //   cx,
-    //   cy,
-    //   midAngle,
-    //   innerRadius,
-    //   outerRadius,
-    //   percent,
-    //   index,
-    // }) => {
-    //   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    //   const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    //   const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-    //   return (
-    //     <text
-    //       x={x}
-    //       y={y}
-    //       fill="white"
-    //       textAnchor={x > cx ? "start" : "end"}
-    //       dominantBaseline="central">
-    //       {`${(percent * 100).toFixed(0)}%`}
-    //     </text>
-    //   );
-    // };
 
     return (
       <PieChart width={500} height={500}>
@@ -1068,20 +930,32 @@ class Profile extends React.Component {
         render: () => (
           <Tab.Pane>
             <div className="chart-page">
-              {this.renderDropdown()}
-              {this.state.chart === "Genres" ? (
-                <div className="chart-section">
-                  <h3>Games by Genre</h3>
-                  {this.renderGenreChart()}
-                </div>
-              ) : this.state.chart === "Games by Platform" ? (
-                <div className="chart-section">
-                  <h3>Games by Platform</h3>
-                  {this.renderPlatformChart()}
-                </div>
-              ) : null}
+              <div className="chart-section">
+                {this.renderDropdown()}
+                {this.renderGenreChart()}
+              </div>
+              <div className="chart-section">
+                {this.renderDropdown()}
+                {this.renderPlatformChart()}
+              </div>
             </div>
           </Tab.Pane>
+          // <Tab.Pane>
+          //   <div className="chart-page">
+          //     {this.renderDropdown()}
+          //     {this.state.chart === "Genres" ? (
+          //       <div className="chart-section">
+          //         <h3>Games by Genre</h3>
+          //         {this.renderGenreChart()}
+          //       </div>
+          //     ) : this.state.chart === "Games by Platform" ? (
+          //       <div className="chart-section">
+          //         <h3>Games by Platform</h3>
+          //         {this.renderPlatformChart()}
+          //       </div>
+          //     ) : null}
+          //   </div>
+          // </Tab.Pane>
         ),
       },
     ];

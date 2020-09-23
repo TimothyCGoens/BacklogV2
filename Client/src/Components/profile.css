@@ -90,15 +90,20 @@ b {
 
 .chart-page {
   display: flex;
+  /* flex-direction: column; */
+  /* justify-content: center; */
+}
+
+.chart-section {
+  display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-/* .chart-section {
-  display: flex;
-  justify-content: center;
-} */
-
 .recharts-surface {
   justify-content: center;
+}
+
+.ui.search.selection.dropdown.chart-dropdown {
+  width: 75%;
 }

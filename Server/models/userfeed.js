@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       action: DataTypes.STRING,
       destination: DataTypes.STRING,
       platform: DataTypes.STRING,
+      platformFamily: DataTypes.STRING,
     },
     {}
   );

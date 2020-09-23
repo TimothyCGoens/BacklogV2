@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     stopPlayingDate: DataTypes.DATE,
     completedDate: DataTypes.DATE,
     rating: DataTypes.INTEGER,
+    platformFamily: DataTypes.STRING,
   });
   Games.associate = function (models) {
     Games.belongsTo(models.Users, {
