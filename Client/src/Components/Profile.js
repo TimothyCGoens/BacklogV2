@@ -485,7 +485,7 @@ class Profile extends React.Component {
     } else {
       return this.props.backlog.map((game, index) => {
         const backlogDayCount = backlogDates[index];
-        const playingDayCount = playingDates[index];
+        // const playingDayCount = playingDates[index];
         return (
           <Card.Group key={uuidv4()} className="ui cards">
             <Card
@@ -759,8 +759,21 @@ class Profile extends React.Component {
   }
 
   renderPlatformChart() {
-    // console.log(this.props.platformsByDate);
-    console.log(this.props.platformCountByFamily);
+    // console.log(this.props.platformFamily);
+    // console.log(this.props.platformFamilyGames);
+
+    // let familyCounts = [];
+    // let family = this.props.platformFamily;
+    // let counts = this.props.platformFamilyGames;
+
+    // familyCounts = family.map(function (item, index) {
+    //   return {
+    //     family: item.platformFamily,
+    //     games: parseInt(counts[index].count),
+    //   };
+    // });
+    // console.log(familyCounts);
+
     let sony = this.props.sonyCounts;
     let nes = this.props.nesCounts;
     let pc = this.props.pcCounts;
@@ -769,25 +782,29 @@ class Profile extends React.Component {
     let xboxObject = {
       platform: "Xbox",
       games: xbox.length,
+      fill: "#21ba45",
     };
     let pcObject = {
       platform: "PC",
       games: pc.length,
+      fill: "#1b1c1d",
     };
     let sonyObject = {
       platform: "Sony",
       games: sony.length,
+      fill: "#2185d0",
     };
     let nesObject = {
       platform: "Nintendo",
       games: nes.length,
+      fill: "#db2828",
     };
 
     const platformCounts = [xboxObject, pcObject, sonyObject, nesObject];
 
     // console.log(platformCounts);
 
-    const COLORS = ["#21ba45", "#1b1c1d", "#2185d0", "#db2828"];
+    // const COLORS = ["#21ba45", "#1b1c1d", "#2185d0", "#db2828"];
 
     return (
       <PieChart width={500} height={500}>
@@ -795,7 +812,7 @@ class Profile extends React.Component {
           data={platformCounts}
           cx={200}
           cy={200}
-          labelLine={false}
+          labelLine={true}
           label={({
             cx,
             cy,
@@ -817,7 +834,7 @@ class Profile extends React.Component {
               <text
                 x={x}
                 y={y}
-                fill={COLORS[index]}
+                fill={platformCounts[index].fill}
                 textAnchor={x > cx ? "start" : "end"}
                 dominantBaseline="central">
                 {platformCounts[index].platform} ({value})
@@ -828,7 +845,7 @@ class Profile extends React.Component {
           fill="#8884d8"
           dataKey="games">
           {platformCounts.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            <Cell key={`cell-${index}`} fill={entry.fill} />
           ))}
         </Pie>
       </PieChart>
@@ -853,7 +870,6 @@ class Profile extends React.Component {
 
       return gamesB - gamesA;
     });
-    console.log(sortedGenres);
 
     return (
       <RadarChart
@@ -1178,7 +1194,8 @@ const mapStateToProps = (state) => {
     nesCounts: state.nesCounts,
     pcCounts: state.pcCounts,
     platformsByDate: state.platformsByDate,
-    platformCountByFamily: state.platformCountByFamily,
+    platformFamily: state.platformFamily,
+    platformFamilyGames: state.platformFamilyGames,
   };
 };
 

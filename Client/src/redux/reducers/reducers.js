@@ -48,7 +48,8 @@ const initialState = {
   nesCounts: [],
   pcCounts: [],
   platformsByDate: [],
-  platformFamilyByCount: [],
+  platformFamily: [],
+  platformFamilyGames: [],
 };
 
 export default function (state = initialState, action) {
@@ -112,9 +113,11 @@ export default function (state = initialState, action) {
         platformGamesCount: action.payload.games,
       };
     case GET_PLATFORM_COUNT_BY_FAMILY:
+      console.log(action.payload);
       return {
         ...state,
-        platformFamilyByCount: action.payload,
+        platformFamily: action.payload.platformFamily,
+        platformFamilyGames: action.payload.games,
       };
     case GET_PLATFORMS_BY_DATE:
       console.log(action.payload);

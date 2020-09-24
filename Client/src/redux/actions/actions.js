@@ -1,5 +1,5 @@
 import axios from "axios";
-import reducers from "../reducers/reducers";
+// import reducers from "../reducers/reducers";
 import {
   GET_PLATFORM_COUNT_BY_FAMILY,
   GET_USER,
