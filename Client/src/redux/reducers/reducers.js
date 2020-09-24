@@ -3,6 +3,8 @@ import {
   GET_GENRES,
   ADD_TO_FEED,
   GET_PLATFORM_COUNT,
+  GET_PLATFORMS_BY_DATE,
+  GET_PLATFORM_COUNT_BY_FAMILY,
   ADD_BACKLOG_GAME,
   DELETE_BACKLOG_GAME_DB,
   DELETE_BACKLOG_GAME_STATE,
@@ -45,6 +47,8 @@ const initialState = {
   xboxCounts: [],
   nesCounts: [],
   pcCounts: [],
+  platformsByDate: [],
+  platformFamilyByCount: [],
 };
 
 export default function (state = initialState, action) {
@@ -106,6 +110,17 @@ export default function (state = initialState, action) {
         ...state,
         platforms: action.payload.platform,
         platformGamesCount: action.payload.games,
+      };
+    case GET_PLATFORM_COUNT_BY_FAMILY:
+      return {
+        ...state,
+        platformFamilyByCount: action.payload,
+      };
+    case GET_PLATFORMS_BY_DATE:
+      console.log(action.payload);
+      return {
+        ...state,
+        platformsByDate: action.payload,
       };
 
     case GET_SONY_COUNTS:

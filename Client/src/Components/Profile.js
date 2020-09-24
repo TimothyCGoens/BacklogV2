@@ -25,6 +25,8 @@ import {
   getXboxCounts,
   getNesCounts,
   getPcCounts,
+  getPlatformsByDate,
+  getPlatformCountByFamily,
 } from "../redux/actions/actions";
 import { Breakpoint } from "react-socks";
 import moment from "moment";
@@ -85,6 +87,8 @@ class Profile extends React.Component {
     this.props.getXboxCounts(this.props.userId);
     this.props.getNesCounts(this.props.userId);
     this.props.getPcCounts(this.props.userId);
+    this.props.getPlatformsByDate(this.props.userId);
+    this.props.getPlatformCountByFamily(this.props.userId);
   }
 
   handleBacklogDeleteClick = (id, game) => {
@@ -275,7 +279,6 @@ class Profile extends React.Component {
       };
       return feedDates.push(days);
     });
-    console.log(feedDates);
     if (this.props.feed.length < 1) {
       return <h3>No recent changes</h3>;
     } else {
@@ -533,7 +536,7 @@ class Profile extends React.Component {
                     <List.Item>
                       <List.Content>
                         <List.Header>Started Playing</List.Header>
-                        {moment(game.startedPlayingDate).format("MM-DD-YY")}1
+                        {moment(game.startedPlayingDate).format("MM-DD-YY")}
                       </List.Content>
                       {isNaN(backlogDayCount.days) ? (
                         <List.Content>just now</List.Content>
@@ -756,6 +759,8 @@ class Profile extends React.Component {
   }
 
   renderPlatformChart() {
+    // console.log(this.props.platformsByDate);
+    console.log(this.props.platformCountByFamily);
     let sony = this.props.sonyCounts;
     let nes = this.props.nesCounts;
     let pc = this.props.pcCounts;
@@ -780,7 +785,7 @@ class Profile extends React.Component {
 
     const platformCounts = [xboxObject, pcObject, sonyObject, nesObject];
 
-    console.log(platformCounts);
+    // console.log(platformCounts);
 
     const COLORS = ["#21ba45", "#1b1c1d", "#2185d0", "#db2828"];
 
@@ -832,14 +837,13 @@ class Profile extends React.Component {
 
   renderGenreChart() {
     let genreCounts = [];
-    console.log(this.props.genres.length);
     let genres = this.props.genres;
     let counts = this.props.genreGamesCount;
 
     genreCounts = genres.map(function (item, index) {
       return {
         genre: item.genre,
-        games: counts[index].count,
+        games: parseInt(counts[index].count),
       };
     });
 
@@ -849,6 +853,7 @@ class Profile extends React.Component {
 
       return gamesB - gamesA;
     });
+    console.log(sortedGenres);
 
     return (
       <RadarChart
@@ -1172,6 +1177,8 @@ const mapStateToProps = (state) => {
     xboxCounts: state.xboxCounts,
     nesCounts: state.nesCounts,
     pcCounts: state.pcCounts,
+    platformsByDate: state.platformsByDate,
+    platformCountByFamily: state.platformCountByFamily,
   };
 };
 
@@ -1198,6 +1205,8 @@ export default connect(mapStateToProps, {
   getXboxCounts,
   getNesCounts,
   getPcCounts,
+  getPlatformsByDate,
+  getPlatformCountByFamily,
 })(Profile);
 
 // Rating <Rating rating={game.rating} maxRating={5} disabled />

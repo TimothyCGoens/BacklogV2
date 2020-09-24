@@ -1,5 +1,7 @@
 import axios from "axios";
+import reducers from "../reducers/reducers";
 import {
+  GET_PLATFORM_COUNT_BY_FAMILY,
   GET_USER,
   LOG_IN,
   LOG_OUT,
@@ -8,6 +10,7 @@ import {
   GET_FEED,
   GET_GENRES,
   GET_PLATFORM_COUNT,
+  GET_PLATFORMS_BY_DATE,
   GET_SONY_COUNTS,
   GET_XBOX_COUNTS,
   GET_NES_COUNTS,
@@ -72,6 +75,17 @@ export const getPlatformCount = (userId) => async (dispatch) => {
   );
 };
 
+export const getPlatformCountByFamily = (userId) => async (dispatch) => {
+  await axios
+    .get(`http://localhost:8080/api/games/platformfamily/${userId}`)
+    .then((res) => {
+      dispatch({
+        type: GET_PLATFORM_COUNT_BY_FAMILY,
+        payload: res.data,
+      });
+    });
+};
+
 export const getSonyCounts = (userId) => async (dispatch) => {
   await axios
     .get(`http://localhost:8080/api/games/sonycounts/${userId}`)
@@ -111,6 +125,17 @@ export const getPcCounts = (userId) => async (dispatch) => {
     .then((res) => {
       dispatch({
         type: GET_PC_COUNTS,
+        payload: res.data,
+      });
+    });
+};
+
+export const getPlatformsByDate = (userId) => async (dispatch) => {
+  await axios
+    .get(`http://localhost:8080/api/games/platformbydate/${userId}`)
+    .then((res) => {
+      dispatch({
+        type: GET_PLATFORMS_BY_DATE,
         payload: res.data,
       });
     });

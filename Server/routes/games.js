@@ -121,4 +121,40 @@ router.get("/pccounts/:userId", async (req, res) => {
   res.json(gameData);
 });
 
+// router.get("/platformbydate/:userId", async (req, res) => {
+//   let userId = req.params.userId;
+//   const { count, rows } = await models.Games.findAndCountAll({
+//     where: {
+//       userId: userId,
+//       wishlist: false,
+//     },
+//     attributes: ["platformFamily"],
+//     group: "backlogDate",
+//   });
+//   res.json(
+//     (dates = {
+//       platformFamily: rows,
+//       count: count,
+//     })
+//   );
+// });
+
+router.get("/platformfamily/:userId", async (req, res) => {
+  let userId = req.params.userId;
+  const { count, rows } = await models.Games.findAndCountAll({
+    where: {
+      userId: userId,
+      wishlist: false,
+    },
+    attributes: ["platformFamily"],
+    group: "platformFamily",
+  });
+  res.json(
+    (family = {
+      platformFamily: rows,
+      games: count,
+    })
+  );
+});
+
 module.exports = router;
