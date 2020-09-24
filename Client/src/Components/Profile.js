@@ -218,7 +218,7 @@ class Profile extends React.Component {
       action: "stopped playing",
       destination: "",
       platform: game.platform,
-      platform: game.platformFamily,
+      platformFamily: game.platformFamily,
     };
     this.props.stopPlayingGame(game);
     this.props.addToFeed(feedGame);
@@ -290,14 +290,37 @@ class Profile extends React.Component {
                     You {game.action}
                     <p
                       className={
-                        `${game.platformFamily}` === "PlayStation"
+                        `${game.platform}` === "PlayStation" ||
+                        `${game.platform}` === "PlayStation 2" ||
+                        `${game.platform}` === "PlayStation 3" ||
+                        `${game.platform}` === "PlayStation 4" ||
+                        `${game.platform}` === "PlayStation 5" ||
+                        `${game.platform}` === "PS Vita" ||
+                        `${game.platform}` === "PSP"
                           ? "playstation"
-                          : `${game.platformFamily}` === "Xbox"
+                          : `${game.platform}` === "Xbox Series S/X" ||
+                            `${game.platform}` === "Xbox One" ||
+                            `${game.platform}` === "Xbox 360" ||
+                            `${game.platform}` === "Xbox"
                           ? "xbox"
-                          : `${game.platformFamily}` === "Nintendo"
+                          : `${game.platform}` === "Nintendo Switch" ||
+                            `${game.platform}` === "Wii U" ||
+                            `${game.platform}` === "Wii" ||
+                            `${game.platform}` === "GameCube" ||
+                            `${game.platform}` === "Nintendo 64" ||
+                            `${game.platform}` === "SNES" ||
+                            `${game.platform}` === "NES" ||
+                            `${game.platform}` === "Game Boy" ||
+                            `${game.platform}` === "Nintendo 3DS" ||
+                            `${game.platform}` === "Game Boy Color" ||
+                            `${game.platform}` === "Game Boy Advance"
                           ? "nintendo"
-                          : `${game.platformFamily}` === "PC"
+                          : `${game.platform}` === "PC"
                           ? "pc"
+                          : `${game.platform}` === "macOS" ||
+                            `${game.platform}` === "iOS" ||
+                            `${game.platform}` === "Andriod"
+                          ? "other"
                           : null
                       }>
                       {game.title}
@@ -320,14 +343,37 @@ class Profile extends React.Component {
                     You {game.action}
                     <p
                       className={
-                        `${game.platformFamily}` === "PlayStation"
+                        `${game.platform}` === "PlayStation" ||
+                        `${game.platform}` === "PlayStation 2" ||
+                        `${game.platform}` === "PlayStation 3" ||
+                        `${game.platform}` === "PlayStation 4" ||
+                        `${game.platform}` === "PlayStation 5" ||
+                        `${game.platform}` === "PS Vita" ||
+                        `${game.platform}` === "PSP"
                           ? "playstation"
-                          : `${game.platformFamily}` === "Xbox"
+                          : `${game.platform}` === "Xbox Series S/X" ||
+                            `${game.platform}` === "Xbox One" ||
+                            `${game.platform}` === "Xbox 360" ||
+                            `${game.platform}` === "Xbox"
                           ? "xbox"
-                          : `${game.platformFamily}` === "Nintendo"
+                          : `${game.platform}` === "Nintendo Switch" ||
+                            `${game.platform}` === "Wii U" ||
+                            `${game.platform}` === "Wii" ||
+                            `${game.platform}` === "GameCube" ||
+                            `${game.platform}` === "Nintendo 64" ||
+                            `${game.platform}` === "SNES" ||
+                            `${game.platform}` === "NES" ||
+                            `${game.platform}` === "Game Boy" ||
+                            `${game.platform}` === "Nintendo 3DS" ||
+                            `${game.platform}` === "Game Boy Color" ||
+                            `${game.platform}` === "Game Boy Advance"
                           ? "nintendo"
-                          : `${game.platformFamily}` === "PC"
+                          : `${game.platform}` === "PC"
                           ? "pc"
+                          : `${game.platform}` === "macOS" ||
+                            `${game.platform}` === "iOS" ||
+                            `${game.platform}` === "Andriod"
+                          ? "other"
                           : null
                       }>
                       {game.title}
@@ -350,14 +396,37 @@ class Profile extends React.Component {
                     You {game.action}
                     <p
                       className={
-                        `${game.platformFamily}` === "PlayStation"
+                        `${game.platform}` === "PlayStation" ||
+                        `${game.platform}` === "PlayStation 2" ||
+                        `${game.platform}` === "PlayStation 3" ||
+                        `${game.platform}` === "PlayStation 4" ||
+                        `${game.platform}` === "PlayStation 5" ||
+                        `${game.platform}` === "PS Vita" ||
+                        `${game.platform}` === "PSP"
                           ? "playstation"
-                          : `${game.platformFamily}` === "Xbox"
+                          : `${game.platform}` === "Xbox Series S/X" ||
+                            `${game.platform}` === "Xbox One" ||
+                            `${game.platform}` === "Xbox 360" ||
+                            `${game.platform}` === "Xbox"
                           ? "xbox"
-                          : `${game.platformFamily}` === "Nintendo"
+                          : `${game.platform}` === "Nintendo Switch" ||
+                            `${game.platform}` === "Wii U" ||
+                            `${game.platform}` === "Wii" ||
+                            `${game.platform}` === "GameCube" ||
+                            `${game.platform}` === "Nintendo 64" ||
+                            `${game.platform}` === "SNES" ||
+                            `${game.platform}` === "NES" ||
+                            `${game.platform}` === "Game Boy" ||
+                            `${game.platform}` === "Nintendo 3DS" ||
+                            `${game.platform}` === "Game Boy Color" ||
+                            `${game.platform}` === "Game Boy Advance"
                           ? "nintendo"
-                          : `${game.platformFamily}` === "PC"
+                          : `${game.platform}` === "PC"
                           ? "pc"
+                          : `${game.platform}` === "macOS" ||
+                            `${game.platform}` === "iOS" ||
+                            `${game.platform}` === "Andriod"
+                          ? "other"
                           : null
                       }>
                       {game.title}
@@ -426,6 +495,8 @@ class Profile extends React.Component {
                   ? "green"
                   : `${game.platformFamily}` === "PC"
                   ? "black"
+                  : `${game.platformFamily}` === "Other"
+                  ? "purple"
                   : null
               }
               key={game.gameId}>
@@ -446,7 +517,9 @@ class Profile extends React.Component {
                       <List.Header>Added to Backlog</List.Header>
                       {moment(game.backlogDate).format("MM-DD-YY")}
                     </List.Content>
-                    {backlogDayCount.days < 1 ? (
+                    {isNaN(backlogDayCount.days) ? (
+                      <List.Content>just now</List.Content>
+                    ) : backlogDayCount.days < 1 ? (
                       <List.Content>Today</List.Content>
                     ) : backlogDayCount.days === 1 ? (
                       <List.Content>Yesterday</List.Content>
@@ -462,13 +535,15 @@ class Profile extends React.Component {
                         <List.Header>Started Playing</List.Header>
                         {moment(game.startedPlayingDate).format("MM-DD-YY")}1
                       </List.Content>
-                      {playingDayCount.days < 1 ? (
+                      {isNaN(backlogDayCount.days) ? (
+                        <List.Content>just now</List.Content>
+                      ) : backlogDayCount.days < 1 ? (
                         <List.Content>Today</List.Content>
-                      ) : playingDayCount === 1 ? (
+                      ) : backlogDayCount.days === 1 ? (
                         <List.Content>Yesterday</List.Content>
                       ) : (
                         <List.Content>
-                          {playingDayCount.days} Days ago
+                          {backlogDayCount.days} Days ago
                         </List.Content>
                       )}
                     </List.Item>
@@ -578,6 +653,8 @@ class Profile extends React.Component {
                 ? "green"
                 : `${game.platformFamily}` === "PC"
                 ? "black"
+                : `${game.platformFamily}` === "Other"
+                ? "purple"
                 : null
             }
             key={uuidv4()}
@@ -639,6 +716,8 @@ class Profile extends React.Component {
                   ? "green"
                   : `${game.platformFamily}` === "PC"
                   ? "black"
+                  : `${game.platformFamily}` === "Other"
+                  ? "purple"
                   : null
               }
               key={game.gameId}>

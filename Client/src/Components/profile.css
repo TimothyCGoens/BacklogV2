@@ -84,6 +84,14 @@
   margin-right: 3px;
   margin-left: 3px;
 }
+.other {
+  color: purple;
+  font-weight: 700;
+  display: flex;
+  margin-right: 3px;
+  margin-left: 3px;
+}
+
 b {
   margin-left: 3px;
 }
