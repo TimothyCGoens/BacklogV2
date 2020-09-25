@@ -4,7 +4,7 @@ import {
   ADD_TO_FEED,
   GET_PLATFORM_COUNT,
   GET_PLATFORMS_BY_DATE,
-  GET_PLATFORM_COUNT_BY_FAMILY,
+  GET_OTHER_COUNTS,
   ADD_BACKLOG_GAME,
   DELETE_BACKLOG_GAME_DB,
   DELETE_BACKLOG_GAME_STATE,
@@ -48,8 +48,7 @@ const initialState = {
   nesCounts: [],
   pcCounts: [],
   platformsByDate: [],
-  platformFamily: [],
-  platformFamilyGames: [],
+  otherCounts: [],
 };
 
 export default function (state = initialState, action) {
@@ -112,13 +111,7 @@ export default function (state = initialState, action) {
         platforms: action.payload.platform,
         platformGamesCount: action.payload.games,
       };
-    case GET_PLATFORM_COUNT_BY_FAMILY:
-      console.log(action.payload);
-      return {
-        ...state,
-        platformFamily: action.payload.platformFamily,
-        platformFamilyGames: action.payload.games,
-      };
+
     case GET_PLATFORMS_BY_DATE:
       console.log(action.payload);
       return {
@@ -146,6 +139,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         pcCounts: action.payload,
+      };
+    case GET_OTHER_COUNTS:
+      return {
+        ...state,
+        otherCounts: action.payload,
       };
 
     //adding a game to db and state

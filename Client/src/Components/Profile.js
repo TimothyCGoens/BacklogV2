@@ -26,7 +26,7 @@ import {
   getNesCounts,
   getPcCounts,
   getPlatformsByDate,
-  getPlatformCountByFamily,
+  getOtherCounts,
 } from "../redux/actions/actions";
 import { Breakpoint } from "react-socks";
 import moment from "moment";
@@ -88,7 +88,7 @@ class Profile extends React.Component {
     this.props.getNesCounts(this.props.userId);
     this.props.getPcCounts(this.props.userId);
     this.props.getPlatformsByDate(this.props.userId);
-    this.props.getPlatformCountByFamily(this.props.userId);
+    this.props.getOtherCounts(this.props.userId);
   }
 
   handleBacklogDeleteClick = (id, game) => {
@@ -322,7 +322,7 @@ class Profile extends React.Component {
                           ? "pc"
                           : `${game.platform}` === "macOS" ||
                             `${game.platform}` === "iOS" ||
-                            `${game.platform}` === "Andriod"
+                            `${game.platform}` === "Android"
                           ? "other"
                           : null
                       }>
@@ -375,7 +375,7 @@ class Profile extends React.Component {
                           ? "pc"
                           : `${game.platform}` === "macOS" ||
                             `${game.platform}` === "iOS" ||
-                            `${game.platform}` === "Andriod"
+                            `${game.platform}` === "Android"
                           ? "other"
                           : null
                       }>
@@ -428,7 +428,7 @@ class Profile extends React.Component {
                           ? "pc"
                           : `${game.platform}` === "macOS" ||
                             `${game.platform}` === "iOS" ||
-                            `${game.platform}` === "Andriod"
+                            `${game.platform}` === "Android"
                           ? "other"
                           : null
                       }>
@@ -759,25 +759,11 @@ class Profile extends React.Component {
   }
 
   renderPlatformChart() {
-    // console.log(this.props.platformFamily);
-    // console.log(this.props.platformFamilyGames);
-
-    // let familyCounts = [];
-    // let family = this.props.platformFamily;
-    // let counts = this.props.platformFamilyGames;
-
-    // familyCounts = family.map(function (item, index) {
-    //   return {
-    //     family: item.platformFamily,
-    //     games: parseInt(counts[index].count),
-    //   };
-    // });
-    // console.log(familyCounts);
-
     let sony = this.props.sonyCounts;
     let nes = this.props.nesCounts;
     let pc = this.props.pcCounts;
     let xbox = this.props.xboxCounts;
+    let other = this.props.otherCounts;
 
     let xboxObject = {
       platform: "Xbox",
@@ -799,10 +785,20 @@ class Profile extends React.Component {
       games: nes.length,
       fill: "#db2828",
     };
+    let otherObject = {
+      platform: "Other",
+      games: other.length,
+      fill: "#f2970f",
+    };
 
-    const platformCounts = [xboxObject, pcObject, sonyObject, nesObject];
-
-    // console.log(platformCounts);
+    const platformCounts = [
+      xboxObject,
+      pcObject,
+      sonyObject,
+      nesObject,
+      otherObject,
+    ];
+    console.log(platformCounts);
 
     // const COLORS = ["#21ba45", "#1b1c1d", "#2185d0", "#db2828"];
 
@@ -1194,8 +1190,7 @@ const mapStateToProps = (state) => {
     nesCounts: state.nesCounts,
     pcCounts: state.pcCounts,
     platformsByDate: state.platformsByDate,
-    platformFamily: state.platformFamily,
-    platformFamilyGames: state.platformFamilyGames,
+    otherCounts: state.otherCounts,
   };
 };
 
@@ -1223,7 +1218,7 @@ export default connect(mapStateToProps, {
   getNesCounts,
   getPcCounts,
   getPlatformsByDate,
-  getPlatformCountByFamily,
+  getOtherCounts,
 })(Profile);
 
 // Rating <Rating rating={game.rating} maxRating={5} disabled />
