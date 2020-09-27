@@ -803,7 +803,7 @@ class Profile extends React.Component {
     // const COLORS = ["#21ba45", "#1b1c1d", "#2185d0", "#db2828"];
 
     return (
-      <PieChart width={500} height={500}>
+      <PieChart width={450} height={450}>
         <Pie
           data={platformCounts}
           cx={200}
