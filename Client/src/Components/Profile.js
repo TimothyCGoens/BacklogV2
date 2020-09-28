@@ -806,8 +806,8 @@ class Profile extends React.Component {
       <PieChart width={450} height={450}>
         <Pie
           data={platformCounts}
-          cx={200}
-          cy={200}
+          cx={199}
+          cy={199}
           labelLine={true}
           label={({
             cx,
