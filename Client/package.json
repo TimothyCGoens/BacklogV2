@@ -20,7 +20,7 @@
     "react-notifications-component": "^2.4.0",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "react-semantic-toasts": "^0.6.5",
     "react-socks": "^2.1.0",
     "react-tabs": "^3.1.1",
